@@ -1,0 +1,19 @@
+---
+import NviButton from "./NviButton.astro";
+
+interface Nvi {
+  name: string;
+  url: string;
+}
+
+const nvis: Nvi[] = [
+  { name: "HOME", url: "/" },
+  { name: "BLOG", url: "/blog" },
+  { name: "FIND", url: "/find" },
+  { name: "LINK", url: "/link" }
+];
+---
+
+<div class="flex justify-center gap-4">
+  {nvis.map((nvi) => <NviButton nvi={nvi} />)}
+</div>
