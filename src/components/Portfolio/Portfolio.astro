@@ -1,97 +1,39 @@
 ---
-import autherInfo from "../../../public/auther.json";
-import { PinnedProject } from "./github.ts"
+import { PinnedProject } from "./github.ts";
 ---
 
-<div class="antialiased relative text-gray-600">
-  <div class="absolute w-full min-h-screen"></div>
-  <div
-    class="relative z-10 flex min-h-screen h-auto justify-center items-center"
-  >
-    <div class="relative max-w-4xl">
-      <div
-        class="absolute z-10 inset-0 bg-gradient-to-r from-pink-100 to-rose-200 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-lg"
+<div
+  class="border-8 border-slate-300 rounded-2xl w-96 h-80 mt-4 mx-auto bg-[url('/images/avatar.jpg')] bg-no-repeat bg-center bg-cover"
+>
+</div>
+
+<div class="text-slate-300 font-mono my-8">
+  Hi there,
+  <br /><br />
+  On the internet I’m mostly known as humbornjo. My pronouns are he/him.
+  <br /><br />
+  I think I will be a full-stack web developer who like to recreate and fuck around.
+  Somewhat just like <a
+    class="underline"
+    href="https://www.youtube.com/@TsodingDaily">tsoding</a
+  >.
+  <br /><br />
+  Btw, I perfer salmon over tuna.
+  <br /><br />
+  You can also find me on,
+  <ul>
+    <li>
+      <span class="text-blue-400">&ensp; -</span> Github: <a
+        class="underline"
+        href="https://github.com/humbornjo">@humbornjo</a
       >
-      </div>
-      <div
-        class="relative z-20 bg-gradient-to-r from-slate-50 to-white md:flex justify-between p-12 shadow-lg rounded-lg w-full max-w-4xl"
+    </li>
+    <li>
+      <span class="text-blue-400">&ensp; -</span> Linkedin: <a
+        class="underline"
+        href="https://www.linkedin.com/in/shua-shin-8a1134271?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BbRLNfwdaTIm7%2FZC3NzJH8w%3D%3D"
+        >@Shua Shin</a
       >
-        <div class="sm:flex flex-col justify-between space-y-6 py-6 md:pr-10">
-          <div>
-            <h2 class="text-lg">Hello, I am</h2>
-            <h1 class="pt-1 text-5xl font-bold text-gray-800">
-              {autherInfo.name}
-            </h1>
-          </div>
-          <p class="text-xl leading-relaxed">
-            {autherInfo.intro}
-          </p>
-          <div class="inline-flex text-xl text-gray-600 space-x-5">
-            <a href={autherInfo.youtube} target="_blank">
-              <ion-icon name="logo-youtube" class="hover:text-red-600 w-8 h-8"
-              ></ion-icon>
-            </a>
-            <a href={autherInfo.twitter} target="_blank">
-              <ion-icon name="logo-twitter" class="hover:text-blue-500 w-8 h-8"
-              ></ion-icon>
-            </a>
-            <a href={autherInfo.linkedin} target="_blank">
-              <ion-icon name="logo-linkedin" class="hover:text-blue-700 w-8 h-8"
-              ></ion-icon>
-            </a>
-            <a href={autherInfo.github} target="_blank">
-              <ion-icon name="logo-github" class="hover:text-blue-500 w-8 h-8"
-              ></ion-icon>
-            </a>
-          </div>
-        </div>
-        <img
-          src="/avatar_apple.png"
-          alt="profile"
-          class="flex-shrink-0 w-80 rounded-full border-6 border-white shadow-lg"
-        />
-      </div>
-    </div>
-  </div>
-  <section class="py-20 px-8">
-    <div class="max-w-6xl mx-auto">
-      <div class="text-center">
-        <h1 class="text-6xl font-bold text-gray-800">Work</h1>
-        <p class="pt-2">some of my shit</p>
-      </div>
-      <div class="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-14">
-        <div class="bg-white rounded-md shadow-md lg:col-span-2">
-          <img
-            src="https://i.ibb.co/S3WsBXd/work1.jpg"
-            alt="work1"
-            class="object-cover w-full h-80"
-          />
-          <div class="p-8">
-            <h3 class="font-bold text-2xl">Project 1</h3>
-            <p class="pt-3">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat
-              sequi minima vero sunt perferendis.
-            </p>
-          </div>
-        </div>
-        <div class="bg-white rounded-md shadow-md">
-          <img
-            src="https://i.ibb.co/0ChMRxf/work2.jpg"
-            alt="work2"
-            class="object-cover w-full h-80"
-          />
-          <div class="p-8">
-            <h3 class="font-bold text-2xl">Project 2</h3>
-            <p class="pt-3">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <script
-    type="module"
-    src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
-  ></script>
+    </li>
+  </ul>
 </div>

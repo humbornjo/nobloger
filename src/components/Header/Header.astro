@@ -1,5 +1,37 @@
 ---
-import Nvibar from "./Nvibar.astro";
+interface Nvi {
+  name: string;
+  url: string;
+}
+
+const slogan = "dios aprieta pero no ahoga";
+const nvis: Nvi[] = [
+  { name: "about", url: "/" },
+  { name: "blog", url: "/blog" },
+  { name: "find", url: "/find" },
+  { name: "link", url: "/link" },
+];
 ---
 
-<Nvibar  />
+<div class="flex-col font-mono text-slate-300 mx-auto">
+  <div class="flex justify-center items-center w-full gap-2.5 mx-auto h-24">
+    <div class="content-center text-lg bg-blue-900 px-4 h-12">
+      {slogan}
+    </div>
+    <div
+      class="h-12 flex-1"
+      style="content: hidden; background: repeating-linear-gradient(90deg, rgb(30 58 138), rgb(30 58 138), 3px, rgba(0,0,0,0) 0, rgba(0,0,0,0) 12px); display: block; width: auto; right: 10px"
+    >
+    </div>
+  </div>
+  <div class="flex justify-start gap-8 w-full">
+    {
+      nvis.map((nvi) => (
+        <a class="underline underline-offset-4 h-12" href={nvi.url}>
+          {nvi.name}
+        </a>
+      ))
+    }
+  </div>
+  <div class="block w-full h-4 border-t-8 border-double border-blue-900"></div>
+</div>
