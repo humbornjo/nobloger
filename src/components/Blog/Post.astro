@@ -1,0 +1,23 @@
+---
+interface Props {
+  title: string;
+  url: string;
+  desc: string;
+  pubdate: string;
+  tags: string[];
+}
+
+const { title, url, desc, pubdate, tags } = Astro.props;
+---
+
+<div class="flex-col font-sans w-full">
+  <span class="text-xl">{title}</span>
+  <div class="block w-full h-2 border-t-2 border-dash border-blue-900"></div>
+  <span>{pubdate}</span>
+  <span>{tags}</span>
+  <span>{desc}</span>
+  <a href={url} class="underline">read more ↩︎</a>
+  <div class="block w-full h-2 border-t-2 border-gray-400"></div>
+</div>
+
+---

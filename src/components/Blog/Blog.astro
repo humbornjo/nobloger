@@ -1,24 +1,8 @@
 ---
-interface Props {
-  title: string;
-  url: string;
-  desc: string;
-  pubdate: string;
-  tags: string[];
-}
-
-const { title, url, desc, pubdate, tags } = Astro.props;
+import Post from "./Post.astro";
+const posts = await Astro.glob("./posts/*.md");
 ---
 
-<li class="border-y-2">
-  <a class="profile_desc_section" href={url}>
-    <h2>{title}</h2>
-    <h3>{pubdate}</h3>
-    <p class="description">
-      {desc}
-    </p>
-    <div class="interests">
-      {tags.map((tag) => <span class="interests_item">{"#" + tag}</span>)}
-    </div>
-  </a>
-</li>
+<div class="flex-col">
+  {posts.map((post) => <Post prop={post} />)}
+</div>

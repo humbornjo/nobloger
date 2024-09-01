@@ -1,6 +1,8 @@
 # nobloger
 A start template for [noblog](https://github.com/humbornjo/noblog) 
 
+![screenshot.png](./asset/screenshot.png)
+
 # commands
 
 All commands are run from the root of the project, from a terminal:
