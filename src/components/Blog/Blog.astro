@@ -1,8 +1,19 @@
 ---
 import Post from "./Post.astro";
-const posts = await Astro.glob("./posts/*.md");
+
+const posts = await Astro.glob("../../pages/posts/*.md");
 ---
 
-<div class="flex-col">
-  {posts.map((post) => <Post prop={post} />)}
+<div class="flex-col text-slate-300 font-mono">
+  {
+    posts.map((post) => (
+      <Post
+        title={post.frontmatter.title}
+        url={post.url as string}
+        desc=" "
+        date={post.frontmatter.date}
+        tags={post.frontmatter.tags}
+      />
+    ))
+  }
 </div>

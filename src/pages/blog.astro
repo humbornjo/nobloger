@@ -1,11 +1,10 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Blog from "../components/Blog/Blog.astro";
 
-const posts = await Astro.glob("./posts/*.md");
 const pageTitle = "Blog";
-const tags: string[] = [];
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-  {}
+  <Blog />
 </BaseLayout>

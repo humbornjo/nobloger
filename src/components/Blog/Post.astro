@@ -3,21 +3,31 @@ interface Props {
   title: string;
   url: string;
   desc: string;
-  pubdate: string;
+  date: string;
   tags: string[];
 }
 
-const { title, url, desc, pubdate, tags } = Astro.props;
+const { title, url, desc, date, tags } = Astro.props;
 ---
 
-<div class="flex-col font-sans w-full">
-  <span class="text-xl">{title}</span>
-  <div class="block w-full h-2 border-t-2 border-dash border-blue-900"></div>
-  <span>{pubdate}</span>
-  <span>{tags}</span>
-  <span>{desc}</span>
-  <a href={url} class="underline">read more ↩︎</a>
-  <div class="block w-full h-2 border-t-2 border-gray-400"></div>
+<div class="flex-col font-sans text-lg w-full mt-8">
+  <div class="text-2xl text-blue-300 my-2">{title}</div>
+  <div class="block w-full h-2 border-t-2 border-dashed border-blue-300"></div>
+  <div class="text-slate-500">
+    {String(date ?? new Date()).split("T")[0]}
+  </div>
+  <div class="flex text-slate-500 gap-4">
+    {
+      tags.map((tag) => (
+        <a class="underline" href={"/tags/" + tag}>
+          #{tag}
+        </a>
+      ))
+    }
+  </div><br />
+  <div class="text-slate-300">{desc}</div><br />
+  <div class="my-2">
+    <a href={url} class="underline text-slate-200">read more ↩︎</a>
+  </div><br />
+  <div class="block w-full h-2 border-t-2 border-gray-700"></div>
 </div>
-
----
