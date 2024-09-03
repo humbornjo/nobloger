@@ -11,11 +11,60 @@
 }
 
 @font-face {
-  font-family: 'NanumGothic';
+  font-family: 'Hack';
   font-weight: normal;
   font-style: normal;
   font-display: swap;
-  src: url('/fonts/NanumGothic.ttf');
+  src: url('/fonts/Hack.ttf');
+}
+
+h1 {
+  font-family: 'NanumGothic';
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 900;
+  margin-top: 36px;
+  margin-bottom: 36px;
+}
+
+h2 {
+  font-family: 'NanumGothic';
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  font-weight: 900;
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+h3 {
+  font-family: 'NanumGothic';
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-weight: 900;
+  margin-top: 18px;
+  margin-bottom: 18px;
+}
+
+p {
+	font-family: 'Hack';
+  font-size: 1rem;
+	font-weight: 100;
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
+
+pre {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 1.5em;
+  border-radius: 0.75em;
+}
+
+pre code {
+	font-family: 'Hack';
+  font-size: 1rem;
+	font-weight: 100;
+	filter: brightness(0.82);
 }
 
 p a {
