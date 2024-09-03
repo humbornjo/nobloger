@@ -1,33 +1,41 @@
 ---
+import * as fs from "fs";
+import { countWords } from "alfaaz";
+
 interface Props {
   title: string;
   url: string;
   desc: string;
   date: string;
   tags: string[];
+  file: string;
 }
 
-const { title, url, desc, date, tags } = Astro.props;
+const { title, url, desc, date, tags, file } = Astro.props;
+
+const f = fs.readFileSync(file, "utf-8");
+const words_per_min = 200;
+const words_count = countWords(f);
+const reading_time = Math.ceil(words_count / words_per_min);
 ---
 
-<div class="flex-col font-sans text-lg w-full mt-8">
+<div class="flex-col font-sans text-md w-full mt-8">
   <div class="text-2xl text-blue-300 my-2">{title}</div>
   <div class="block w-full h-2 border-t-2 border-dashed border-blue-300"></div>
-  <div class="text-slate-500">
-    {String(date ?? new Date()).split("T")[0]}
+  <div class="text-blue-300">
+    {
+      String(date ?? new Date()).split("T")[0] +
+        " :: " +
+        reading_time +
+        " min read"
+    }
   </div>
   <div class="flex text-slate-500 gap-4">
-    {
-      tags.map((tag) => (
-        <a class="underline" href={"/tags/" + tag}>
-          #{tag}
-        </a>
-      ))
-    }
+    {tags.map((tag) => <a href={"/tags/" + tag}>#{tag}</a>)}
   </div><br />
   <div class="text-slate-300">{desc}</div><br />
   <div class="my-2">
     <a href={url} class="underline text-slate-200">read more ↩︎</a>
   </div><br />
-  <div class="block w-full h-2 border-t-2 border-gray-700"></div>
+  <div class="block w-full h-1 border-t-2 border-gray-700"></div>
 </div>

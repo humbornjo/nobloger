@@ -27,7 +27,10 @@ const nvis: Nvi[] = [
   <div class="flex justify-start gap-8 w-full">
     {
       nvis.map((nvi) => (
-        <a class="underline underline-offset-4 h-12" href={nvi.url}>
+        <a
+          class="underline text-slate-300 underline-offset-4 h-12"
+          href={nvi.url}
+        >
           {nvi.name}
         </a>
       ))

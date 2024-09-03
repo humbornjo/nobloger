@@ -8,9 +8,10 @@ const posts = await Astro.glob("../../pages/posts/*.md");
   {
     posts.map((post) => (
       <Post
-        title={post.frontmatter.title}
         url={post.url as string}
-        desc=" "
+        file={post.file}
+        title={post.frontmatter.title}
+        desc={post.frontmatter.desc}
         date={post.frontmatter.date}
         tags={post.frontmatter.tags}
       />

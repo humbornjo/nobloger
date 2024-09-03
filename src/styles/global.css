@@ -9,3 +9,27 @@
   font-display: swap;
   src: url('/fonts/Monocraft.ttf');
 }
+
+@font-face {
+  font-family: 'NanumGothic';
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/NanumGothic.ttf');
+}
+
+p a {
+  text-decoration: underline;
+  color: rgb(168 183 204)
+}
+
+p code {
+  background-color: rgb(12 74 110);
+  border-radius: 0.25em;
+	filter: brightness(1);
+	font-weight: 100;
+	padding-left: 4px; 
+	padding-right: 4px; 
+	padding-top: 1px; 
+	padding-bottom: 1px; 
+}

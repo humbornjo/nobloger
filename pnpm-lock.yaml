@@ -13,10 +13,13 @@ importers:
         version: 0.5.10(prettier-plugin-astro@0.14.1)(prettier@3.3.3)(typescript@5.5.3)
       '@astrojs/tailwind':
         specifier: ^5.1.0
-        version: 5.1.0(astro@4.12.2(typescript@5.5.3))(tailwindcss@3.4.7)
+        version: 5.1.0(astro@4.12.2(@types/node@22.5.2)(typescript@5.5.3))(tailwindcss@3.4.7)
+      alfaaz:
+        specifier: ^1.1.0
+        version: 1.1.0
       astro:
         specifier: ^4.12.2
-        version: 4.12.2(typescript@5.5.3)
+        version: 4.12.2(@types/node@22.5.2)(typescript@5.5.3)
       tailwindcss:
         specifier: ^3.4.7
         version: 3.4.7
@@ -27,6 +30,9 @@ importers:
       '@astrojs/ts-plugin':
         specifier: ^1.9.1
         version: 1.9.1
+      '@types/node':
+        specifier: ^22.5.2
+        version: 22.5.2
       prettier:
         specifier: ^3.3.3
         version: 3.3.3
@@ -627,6 +633,9 @@ packages:
   '@types/nlcst@2.0.3':
     resolution: {integrity: sha512-vSYNSDe6Ix3q+6Z7ri9lyWqgGhJTmzRjZRqyq15N0Z/1/UnVsno9G/N40NBijoYx2seFDIl0+B2mgAb9mezUCA==}
 
+  '@types/node@22.5.2':
+    resolution: {integrity: sha512-acJsPTEqYqulZS/Yp/S3GgeE6GZ0qYODUR8aVr/DkhHQ8l9nd4j5x1/ZJy9/gHrRlFMqkO6i0I3E27Alu4jjPg==}
+
   '@types/unist@3.0.2':
     resolution: {integrity: sha512-dqId9J8K/vGi5Zr7oo212BGii5m3q5Hxlkwy3WpYuKPklmBEvsbMYYyLxAQpSffdLl/gdW0XUpKWFvYmyoWCoQ==}
 
@@ -666,6 +675,9 @@ packages:
     resolution: {integrity: sha512-tcpGyI9zbizT9JbV6oYE477V6mTlXvvi0T0G3SNIYE2apm/G5huBa1+K89VGeovbg+jycCrfhl3ADxErOuO6Jg==}
     engines: {node: '>=0.4.0'}
     hasBin: true
+
+  alfaaz@1.1.0:
+    resolution: {integrity: sha512-J/P07R41APslK7NmD5303bwStN8jpRA4DdvtLeAr1Jhfj6XWGrASUWI0G6jbWjJAZyw3Lu1Pb4J8rsM/cb+xDQ==}
 
   ansi-align@3.0.1:
     resolution: {integrity: sha512-IOfwwBF5iczOjp/WeY4YxyjqAFMQoZufdQWDd19SEExbVLNXqvpzSJ/M7Za4/sCPmQ0+GRquoA7bGcINcxew6w==}
@@ -1868,6 +1880,9 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
+  undici-types@6.19.8:
+    resolution: {integrity: sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==}
+
   unified@11.0.5:
     resolution: {integrity: sha512-xKvGhPWw3k84Qjh8bI3ZeJjqnyadK+GEFtazSfZv/rKeTkTjOJho6mFqh2SM96iIcZokxiOpg78GazTSg8+KHA==}
 
@@ -2177,9 +2192,9 @@ snapshots:
     dependencies:
       prismjs: 1.29.0
 
-  '@astrojs/tailwind@5.1.0(astro@4.12.2(typescript@5.5.3))(tailwindcss@3.4.7)':
+  '@astrojs/tailwind@5.1.0(astro@4.12.2(@types/node@22.5.2)(typescript@5.5.3))(tailwindcss@3.4.7)':
     dependencies:
-      astro: 4.12.2(typescript@5.5.3)
+      astro: 4.12.2(@types/node@22.5.2)(typescript@5.5.3)
       autoprefixer: 10.4.20(postcss@8.4.39)
       postcss: 8.4.39
       postcss-load-config: 4.0.2(postcss@8.4.39)
@@ -2671,6 +2686,10 @@ snapshots:
     dependencies:
       '@types/unist': 3.0.2
 
+  '@types/node@22.5.2':
+    dependencies:
+      undici-types: 6.19.8
+
   '@types/unist@3.0.2': {}
 
   '@ungap/structured-clone@1.2.0': {}
@@ -2733,6 +2752,8 @@ snapshots:
 
   acorn@8.12.1: {}
 
+  alfaaz@1.1.0: {}
+
   ansi-align@3.0.1:
     dependencies:
       string-width: 4.2.3
@@ -2772,7 +2793,7 @@ snapshots:
 
   array-iterate@2.0.1: {}
 
-  astro@4.12.2(typescript@5.5.3):
+  astro@4.12.2(@types/node@22.5.2)(typescript@5.5.3):
     dependencies:
       '@astrojs/compiler': 2.9.2
       '@astrojs/internal-helpers': 0.4.1
@@ -2830,8 +2851,8 @@ snapshots:
       tsconfck: 3.1.1(typescript@5.5.3)
       unist-util-visit: 5.0.0
       vfile: 6.0.2
-      vite: 5.3.4
-      vitefu: 0.2.5(vite@5.3.4)
+      vite: 5.3.4(@types/node@22.5.2)
+      vitefu: 0.2.5(vite@5.3.4(@types/node@22.5.2))
       which-pm: 3.0.0
       yargs-parser: 21.1.1
       zod: 3.23.8
@@ -4251,6 +4272,8 @@ snapshots:
 
   typescript@5.5.3: {}
 
+  undici-types@6.19.8: {}
+
   unified@11.0.5:
     dependencies:
       '@types/unist': 3.0.2
@@ -4333,17 +4356,18 @@ snapshots:
       unist-util-stringify-position: 4.0.0
       vfile-message: 4.0.2
 
-  vite@5.3.4:
+  vite@5.3.4(@types/node@22.5.2):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.4.39
       rollup: 4.19.0
     optionalDependencies:
+      '@types/node': 22.5.2
       fsevents: 2.3.3
 
-  vitefu@0.2.5(vite@5.3.4):
+  vitefu@0.2.5(vite@5.3.4(@types/node@22.5.2)):
     optionalDependencies:
-      vite: 5.3.4
+      vite: 5.3.4(@types/node@22.5.2)
 
   volar-service-css@0.0.59(@volar/language-service@2.4.0-alpha.17):
     dependencies:
