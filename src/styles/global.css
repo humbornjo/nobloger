@@ -54,8 +54,8 @@ h2 {
   margin-top: 24px;
   margin-bottom: 24px;
   text-decoration: underline;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 4px;
+  text-decoration-thickness: 4px;
+  text-underline-offset: 8px;
   text-decoration-style: dashed;
 }
 
@@ -66,6 +66,9 @@ h3 {
   font-weight: 700;
   margin-top: 18px;
   margin-bottom: 18px;
+  text-decoration-thickness: 4px;
+  text-underline-offset: 8px;
+  text-decoration-style: dotted;
 }
 
 p {
@@ -83,6 +86,17 @@ pre {
   border-radius: 0.75em;
 }
 
+blockquote {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
+  background-color: rgb(12 74 110);
+  border-radius: 0.25em;
+}
+
 pre code {
 	font-family: 'Hack';
   font-size: 1rem;
@@ -91,6 +105,12 @@ pre code {
 }
 
 p a {
+	font-family: 'Hack';
+  text-decoration: underline;
+  color: rgb(168 183 204)
+}
+
+li a {
 	font-family: 'Hack';
   text-decoration: underline;
   color: rgb(168 183 204)

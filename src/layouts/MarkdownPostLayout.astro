@@ -10,7 +10,7 @@ const { frontmatter } = Astro.props;
         {frontmatter.title}
       </div>
       <div class="mb-2 font-thin text-slate-400">
-        Publish on {frontmatter.date.split("T")[0]}
+        Publish on {(frontmatter.date ?? "").split("T")[0]}
       </div>
       <div class="flex gap-2 text-slate-400 mb-2">
         {

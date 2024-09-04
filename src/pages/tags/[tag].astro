@@ -1,35 +1,58 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import Post from "../../components/Blog/Post.astro";
+import type {
+  InferGetStaticParamsType,
+  InferGetStaticPropsType,
+  GetStaticPaths,
+} from "astro";
 
-export async function getStaticPaths() {
-  const allPosts = await Astro.glob("../posts/*.md");
-
-  const uniqueTags = [
-    ...new Set(allPosts.map((post) => post.frontmatter.tags).flat()),
+export const getStaticPaths = (async () => {
+  const posts: any = await Astro.glob("../posts/*.md");
+  const unique = [
+    ...new Set(posts.map((post: any) => post.frontmatter.tags).flat()),
   ];
-
-  return uniqueTags.map((tag) => {
-    const filteredPosts = allPosts.filter((post) =>
+  return unique.map((tag) => {
+    const filtered = posts.filter((post: any) =>
       post.frontmatter.tags.includes(tag),
     );
     return {
       params: { tag },
-      props: { posts: filteredPosts },
+      props: { posts: filtered },
     };
   });
-}
+}) as GetStaticPaths;
 
-const { tag } = Astro.params;
-const { posts } = Astro.props;
+type Params = InferGetStaticParamsType<typeof getStaticPaths>;
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { tag } = Astro.params as Params;
+const { posts } = Astro.props as Props;
 ---
 
 <BaseLayout pageTitle={tag}>
-  <p>Posts tagged with {tag}</p>
-  <ul>
+  <div class="text-2xl font-bold text-slate-300 my-4">
+    tag: #{tag} ({(posts as any[]).length})
+  </div>
+  <div class="flex flex-col text-slate-300 font-sans">
     {
-      posts.map((post) => {
-        return <a href={post.url}>{post.title}</a>;
-      })
+      (posts as any[]).map((post: any) => (
+        <div class="flex flex-wrap my-1">
+          <div class="text-slate-300">
+            &ensp;&ensp;- {(post.frontmatter.date ?? "").split("T")[0]}
+          </div>
+          <div>&ensp;::&ensp;</div>
+          <div class="text-blue-300">
+            <a href={post.url}>{post.frontmatter.title}</a>
+          </div>
+          <div>&ensp;::</div>
+          <div class="text-slate-400">
+            {post.frontmatter.tags.map((tag: any) => (
+              <a class="ml-2">{"#" + tag}</a>
+            ))}
+          </div>
+        </div>
+      ))
     }
-  </ul>
+  </div>
 </BaseLayout>
