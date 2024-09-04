@@ -2,6 +2,8 @@
 import * as fs from "fs";
 import { countWords } from "alfaaz";
 
+import Btag from "./Btag.astro";
+
 interface Props {
   title: string;
   url: string;
@@ -25,8 +27,8 @@ const reading_time = Math.ceil(words_count / words_per_min);
   <div class="text-slate-400">
     {String(date ?? "").split("T")[0] + " :: " + reading_time + " min read"}
   </div>
-  <div class="flex text-slate-400 gap-4">
-    {tags.map((tag) => <a href={"/tags/" + tag}>#{tag}</a>)}
+  <div class="flex text-slate-400 gap-2">
+    {tags.map((tag) => <Btag tag={tag} />)}
   </div><br />
   <div class="italic text-slate-300 brightness-95">{desc}</div><br />
   <div class="my-2">

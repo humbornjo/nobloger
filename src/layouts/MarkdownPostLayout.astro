@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
+import Btag from "../components/Blog/Btag.astro";
 const { frontmatter } = Astro.props;
 ---
 
@@ -13,11 +14,7 @@ const { frontmatter } = Astro.props;
         Publish on {(frontmatter.date ?? "").split("T")[0]}
       </div>
       <div class="flex gap-2 text-slate-400 mb-2">
-        {
-          frontmatter.tags.map((tag: string) => (
-            <a href={"/tags/" + tag}>#{tag}</a>
-          ))
-        }
+        {frontmatter.tags.map((tag: string) => <Btag tag={tag} />)}
       </div>
       <div class="text-lg italic brightness-95">{frontmatter.desc}</div>
       <div class="h-4 border-b-2 border-dashed border-b-blue-900"></div>
