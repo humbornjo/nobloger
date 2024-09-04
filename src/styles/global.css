@@ -12,35 +12,58 @@
 
 @font-face {
   font-family: 'Hack';
-  font-weight: normal;
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
-  src: url('/fonts/Hack.ttf');
+  src: url('/fonts/HackDejavu.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Hack';
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/HackDejavuBold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Hack';
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+  src: url('/fonts/HackDejavuItalic.woff2') format('woff2');
 }
 
 h1 {
-  font-family: 'NanumGothic';
+  font-family: 'Hack';
   font-size: 1.5rem;
   line-height: 2rem;
-  font-weight: 900;
+  font-weight: 700;
   margin-top: 36px;
   margin-bottom: 36px;
+  text-decoration: underline;
+  text-decoration-thickness: 4px;
+  text-underline-offset: 8px;
 }
 
 h2 {
-  font-family: 'NanumGothic';
+  font-family: 'Hack';
   font-size: 1.25rem;
   line-height: 1.75rem;
-  font-weight: 900;
+  font-weight: 700;
   margin-top: 24px;
   margin-bottom: 24px;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+  text-decoration-style: dashed;
 }
 
 h3 {
-  font-family: 'NanumGothic';
+  font-family: 'Hack';
   font-size: 1.125rem;
   line-height: 1.75rem;
-  font-weight: 900;
+  font-weight: 700;
   margin-top: 18px;
   margin-bottom: 18px;
 }
@@ -48,7 +71,7 @@ h3 {
 p {
 	font-family: 'Hack';
   font-size: 1rem;
-	font-weight: 100;
+	font-weight: 400;
 	margin-top: 8px;
 	margin-bottom: 8px;
 }
@@ -63,20 +86,22 @@ pre {
 pre code {
 	font-family: 'Hack';
   font-size: 1rem;
-	font-weight: 100;
+	font-weight: 400;
 	filter: brightness(0.82);
 }
 
 p a {
+	font-family: 'Hack';
   text-decoration: underline;
   color: rgb(168 183 204)
 }
 
 p code {
+	font-family: 'Hack';
   background-color: rgb(12 74 110);
   border-radius: 0.25em;
 	filter: brightness(1);
-	font-weight: 100;
+	font-weight: 400;
 	padding-left: 4px; 
 	padding-right: 4px; 
 	padding-top: 1px; 
