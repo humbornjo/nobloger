@@ -4,7 +4,7 @@ import Post from "./Post.astro";
 const posts = await Astro.glob("../../pages/posts/*.md");
 ---
 
-<div class="flex-col text-slate-300 font-mono">
+<div class="flex-col text-slate-300 font-sans">
   {
     posts.map((post) => (
       <Post
