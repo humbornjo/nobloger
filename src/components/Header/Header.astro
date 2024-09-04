@@ -1,13 +1,16 @@
 ---
+import { urlToHttpOptions } from "url";
+
 interface Nvi {
   name: string;
   url: string;
 }
 
+const urlfix = import.meta.env.BASE_URL;
 const slogan = "dios aprieta pero no ahoga";
 const nvis: Nvi[] = [
-  { name: "about", url: "/" },
-  { name: "blog", url: "/blog" },
+  { name: "about", url: urlfix + "/" },
+  { name: "blog", url: urlfix + "/blog" },
   // { name: "find", url: "/find" },
   // { name: "link", url: "/link" },
 ];
