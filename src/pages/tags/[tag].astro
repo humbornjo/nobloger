@@ -7,6 +7,8 @@ import type {
   GetStaticPaths,
 } from "astro";
 
+import { formatDate } from "../../lib/utils";
+
 export const getStaticPaths = (async () => {
   const posts: any = await Astro.glob("../posts/*.md");
   const unique = [
@@ -31,28 +33,34 @@ const { posts } = Astro.props as Props;
 ---
 
 <BaseLayout pageTitle={tag}>
-  <div class="text-2xl font-bold text-slate-300 my-4">
-    tag: #{tag} ({(posts as any[]).length})
-  </div>
-  <div class="flex flex-col text-slate-300 font-sans">
-    {
-      (posts as any[]).map((post: any) => (
-        <div class="flex flex-wrap my-1">
-          <div class="text-slate-300">
-            &ensp;&ensp;- {(post.frontmatter.date ?? "").split("T")[0]}
+  <div class="flex flex-col gap-4">
+    <div class="h-full text-3xl font-bold my-4">
+      #{tag} ({(posts as any[]).length})
+    </div>
+    <div class="flex flex-col font-sans">
+      {
+        (posts as any[]).map((post: any) => (
+          <div class="flex flex-nowrap my-1 justify-between">
+            <div class="flex grow flex-nowrap overflow-hidden whitespace-nowrap">
+              <a
+                class="font-semibold hover:text-black dark:hover:text-white transition-colors duration-300 ease-in-out"
+                href={post.url}
+              >
+                {post.frontmatter.title}
+              </a>
+              <div>&ensp;::&ensp;</div>
+              <div class="flex flex-nowrap gap-2 ">
+                {post.frontmatter.tags.map((tag: any) => (
+                  <Ztag tag={tag} />
+                ))}
+              </div>
+            </div>
+            <div class="shrink whitespace-nowrap">
+              {formatDate(new Date(post.frontmatter.pubDate))}
+            </div>
           </div>
-          <div>&ensp;::&ensp;</div>
-          <div class="text-blue-300">
-            <a href={post.url}>{post.frontmatter.title}</a>
-          </div>
-          <div>&ensp;::&ensp;</div>
-          <div class="flex flex-wrap gap-2 text-slate-400">
-            {post.frontmatter.tags.map((tag: any) => (
-              <Ztag tag={tag} />
-            ))}
-          </div>
-        </div>
-      ))
-    }
+        ))
+      }
+    </div>
   </div>
 </BaseLayout>
