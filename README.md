@@ -1,21 +1,31 @@
 # nobloger
-A start template for [noblog](https://github.com/humbornjo/noblog) 
+A astro start template for [noblog](https://github.com/humbornjo/noblog) 
 
 ![screenshot.png](./asset/screenshot.png)
 
-# commands
+# usage
 
-All commands are run from the root of the project, from a terminal:
+## github page deploy
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+1. Goto "Settings -> Secrets ans variables -> actions", add following two secrets to "Repository secrets":
+  - `NOBLOG_DATABASE_ID`: your notion database id 
+  - `NOTION_API_SECRET`: your notion api secret
+
+2. Goto "Settings -> Pages" and enable pages by set branch as "main", and source as "Github Actions"
+  ![](./asset/enable_page.png)
+
+3. Goto "Actions -> Deploy to GitHub Pages", press "Run workflow", and press the poped up green "Run workflow" 
+
+# help
+
+- notion api: [https://developers.notion.com](https://developers.notion.com) 
+- notion database id: 
+  ``` bash
+  #  suppose your notion databsae url is "https://www.notion.so/humbornjo/fa0faae85c504934a4a86cfa70302850?v=2abd1079ae134fbd8df2604765baa1df"
+  # then your database id is "fa0faae85c504934a4a86cfa70302850"
+  ```
 
 # reference
-- font: [Monocraft](https://github.com/IdreesInc/Monocraft)
-- style: [Terminimal](https://github.com/pawroman/zola-theme-terminimal/)
+
+- Font:  [Monocraft](https://github.com/IdreesInc/Monocraft)
+- Style: [Terminimal](https://github.com/pawroman/zola-theme-terminimal/)
