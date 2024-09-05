@@ -38,7 +38,7 @@ body {
   @apply font-sans antialiased;
   @apply flex flex-col;
   @apply bg-stone-100 dark:bg-stone-900;
-  @apply text-black/50 dark:text-white/75;
+  @apply text-black/50 dark:text-white/65;
 }
 
 h1 {
@@ -60,7 +60,7 @@ h3 {
 }
 
 p {
-	@apply my-2 leading-7;
+	@apply my-6 leading-7;
 }
 
 pre {

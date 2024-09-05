@@ -7,7 +7,7 @@ import type {
   GetStaticPaths,
 } from "astro";
 
-import { formatDate } from "../../lib/utils";
+import { formatDate, urlFromBase } from "../../lib/utils";
 
 export const getStaticPaths = (async () => {
   const posts: any = await Astro.glob("../posts/*.md");
@@ -28,12 +28,20 @@ export const getStaticPaths = (async () => {
 type Params = InferGetStaticParamsType<typeof getStaticPaths>;
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
+const base = import.meta.env.BASE_URL;
+
 const { tag } = Astro.params as Params;
 const { posts } = Astro.props as Props;
 ---
 
 <BaseLayout pageTitle={tag}>
   <div class="flex flex-col gap-4">
+    <a
+      class="hover:text-black dark:hover:text-white transition-colors duration-300 ease-in-out"
+      href={urlFromBase(base, "tags")}
+    >
+      {"▣ view all tags"}
+    </a>
     <div class="h-full text-3xl font-bold my-4">
       #{tag} ({(posts as any[]).length})
     </div>

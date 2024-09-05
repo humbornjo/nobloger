@@ -3,11 +3,20 @@ import * as path from "path";
 import { countWords } from "alfaaz";
 
 export function formatDate(date: Date) {
-  return Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "2-digit",
-    year: "numeric"
-  }).format(date);
+  try {
+    return Intl.DateTimeFormat("en-US", {
+      month: "short",
+      day: "2-digit",
+      year: "numeric"
+    }).format(date);
+  } catch {
+    return Intl.DateTimeFormat("en-US", {
+      month: "short",
+      day: "2-digit",
+      year: "numeric"
+    }).format(new Date());
+
+  }
 }
 
 export function readingTime(path: string) {
