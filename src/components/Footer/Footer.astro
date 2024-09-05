@@ -1,13 +1,16 @@
 ---
 import { urlFromBase } from "../../lib/utils";
+import { frontmatter as Selfie } from "../../../public/selfie.md";
 
 const base = import.meta.env.BASE_URL;
 ---
 
 <div
-  class="flex flex-nowrap justify-center my-10 text-gray-400 dark:text-gray-300 text-light"
+  class="flex flex-nowrap justify-center my-10 text-gray-400 dark:text-gray-500 text-light"
 >
-  <div class="whitespace-nowrap">© 2024 humbornjo :: based on&nbsp;</div>
+  <div class="whitespace-nowrap">
+    © 2024 {Selfie.author} :: based on&nbsp;
+  </div>
   <a
     class="underline whitespace-nowrap"
     href="https://github.com/humbornjo/nobloger"

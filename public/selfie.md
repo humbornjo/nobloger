@@ -1,3 +1,9 @@
+---
+
+author: humbornjo
+
+---
+
 Hi there,
 
 On the internet I’m mostly known as humbornjo. My pronouns are he/him.

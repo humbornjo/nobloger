@@ -1,5 +1,8 @@
 # nobloger
+
 A astro start template for [noblog](https://github.com/humbornjo/noblog) 
+
+Demo deployed at [humbornjo.github.io/nobloger](humbornjo.github.io/nobloger) 
 
 ![screenshot.png](./asset/preview_1.png)
 ![screenshot.png](./asset/preview_2.png)
@@ -11,10 +14,10 @@ A astro start template for [noblog](https://github.com/humbornjo/noblog)
 1. Duplicate [this notion database](https://www.notion.so/humbornjo/fa0faae85c504934a4a86cfa70302850?v=2abd1079ae134fbd8df2604765baa1df) and migrate all your posts into it.
 
 2. Fork this project, modify the file `selfie.md` under `public` folder as your self introduction, modify `astro.config.mjs` as following.
-```
-site: 'https://<YOUR_USER_NAME>.github.io',
-base: '/<REPO_NAME>',
-```
+  ```
+  site: 'https://<YOUR_USER_NAME>.github.io',
+  base: '/<REPO_NAME>',
+  ```
 
 3. Goto "Settings -> Secrets ans variables -> actions", add following two secrets to "Repository secrets":
   - `NOBLOG_DATABASE_ID`: your notion database id.
@@ -28,6 +31,13 @@ base: '/<REPO_NAME>',
 6. Wait a few minutes, and visit https://\<YOUR_USER_NAME\>/github.io/\<REPO_NAME\>
 
 Enjoy.
+
+# todo
+
+- [ ] fix markdown display matter
+- [ ] add "search" in blog page 
+- [ ] add "sort by time" in blog page
+- [ ] add "paginator" for blog page
 
 # help
 

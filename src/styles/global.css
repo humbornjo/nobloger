@@ -3,14 +3,6 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: 'Monocraft';
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-  src: url('/fonts/Monocraft.ttf');
-}
-
-@font-face {
   font-family: 'Hack';
   font-weight: 400;
   font-style: normal;
