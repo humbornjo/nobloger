@@ -1,8 +1,5 @@
 ---
-import * as fs from "fs";
-import { countWords } from "alfaaz";
-
-import Btag from "./Btag.astro";
+import { formatDate, readingTime } from "../../lib/utils";
 
 interface Props {
   title: string;
@@ -10,29 +7,51 @@ interface Props {
   desc: string;
   date: string;
   tags: string[];
-  file: string;
+  path: string;
 }
 
-const { title, url, desc, date, tags, file } = Astro.props;
-
-const f = fs.readFileSync(file, "utf-8");
-const words_per_min = 200;
-const words_count = countWords(f);
-const reading_time = Math.ceil(words_count / words_per_min);
+const { title, url, desc, date, tags, path } = Astro.props;
 ---
 
-<div class="flex-col font-sans text-md w-full mt-8">
-  <div class="text-2xl font-bold text-blue-300 my-2">{title}</div>
-  <div class="block w-full h-2 border-t-2 border-dashed border-blue-300"></div>
-  <div class="text-slate-400">
-    {String(date ?? "").split("T")[0] + " :: " + reading_time + " min read"}
+<a
+  href={url}
+  class="relative group flex flex-nowrap py-3 px-4 pr-10 rounded-lg border border-black/15 dark:border-white/20 hover:bg-black/5 dark:hover:bg-white/5 hover:text-black dark:hover:text-white transition-colors duration-300 ease-in-out"
+>
+  <div class="flex flex-col flex-1">
+    <div class="font-semibold truncate">
+      {title}
+    </div>
+    <div class="text-sm">
+      {readingTime(path) + " :: " + formatDate(new Date(date))}
+    </div>
+    <div class="text-sm flex truncate gap-2 my-1">
+      {
+        tags.map((tag) => (
+          <div class="rounded-lg invert bg-white/65 dark:bg-black/60 px-1">
+            #{tag}
+          </div>
+        ))
+      }
+    </div>
+    <div class="text-sm italic">
+      {desc}
+    </div>
   </div>
-  <div class="flex text-slate-400 gap-2">
-    {tags.map((tag) => <Btag tag={tag} />)}
-  </div><br />
-  <div class="italic text-slate-300 brightness-95">{desc}</div><br />
-  <div class="my-2">
-    <a href={url} class="underline text-slate-200">read more ↩︎</a>
-  </div><br />
-  <div class="block w-full h-1 border-t-2 border-gray-700"></div>
-</div>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    class="absolute top-1/2 right-2 -translate-y-1/2 size-5 stroke-2 fill-none stroke-current"
+  >
+    <line
+      x1="5"
+      y1="12"
+      x2="19"
+      y2="12"
+      class="translate-x-3 group-hover:translate-x-0 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out"
+    ></line>
+    <polyline
+      points="12 5 19 12 12 19"
+      class="-translate-x-1 group-hover:translate-x-0 transition-transform duration-300 ease-in-out"
+    ></polyline>
+  </svg>
+</a>

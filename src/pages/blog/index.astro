@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Post from "../../components/Blog/Post.astro";
+
+const posts = await Astro.glob("../../pages/posts/*.md");
+const pageTitle = "Blog";
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <div class="flex flex-col gap-4">
+    <div class="text-2xl text-stone-700 dark:text-stone-200 mb-8">
+      ▐𝟯 █▄ ⬤ ▐▅▚
+    </div>
+    {
+      posts.map((post) => (
+        <Post
+          url={post.url as string}
+          path={post.file}
+          title={post.frontmatter.title}
+          desc={post.frontmatter.description}
+          date={post.frontmatter.pubDate}
+          tags={post.frontmatter.tags}
+        />
+      ))
+    }
+  </div>
+</BaseLayout>

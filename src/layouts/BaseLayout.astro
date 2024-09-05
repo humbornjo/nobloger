@@ -14,10 +14,12 @@ import "../styles/global.css";
     <meta name="generator" content={Astro.generator} />
     <title>{pageTitle}</title>
   </head>
-  <body class="bg-blue-950">
+  <body>
     <div class="flex-col mx-auto px-8 max-w-screen-md">
       <Header />
-      <slot />
+      <div class="mt-32">
+        <slot />
+      </div>
       <Footer />
     </div>
   </body>

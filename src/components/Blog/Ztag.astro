@@ -1,0 +1,16 @@
+---
+import { urlFromBase } from "../../lib/utils";
+interface Props {
+  tag: string;
+}
+
+const base = import.meta.env.BASE_URL;
+const { tag } = Astro.props;
+---
+
+<a
+  href={urlFromBase(base, "tags/" + tag)}
+  class="rounded-xl invert bg-white/65 dark:bg-black/60 px-2 hover:text-black dark:hover:text-white transition-colors duration-300 ease-in-out"
+>
+  #{tag}
+</a>

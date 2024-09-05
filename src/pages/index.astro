@@ -1,9 +1,43 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import About from "../components/About/About.astro";
 const pageTitle = "About";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-  <About />
+  <div class="flex flex-col gap-4">
+    <div class="text-2xl text-stone-700 dark:text-stone-200 mb-8">
+      ▅▀▅ ▐𝟯 ⬤ ▐▄█ ▀█▀
+    </div>
+    <div></div>
+    <div class="text-black font-sans my-2">
+      Hi there,
+      <br /><br />
+      On the internet I’m mostly known as humbornjo. My pronouns are he/him.
+      <br /><br />
+      I think I will be a full-stack web developer who like to recreate and fuck
+      around. Somewhat just like <a
+        class="underline"
+        href="https://www.youtube.com/@TsodingDaily">tsoding</a
+      >.
+      <br /><br />
+      Btw, I perfer salmon over tuna.
+      <br /><br />
+      You can also find me on,
+      <div>
+        <div>
+          &ensp; - Github:
+          <a class="underline" href="https://github.com/humbornjo">@humbornjo</a
+          >
+        </div>
+        <div>
+          &ensp; - Linkedin:
+          <a
+            class="underline"
+            href="https://www.linkedin.com/in/shua-shin-8a1134271?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BbRLNfwdaTIm7%2FZC3NzJH8w%3D%3D"
+            >@Shua Shin</a
+          >
+        </div>
+      </div>
+    </div>
+  </div>
 </BaseLayout>

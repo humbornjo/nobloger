@@ -1,7 +1,9 @@
 # nobloger
 A astro start template for [noblog](https://github.com/humbornjo/noblog) 
 
-![screenshot.png](./asset/screenshot.png)
+![screenshot.png](./asset/preview_1.png)
+![screenshot.png](./asset/preview_2.png)
+![screenshot.png](./asset/preview_3.png)
 
 # usage
 

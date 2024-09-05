@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import Btag from "../../components/Blog/Btag.astro";
+import Ztag from "../../components/Blog/Ztag.astro";
 import type {
   InferGetStaticParamsType,
   InferGetStaticPropsType,
@@ -48,7 +48,7 @@ const { posts } = Astro.props as Props;
           <div>&ensp;::&ensp;</div>
           <div class="flex flex-wrap gap-2 text-slate-400">
             {post.frontmatter.tags.map((tag: any) => (
-              <Btag tag={tag} />
+              <Ztag tag={tag} />
             ))}
           </div>
         </div>

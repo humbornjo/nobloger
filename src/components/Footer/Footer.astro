@@ -1,12 +1,16 @@
 ---
-const urlfix = import.meta.env.BASE_URL;
+import { urlFromBase } from "../../lib/utils";
+
+const base = import.meta.env.BASE_URL;
 ---
 
-<div class="flex justify-center mt-16 mb-10 text-gray-400 font-mono text-light">
+<div
+  class="flex justify-center mt-16 mb-10 text-gray-400 dark:text-gray-300 text-light"
+>
   © 2023-2024 humbornjo :: based on&nbsp;
   <a class="underline" href="https://github.com/humbornjo/nobloger">
     nobloger
   </a>
   &nbsp;::&nbsp;
-  <a class="underline" href={urlfix + "/rss.xml"}>rss</a>
+  <a class="underline" href={urlFromBase(base, "rss.xml")}>rss</a>
 </div>

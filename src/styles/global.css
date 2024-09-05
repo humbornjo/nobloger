@@ -34,96 +34,64 @@
   src: url('/fonts/HackDejavuItalic.woff2') format('woff2');
 }
 
+body {
+  @apply font-sans antialiased;
+  @apply flex flex-col;
+  @apply bg-stone-100 dark:bg-stone-900;
+  @apply text-black/50 dark:text-white/75;
+}
+
 h1 {
-  font-family: 'Hack';
-  font-size: 1.5rem;
-  line-height: 2rem;
-  font-weight: 700;
-  margin-top: 36px;
-  margin-bottom: 36px;
-  text-decoration: underline;
-  text-decoration-thickness: 4px;
-  text-underline-offset: 8px;
+  @apply font-bold text-2xl;
+  @apply underline decoration-4 underline-offset-8;
+  @apply my-9;
 }
 
 h2 {
-  font-family: 'Hack';
-  font-size: 1.25rem;
-  line-height: 1.75rem;
-  font-weight: 700;
-  margin-top: 24px;
-  margin-bottom: 24px;
-  text-decoration: underline;
-  text-decoration-thickness: 4px;
-  text-underline-offset: 8px;
-  text-decoration-style: dashed;
+  @apply font-bold text-xl;
+  @apply underline decoration-dashed decoration-4 underline-offset-8;
+  @apply my-6;
 }
 
 h3 {
-  font-family: 'Hack';
-  font-size: 1.125rem;
-  line-height: 1.75rem;
-  font-weight: 700;
-  margin-top: 18px;
-  margin-bottom: 18px;
-  text-decoration-thickness: 4px;
-  text-underline-offset: 8px;
-  text-decoration-style: dotted;
+  @apply font-bold text-lg;
+  @apply underline decoration-dotted decoration-4 underline-offset-8;
+  @apply my-3;
 }
 
 p {
-	font-family: 'Hack';
-  font-size: 1rem;
-	font-weight: 400;
-	margin-top: 8px;
-	margin-bottom: 8px;
+	@apply my-2 leading-7;
 }
 
 pre {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  padding: 1.5em;
-  border-radius: 0.75em;
+	@apply px-6 py-4 my-4 leading-5;
+	@apply rounded-xl;
 }
 
 blockquote {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  padding-left: 1em;
-  padding-right: 1em;
-  padding-top: 0.25em;
-  padding-bottom: 0.25em;
-  background-color: rgb(12 74 110);
-  border-radius: 0.25em;
+  @apply my-4 py-1 px-4;
+  @apply bg-stone-200;
+  @apply rounded-lg;
 }
 
 pre code {
-	font-family: 'Hack';
-  font-size: 1rem;
-	font-weight: 400;
-	filter: brightness(0.82);
+  @apply font-sans text-sm text-stone-500;
+  @apply brightness-90;
 }
 
 p a {
-	font-family: 'Hack';
-  text-decoration: underline;
-  color: rgb(168 183 204)
+  @apply underline;
+  @apply text-stone-500;
 }
 
 li a {
-	font-family: 'Hack';
-  text-decoration: underline;
-  color: rgb(168 183 204)
+  @apply underline;
+  @apply text-stone-500;
 }
 
 p code {
-	font-family: 'Hack';
-  background-color: rgb(12 74 110);
-  border-radius: 0.25em;
-	filter: brightness(1);
-	font-weight: 400;
-	padding-left: 4px; 
-	padding-right: 4px; 
-	padding-top: 1px; 
-	padding-bottom: 1px; 
+  @apply font-sans text-stone-500;
+  @apply bg-stone-200;
+  @apply mx-1 px-1;
+  @apply rounded-md;
 }

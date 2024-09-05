@@ -1,43 +1,39 @@
 ---
-import { urlToHttpOptions } from "url";
+import { urlFromBase } from "../../lib/utils";
 
 interface Nvi {
   name: string;
   url: string;
 }
 
-const urlfix = import.meta.env.BASE_URL;
-const slogan = "dios aprieta pero no ahoga";
+const base = import.meta.env.BASE_URL;
+const slogan = "⧚⧚⧚⧚⧚⧚⧚⧚";
 const nvis: Nvi[] = [
-  { name: "about", url: urlfix + "/" },
-  { name: "blog", url: urlfix + "/blog" },
+  { name: "about", url: urlFromBase(base, "/") },
+  { name: "blog", url: urlFromBase(base, "/blog") },
   // { name: "find", url: "/find" },
   // { name: "link", url: "/link" },
 ];
 ---
 
-<div class="flex-col font-mono text-slate-300 mx-auto">
-  <div class="flex justify-center items-center w-full gap-2.5 mx-auto h-24">
-    <div class="content-center text-lg bg-blue-900 px-4 h-12">
+<div
+  class="backdrop-blur-sm saturate-400 bg-stone-100/75 dark:bg-stone-900/25 fixed top-0 left-0 right-0 z-50 py-5"
+>
+  <div class="mx-auto max-w-screen-md px-8 flex flex-wrap justify-between">
+    <div class="text-4xl text-stone-700 dark:text-stone-200">
       {slogan}
     </div>
-    <div
-      class="h-12 flex-1"
-      style="content: hidden; background: repeating-linear-gradient(90deg, rgb(30 58 138), rgb(30 58 138), 3px, rgba(0,0,0,0) 0, rgba(0,0,0,0) 12px); display: block; width: auto; right: 10px"
-    >
+    <div class="flex gap-4 items-end">
+      {
+        nvis.map((nvi) => (
+          <a
+            class="underline underline-offset-4  hover:text-black dark:hover:text-white transition-colors duration-300 ease-in-out"
+            href={nvi.url}
+          >
+            {nvi.name}
+          </a>
+        ))
+      }
     </div>
   </div>
-  <div class="flex justify-start gap-8 w-full">
-    {
-      nvis.map((nvi) => (
-        <a
-          class="underline text-slate-300 underline-offset-4 h-12"
-          href={nvi.url}
-        >
-          {nvi.name}
-        </a>
-      ))
-    }
-  </div>
-  <div class="block w-full h-4 border-t-8 border-double border-blue-900"></div>
 </div>
