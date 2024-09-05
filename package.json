@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.5.8",
+    "@astrojs/rss": "^4.0.7",
     "@astrojs/tailwind": "^5.1.0",
     "alfaaz": "^1.1.0",
     "astro": "^4.12.2",
