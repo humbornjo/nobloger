@@ -2,7 +2,7 @@
 
 A astro start template for [noblog](https://github.com/humbornjo/noblog) 
 
-Demo deployed at [humbornjo.github.io/nobloger](humbornjo.github.io/nobloger) 
+Demo deployed at [humbornjo.github.io/nobloger](https://humbornjo.github.io/nobloger) 
 
 ![screenshot.png](./asset/preview_1.png)
 ![screenshot.png](./asset/preview_2.png)
