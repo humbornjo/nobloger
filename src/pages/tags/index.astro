@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import Ztag from "../../components/Blog/Ztag.astro";
 import { urlFromBase } from "../../lib/utils";
 
 const posts: any = await Astro.glob("../posts/*.md");
@@ -15,7 +14,9 @@ const base = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout>
-  <div class="text-2xl mb-16 text-stone-700">▀█▀ ▅▀▅ ▐▅▚ ▄█▀</div>
+  <div class="text-2xl mb-16 text-stone-700 dark:text-stone-200">
+    ▀█▀ ▅▀▅ ▐▅▚ ▄█▀
+  </div>
   <div class="flex flex-wrap justify-center w-2/3 mx-auto gap-10">
     {
       unique.map((tag: any) => (

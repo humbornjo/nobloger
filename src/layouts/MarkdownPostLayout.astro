@@ -2,25 +2,52 @@
 import BaseLayout from "./BaseLayout.astro";
 import Ztag from "../components/Blog/Ztag.astro";
 const { frontmatter } = Astro.props;
+
+console.log(typeof Astro.props);
 ---
 
 <BaseLayout pageTitle={frontmatter.title}>
   <div class="text-stone-700 dark:text-stone-200">
     <div class="py-2">
-      <div class="font-black text-3xl mb-2">
+      <div class="font-black text-4xl mb-6">
         {frontmatter.title}
       </div>
-      <div class="mb-2 font-thin text-slate-500 dark:text-slate-300">
+      <div class="mb-4 font-thin text-stone-500 dark:text-stone-400">
         Publish on {(frontmatter.pubDate ?? "").split("T")[0]}
       </div>
-      <div class="flex gap-2 mb-2">
+      <div class="flex gap-2 mb-4">
         {frontmatter.tags.map((tag: string) => <Ztag tag={tag} />)}
       </div>
-      <div class="text-lg italic text-slate-500 dark:text-slate-300">
+      <div class="text-lg italic text-stone-500 dark:text-stone-400">
         {frontmatter.description}
       </div>
-      <div class="h-4 border-b-2 border-dashed border-b-blue-900"></div>
+      <div
+        class="h-4 border-b-4 my-4 border-dashed border-stone-500 dark:border-stone-400"
+      >
+      </div>
     </div>
-    <slot />
+    <article
+      class="prose dark:prose-invert prose-stone md:prose-lg prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl"
+    >
+      <slot />
+    </article>
   </div>
 </BaseLayout>
+
+<script is:inline>
+  MathJax = {
+    tex: {
+      inlineMath: [
+        ["$", "$"],
+        ["\\(", "\\)"],
+      ],
+    },
+    svg: {
+      fontCache: "global",
+    },
+  };
+</script>
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>

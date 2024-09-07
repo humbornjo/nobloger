@@ -11,6 +11,12 @@ const pageTitle = "Blog";
     <div class="text-2xl text-stone-700 dark:text-stone-200 mb-8">
       ▐𝟯 █▄ ⬤ ▐▅▚
     </div>
+    <input
+      id="search"
+      autocomplete="off"
+      class="h-8 w-60 rounded-md px-2 py-1 bg-slate-100 mb-2 border border-1 border-stone-400 text-stone-700 focus:border-stone-600 focus:outline-none dark:border-stone-400 dark:focus:border-stone-200 bg-stone-50 dark:bg-stone-800 dark:text-stone-300 transition-colors duration-200"
+    />
+
     {
       posts.map((post) => (
         <Post
@@ -25,3 +31,15 @@ const pageTitle = "Blog";
     }
   </div>
 </BaseLayout>
+
+<script>
+  import { actions } from "astro:actions";
+  let ctx: NodeJS.Timeout;
+  const sbox = document.getElementById("search") as HTMLInputElement;
+  sbox?.addEventListener("input", () => {
+    clearTimeout(ctx);
+    ctx = setTimeout(async () => {
+      console.log(await actions.getMatchBlogs(sbox.value));
+    }, 800);
+  });
+</script>

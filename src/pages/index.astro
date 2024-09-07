@@ -6,10 +6,34 @@ const pageTitle = "About";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
-  <div class="flex flex-col gap-4 text-stone-700 dark:text-stone-200">
-    <div class="text-2xl mb-8">▅▀▅ ▐𝟯 ⬤ ▐▄█ ▀█▀</div>
-    <div>
-      <Selfie />
+  <div class="flex flex-col gap-4">
+    <div class="text-2xl mb-8 text-stone-700 dark:text-stone-200">
+      ▅▀▅ ▐𝟯 ⬤ ▐▄█ ▀█▀
     </div>
+    <article
+      class="prose dark:prose-invert prose-stone md:prose-lg prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl"
+    >
+      <Selfie />
+    </article>
   </div>
 </BaseLayout>
+
+<script is:inline>
+  MathJax = {
+    tex: {
+      inlineMath: [
+        ["$", "$"],
+        ["\\(", "\\)"],
+      ],
+    },
+    svg: {
+      fontCache: "global",
+    },
+  };
+</script>
+<script
+  is:inline
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+></script>

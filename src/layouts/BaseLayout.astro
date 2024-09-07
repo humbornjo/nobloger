@@ -32,6 +32,7 @@ import "../styles/global.css";
         const systemThemeButton = document.getElementById(
           "system-theme-button",
         );
+
         systemThemeButton?.addEventListener("click", () => {
           localStorage.setItem("theme", "system");
           toggleTheme(
@@ -46,8 +47,6 @@ import "../styles/global.css";
               toggleTheme(event.matches);
             }
           });
-
-        document.addEventListener("scroll", onScroll);
       }
 
       function toggleTheme(dark) {
