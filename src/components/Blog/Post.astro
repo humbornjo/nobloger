@@ -1,5 +1,5 @@
 ---
-import { formatDate, readingTime } from "../../lib/utils";
+import { formatDate, readingTime } from "@/lib/utils";
 
 interface Props {
   title: string;
@@ -15,7 +15,7 @@ const { title, url, desc, date, tags, path } = Astro.props;
 
 <a
   href={url}
-  class="relative group flex flex-nowrap py-3 px-4 pr-10 rounded-lg border border-black/15 dark:border-white/20 hover:bg-black/5 dark:hover:bg-white/5 hover:text-black dark:hover:text-white transition-colors duration-300 ease-in-out"
+  class="nobloger-animate relative group flex flex-nowrap py-3 px-4 pr-10 rounded-lg border border-black/15 dark:border-white/20 hover:bg-black/5 dark:hover:bg-white/5 hover:text-black dark:hover:text-white transition-all duration-300 ease-in-out opacity-0"
 >
   <div class="flex flex-col flex-1">
     <div class="font-semibold text-ellipsis">

@@ -1,24 +1,22 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
-import Ztag from "../components/Blog/Ztag.astro";
+import Ztag from "@/components/Blog/Ztag.astro";
 const { frontmatter } = Astro.props;
-
-console.log(typeof Astro.props);
 ---
 
 <BaseLayout pageTitle={frontmatter.title}>
-  <div class="text-stone-700 dark:text-stone-200">
+  <div class="text-stone-800 dark:text-stone-200">
     <div class="py-2">
       <div class="font-black text-4xl mb-6">
         {frontmatter.title}
       </div>
-      <div class="mb-4 font-thin text-stone-500 dark:text-stone-400">
+      <div class="mb-4 font-thin text-stone-600 dark:text-stone-400">
         Publish on {(frontmatter.pubDate ?? "").split("T")[0]}
       </div>
       <div class="flex gap-2 mb-4">
         {frontmatter.tags.map((tag: string) => <Ztag tag={tag} />)}
       </div>
-      <div class="text-lg italic text-stone-500 dark:text-stone-400">
+      <div class="text-lg italic text-stone-600 dark:text-stone-400">
         {frontmatter.description}
       </div>
       <div
@@ -48,6 +46,7 @@ console.log(typeof Astro.props);
   };
 </script>
 <script
+  is:inline
   id="MathJax-script"
   async
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>

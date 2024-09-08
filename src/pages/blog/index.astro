@@ -1,9 +1,18 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import Post from "../../components/Blog/Post.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Post from "@/components/Blog/Post.astro";
 
-const posts = await Astro.glob("../../pages/posts/*.md");
+const posts = await Astro.glob("@/pages/posts/*.md");
 const pageTitle = "Blog";
+
+const cmp = (a: any, b: any) => {
+  if (a.frontmatter.pubDate > b.frontmatter.pubDate) {
+    return -1;
+  }
+  return 1;
+};
+
+posts.sort(cmp);
 ---
 
 <BaseLayout pageTitle={pageTitle}>
@@ -11,7 +20,9 @@ const pageTitle = "Blog";
     <div class="text-2xl text-stone-700 dark:text-stone-200 mb-8">
       ▐𝟯 █▄ ⬤ ▐▅▚
     </div>
+    <astro-input></astro-input>
     <input
+      data-posts={JSON.stringify(posts)}
       id="search"
       autocomplete="off"
       class="h-8 w-60 rounded-md px-2 py-1 bg-slate-100 mb-2 border border-1 border-stone-400 text-stone-700 focus:border-stone-600 focus:outline-none dark:border-stone-400 dark:focus:border-stone-200 bg-stone-50 dark:bg-stone-800 dark:text-stone-300 transition-colors duration-200"
@@ -33,13 +44,46 @@ const pageTitle = "Blog";
 </BaseLayout>
 
 <script>
-  import { actions } from "astro:actions";
   let ctx: NodeJS.Timeout;
   const sbox = document.getElementById("search") as HTMLInputElement;
+  const posts = JSON.parse(sbox.dataset.posts ?? "");
   sbox?.addEventListener("input", () => {
     clearTimeout(ctx);
+    const eles = document.getElementsByClassName("nobloger-animate");
+    for (let ele of eles) {
+      ele.classList.add("opacity-0");
+    }
+
     ctx = setTimeout(async () => {
-      console.log(await actions.getMatchBlogs(sbox.value));
-    }, 800);
+      for (let ele of eles) {
+        (ele as HTMLAnchorElement).style.display = "flex";
+      }
+      const matches = findMatch(sbox.value, posts);
+      for (let ele of eles) {
+        const hide =
+          matches.filter((match: any) =>
+            ((ele as any).href ?? match.url).includes(match.url),
+          ).length === 0;
+        if (hide) (ele as HTMLAnchorElement).style.display = "none";
+      }
+      animation();
+    }, 500);
   });
+
+  function findMatch(text: string, posts: any) {
+    const match = posts.filter((post: any) =>
+      post.frontmatter.title.toLowerCase().includes(text.toLowerCase()),
+    );
+    return match;
+  }
+
+  async function animation() {
+    const eles = document.getElementsByClassName("nobloger-animate");
+    for (let ele of eles) {
+      setTimeout(() => ele?.classList.remove("opacity-0"), 500); // Fade in
+      await new Promise((r) => setTimeout(r, 75));
+    }
+  }
+
+  animation();
 </script>

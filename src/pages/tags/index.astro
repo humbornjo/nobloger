@@ -1,8 +1,8 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import { urlFromBase } from "../../lib/utils";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { urlFromBase } from "@/lib/utils";
 
-const posts: any = await Astro.glob("../posts/*.md");
+const posts: any = await Astro.glob("@/pages/posts/*.md");
 const unique = [
   ...new Set(posts.map((post: any) => post.frontmatter.tags).flat()),
 ];

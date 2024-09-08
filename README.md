@@ -35,9 +35,9 @@ Enjoy.
 # todo
 
 - [x] fix markdown display matter
-- [ ] add "search" in blog page 
-- [ ] add "sort by time" in blog page
-- [ ] add "paginator" for blog page
+- [x] add "search" in blog page 
+- [x] add "sort by time" in blog page
+- ~~[ ] add "paginator" for blog page~~
 
 # help
 

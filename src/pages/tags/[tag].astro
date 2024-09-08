@@ -1,16 +1,16 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import Ztag from "../../components/Blog/Ztag.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Ztag from "@/components/Blog/Ztag.astro";
 import type {
   InferGetStaticParamsType,
   InferGetStaticPropsType,
   GetStaticPaths,
 } from "astro";
 
-import { formatDate, urlFromBase } from "../../lib/utils";
+import { formatDate, urlFromBase } from "@/lib/utils";
 
 export const getStaticPaths = (async () => {
-  const posts: any = await Astro.glob("../posts/*.md");
+  const posts: any = await Astro.glob("@/pages/posts/*.md");
   const unique = [
     ...new Set(posts.map((post: any) => post.frontmatter.tags).flat()),
   ];
