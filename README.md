@@ -4,6 +4,11 @@ A astro start template for [noblog](https://github.com/humbornjo/noblog)
 
 Demo deployed at [humbornjo.github.io/nobloger](https://humbornjo.github.io/nobloger) 
 
+nobloger is 
+* simple, llight-weight and elegant
+* using full static pages (deal with nested notion pages)
+* with easy deployment
+
 ![screenshot.png](./asset/preview_1.png)
 ![screenshot.png](./asset/preview_2.png)
 ![screenshot.png](./asset/preview_3.png)
