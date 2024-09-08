@@ -160,7 +160,12 @@ const base = import.meta.env.BASE_URL;
       async function animation() {
         const eles = document.getElementsByClassName("nobloger-animate");
         for (let ele of eles) {
-          setTimeout(() => ele?.classList.remove("opacity-0"), 500); // Fade in
+          setTimeout(() => {
+            ele?.classList.remove("opacity-0");
+            let _ = (ele as any).href
+              ? undefined
+              : ele.classList.remove("nobloger-animate");
+          }, 300); // Fade in
           await new Promise((r) => setTimeout(r, 75));
         }
       }
