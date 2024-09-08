@@ -20,7 +20,6 @@ posts.sort(cmp);
     <div class="text-2xl text-stone-700 dark:text-stone-200 mb-8">
       ▐𝟯 █▄ ⬤ ▐▅▚
     </div>
-    <astro-input></astro-input>
     <input
       data-posts={JSON.stringify(posts)}
       id="search"
@@ -42,48 +41,3 @@ posts.sort(cmp);
     }
   </div>
 </BaseLayout>
-
-<script>
-  let ctx: NodeJS.Timeout;
-  const sbox = document.getElementById("search") as HTMLInputElement;
-  const posts = JSON.parse(sbox.dataset.posts ?? "");
-  sbox?.addEventListener("input", () => {
-    clearTimeout(ctx);
-    const eles = document.getElementsByClassName("nobloger-animate");
-    for (let ele of eles) {
-      ele.classList.add("opacity-0");
-    }
-
-    ctx = setTimeout(async () => {
-      for (let ele of eles) {
-        (ele as HTMLAnchorElement).style.display = "flex";
-      }
-      const matches = findMatch(sbox.value, posts);
-      for (let ele of eles) {
-        const hide =
-          matches.filter((match: any) =>
-            ((ele as any).href ?? match.url).includes(match.url),
-          ).length === 0;
-        if (hide) (ele as HTMLAnchorElement).style.display = "none";
-      }
-      animation();
-    }, 500);
-  });
-
-  function findMatch(text: string, posts: any) {
-    const match = posts.filter((post: any) =>
-      post.frontmatter.title.toLowerCase().includes(text.toLowerCase()),
-    );
-    return match;
-  }
-
-  async function animation() {
-    const eles = document.getElementsByClassName("nobloger-animate");
-    for (let ele of eles) {
-      setTimeout(() => ele?.classList.remove("opacity-0"), 500); // Fade in
-      await new Promise((r) => setTimeout(r, 75));
-    }
-  }
-
-  animation();
-</script>
