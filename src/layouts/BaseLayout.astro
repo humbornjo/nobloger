@@ -133,7 +133,9 @@ const base = import.meta.env.BASE_URL;
 
           ctx = setTimeout(async () => {
             for (let ele of eles) {
-              (ele as HTMLAnchorElement).style.display = "flex";
+              (ele as HTMLAnchorElement).style.display = (ele as any).href
+                ? "block"
+                : "flex";
             }
             const matches = findMatch(sbox.value, posts);
             for (let ele of eles) {
