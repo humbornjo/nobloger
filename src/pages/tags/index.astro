@@ -17,7 +17,9 @@ const base = import.meta.env.BASE_URL;
   <div class="text-2xl mb-16 text-stone-700 dark:text-stone-200">
     ▀█▀ ▅▀▅ ▐▅▚ ▄█▀
   </div>
-  <div class="flex flex-wrap justify-center w-2/3 mx-auto gap-10">
+  <div
+    class="flex flex-wrap justify-center w-2/3 mx-auto gap-10 nobloger-animate transition-opacity duration-300 ease-in-out opacity-0"
+  >
     {
       unique.map((tag: any) => (
         <a

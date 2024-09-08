@@ -35,17 +35,25 @@ const { posts } = Astro.props as Props;
 ---
 
 <BaseLayout pageTitle={tag}>
-  <div class="flex flex-col gap-4">
+  <div class="text-2xl mb-16 text-stone-700 dark:text-stone-200">
+    ▀█▀ ▅▀▅ ▐▅▚ ▄█▀
+  </div>
+  <div class="flex flex-col gap-2">
     <a
-      class="hover:text-black dark:hover:text-white transition-colors duration-300 ease-in-out"
+      class="hover:text-black dark:hover:text-white transition-colors duration-300 ease-in-out nobloger-animate transition-opacity duration-300 ease-in-out opacity-0"
       href={urlFromBase(base, "tags")}
     >
       {"▣ view all tags"}
     </a>
-    <div class="h-full text-3xl font-bold my-4">
+
+    <div
+      class="h-full text-3xl font-bold my-4 nobloger-animate transition-opacity duration-300 ease-in-out opacity-0"
+    >
       #{tag} ({(posts as any[]).length})
     </div>
-    <div class="flex flex-col font-sans">
+    <div
+      class="flex flex-col font-sans nobloger-animate transition-opacity duration-300 ease-in-out opacity-0"
+    >
       {
         (posts as any[]).map((post: any) => (
           <div class="flex flex-nowrap my-1 justify-between">
