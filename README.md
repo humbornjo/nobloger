@@ -18,7 +18,7 @@ nobloger is
 ## github page deploy
 1. Duplicate [this notion database](https://www.notion.so/humbornjo/fa0faae85c504934a4a86cfa70302850?v=2abd1079ae134fbd8df2604765baa1df) and migrate all your posts into it. If you are not a notion player, just simply put your blog under "./src/pages/posts/"
     ```
-    # dont forget to use the frontmatter
+    # dont forget to add frontmatter if you are not a notion player
     ---
     layout: ../../layouts/MarkdownPostLayout.astro
     title: "golang @any%"
@@ -35,7 +35,7 @@ nobloger is
     base: '/<REPO_NAME>',
     ```
 
-4. Goto "Settings -> Secrets ans variables -> actions", add following two secrets to "Repository secrets":
+4. Goto "Settings -> Secrets and variables -> actions", add following two secrets to "Repository secrets":
     - `NOBLOG_DATABASE_ID`: your notion database id.
     - `NOTION_API_SECRET`: your notion api secret.
 
@@ -53,7 +53,8 @@ Enjoy.
 - [x] fix markdown display matter
 - [x] add "search" in blog page 
 - [x] add "sort by time" in blog page
-- ~~[ ] add "paginator" for blog page~~
+- [ ] ~~add "paginator" for blog page~~ (is it necessary to use paginator while having nested page?)
+- [ ] better tag selection page, filtering w/ multi-select
 
 # help
 
