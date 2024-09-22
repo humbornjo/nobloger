@@ -133,9 +133,7 @@ const base = import.meta.env.BASE_URL;
 
           ctx = setTimeout(async () => {
             for (let ele of eles) {
-              (ele as HTMLAnchorElement).style.display = (ele as any).href
-                ? "block"
-                : "flex";
+              (ele as HTMLElement).style.removeProperty("display");
             }
             const matches = findMatch(sbox.value, posts);
             for (let ele of eles) {
@@ -143,7 +141,7 @@ const base = import.meta.env.BASE_URL;
                 matches.filter((match: any) =>
                   ((ele as any).href ?? match.url).includes(match.url),
                 ).length === 0;
-              if (hide) (ele as HTMLAnchorElement).style.display = "none";
+              if (hide) (ele as HTMLElement).style.display = "none";
             }
             animation();
           }, 500);
@@ -165,7 +163,7 @@ const base = import.meta.env.BASE_URL;
             let _ = (ele as any).href
               ? undefined
               : ele.classList.remove("nobloger-animate");
-          }, 300); // Fade in
+          }, 300); // fade in
           await new Promise((r) => setTimeout(r, 75));
         }
       }
