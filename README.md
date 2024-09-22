@@ -44,7 +44,7 @@ nobloger is
 
 6. Goto "Actions -> Deploy to GitHub Pages", press "Run workflow", and press the poped up green "Run workflow".
 
-7. Wait a few minutes, and visit https://\<YOUR_USER_NAME\>/github.io/\<REPO_NAME\>
+7. Wait a few minutes, and visit https://\<YOUR_USER_NAME\>.github.io/\<REPO_NAME\>
 
 Enjoy.
 
