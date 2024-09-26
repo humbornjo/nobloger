@@ -112,8 +112,11 @@ const base = import.meta.env.BASE_URL;
   <script is:inline>
     MathJax = {
       tex: {
-        inlineMath: [["$", "$"]],
-        displayMath: [["$$", "$$"]],
+        inlineMath: [
+          ["$", "$"],
+          ["$$", "$$"],
+        ],
+        // displayMath: [["$$", "$$"]],
         packages: ["base"],
         processEnvironments: true,
       },

@@ -29,13 +29,15 @@ export default {
 				},
 				invert: {
 					css: {
-						code: {
+						':not(pre) > code': {
 							backgroundColor: theme('colors.stone.700'),
 							borderRadius: theme('borderRadius.md'),
 							paddingTop: theme('padding[1]'),
 							paddingRight: theme('padding[1.5]'),
 							paddingBottom: theme('padding[1]'),
 							paddingLeft: theme('padding[1.5]'),
+							marginLeft: theme('margin[1]'),
+							marginRight: theme('margin[1]'),
 						},
 						'--tw-prose-body': 'var(--tw-prose-invert-body)',
 						'--tw-prose-headings': 'var(--tw-prose-invert-headings)',
