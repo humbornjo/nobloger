@@ -64,6 +64,16 @@ Enjoy.
     # suppose your notion databsae url is "https://www.notion.so/humbornjo/fa0faae85c504934a4a86cfa70302850?v=2abd1079ae134fbd8df2604765baa1df"
     # then your database id is "fa0faae85c504934a4a86cfa70302850"
     ```
+- notion host file and image on aws s3, and **all such files has a expire time**, it appears that the only way is modifying the workflow to deploy page every 2 hours ...
+    ```json
+    name: Deploy to GitHub Pages
+
+    on:
+      # Schedule the workflow to run every 2 hours
+      schedule:
+        - cron: '0 */2 * * *'
+    ```
+- If you want to use \[SPACE\] in between math delimiter like "$" and "$$", don't use "~", use "\ " instead.
 
 # reference
 
