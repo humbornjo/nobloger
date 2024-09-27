@@ -64,8 +64,8 @@ Enjoy.
     # suppose your notion databsae url is "https://www.notion.so/humbornjo/fa0faae85c504934a4a86cfa70302850?v=2abd1079ae134fbd8df2604765baa1df"
     # then your database id is "fa0faae85c504934a4a86cfa70302850"
     ```
-- notion host file and image on aws s3, and **all such files has a expire time**, it appears that the only way is modifying the workflow to deploy page every 2 hours ...
-    ```json
+- notion host file and image on aws s3, and **all such files has a expire time**, it appears that the only way is modifying the workflow to deploy page every 2 hours.
+    ```bash
     name: Deploy to GitHub Pages
 
     on:
