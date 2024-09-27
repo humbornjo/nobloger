@@ -35,7 +35,24 @@ const base = import.meta.env.BASE_URL;
   <meta name="generator" content={Astro.generator} />
   <title>{pageTitle}</title>
   <script src="@/scripts/animate.ts"></script>
-  <script src="@/scripts/load-mathjax.js"></script>
+  <script is:inline>
+    MathJax = {
+      tex: {
+        inlineMath: [
+          ["$", "$"],
+          ["\\(", "\\)"],
+        ],
+      },
+      svg: {
+        fontCache: "global",
+      },
+    };
+  </script>
+  <script
+    is:inline
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <script is:inline>
     function init() {
       preloadTheme();
