@@ -3,10 +3,12 @@ import "@/styles/global.css";
 import Head from "./Head.astro";
 import Header from "@/components/Header/Header.astro";
 import Footer from "@/components/Footer/Footer.astro";
+
+const { pageTitle } = Astro.props;
 ---
 
 <html lang="en">
-  <Head />
+  <Head pageTitle={pageTitle} />
   <body>
     <div class="flex flex-col mx-auto px-8 max-w-screen-md w-full min-h-screen">
       <Header />
