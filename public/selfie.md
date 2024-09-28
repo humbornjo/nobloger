@@ -5,6 +5,8 @@ favicon: https://humbornjo.notion.site/image/https%3A%2F%2Fprod-files-secure.s3.
 
 ---
 
+![avatar.png](./images/image.png)
+
 Hi there,
 
 On the internet I’m mostly known as humbornjo. My pronouns are he/him.
