@@ -74,6 +74,7 @@ Enjoy.
         - cron: '0 */2 * * *'
     ```
 - If you want to use \[SPACE\] in between math delimiter like "$" and "$$", don't use "~", use "\ " instead.
+- [enable github pages](https://tomcam.github.io/least-github-pages/enable-github-pages.html), don't forget to click "save".
 
 # reference
 
