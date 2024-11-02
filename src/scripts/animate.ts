@@ -43,7 +43,9 @@ async function animation() {
         ? undefined
         : ele.classList.remove("nobloger-animate");
     }, 300); // fade in
-    await new Promise((r) => setTimeout(r, 75));
+    if ((ele as HTMLElement).style.getPropertyValue("display") !== "none") {
+      await new Promise((r) => setTimeout(r, 80));
+    }
   }
 }
 
