@@ -1,129 +1,84 @@
 ---
-import { urlFromBase } from "@lib/utils";
-import { frontmatter as Selfie } from "#/selfie.md";
+import globalStylesUrl from "@/styles/global.css?url";
+import { urlFromBase } from "@/lib/server-utils";
 
-const { pageTitle } = Astro.props;
+interface Props {
+  pageTitle?: string;
+  description?: string;
+}
+
+const { pageTitle, description } = Astro.props;
 const base = import.meta.env.BASE_URL;
+const documentTitle = pageTitle ? `${pageTitle} — noblog` : "noblog";
+const metaDescription = description?.trim();
 ---
 
 <head>
   <meta charset="utf-8" />
-  <link rel="icon" type="image/svg+xml" href={Selfie.favicon} />
-  <link
-    rel="preload"
-    href={urlFromBase(base, "/fonts/HackDejavu.woff2")}
-    as="font"
-    type="font/woff2"
-    crossorigin
-  />
-  <link
-    rel="preload"
-    href={urlFromBase(base, "/fonts/HackDejavuBold.woff2")}
-    as="font"
-    type="font/woff2"
-    crossorigin
-  />
-  <link
-    rel="preload"
-    href={urlFromBase(base, "/fonts/HackDejavuItalic.woff2")}
-    as="font"
-    type="font/woff2"
-    crossorigin
-  />
   <meta name="viewport" content="width=device-width" />
   <meta name="generator" content={Astro.generator} />
-  <title>{pageTitle}</title>
-  <script src="@/scripts/animate.ts"></script>
+  <title>{documentTitle}</title>
+  <link rel="stylesheet" href={globalStylesUrl} />
+  {metaDescription && <meta name="description" content={metaDescription} />}
+  <link
+    rel="icon"
+    type="image/svg+xml"
+    sizes="any"
+    href={urlFromBase(base, "/favicon.svg")}
+  />
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="32x32"
+    href={urlFromBase(base, "/favicon-32x32.png")}
+  />
+  <link
+    rel="apple-touch-icon"
+    sizes="180x180"
+    href={urlFromBase(base, "/apple-touch-icon.png")}
+  />
+  <link
+    rel="preload"
+    href={urlFromBase(base, "/fonts/arimo-latin.woff2")}
+    as="font"
+    type="font/woff2"
+    crossorigin
+  />
+  <link
+    rel="alternate"
+    type="application/rss+xml"
+    title="noblog"
+    href={urlFromBase(base, "/rss.xml")}
+  />
   <script is:inline>
-    MathJax = {
-      tex: {
-        inlineMath: [
-          ["$", "$"],
-          ["\\(", "\\)"],
-        ],
-      },
-      svg: {
-        fontCache: "global",
-      },
-    };
-  </script>
-  <script
-    is:inline
-    id="MathJax-script"
-    async
-    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-  <script is:inline>
-    function init() {
-      preloadTheme();
+    (() => {
+      document.documentElement.classList.add("js");
+      let theme = "system";
 
-      const lightThemeButton = document.getElementById("light-theme-button");
-      lightThemeButton?.addEventListener("click", () => {
-        localStorage.setItem("theme", "light");
-        toggleTheme(false);
-      });
+      try {
+        const stored = localStorage.getItem("theme");
+        if (stored === "light" || stored === "dark" || stored === "system") {
+          theme = stored;
+        }
+      } catch {}
 
-      const darkThemeButton = document.getElementById("dark-theme-button");
-      darkThemeButton?.addEventListener("click", () => {
-        localStorage.setItem("theme", "dark");
-        toggleTheme(true);
-      });
-
-      const systemThemeButton = document.getElementById("system-theme-button");
-
-      systemThemeButton?.addEventListener("click", () => {
-        localStorage.setItem("theme", "system");
-        toggleTheme(window.matchMedia("(prefers-color-scheme: dark)").matches);
-      });
-
-      window
-        .matchMedia("(prefers-color-scheme: dark)")
-        .addEventListener("change", (event) => {
-          if (localStorage.theme === "system") {
-            toggleTheme(event.matches);
-          }
-        });
-    }
-
-    function toggleTheme(dark) {
-      const css = document.createElement("style");
-
-      css.appendChild(
-        document.createTextNode(
-          `* {
-             -webkit-transition: none !important;
-             -moz-transition: none !important;
-             -o-transition: none !important;
-             -ms-transition: none !important;
-             transition: none !important;
-          }
-        `,
-        ),
-      );
-
-      document.head.appendChild(css);
-
-      if (dark) {
-        document.documentElement.classList.add("dark");
+      if (theme === "system") {
+        document.documentElement.removeAttribute("data-theme");
       } else {
-        document.documentElement.classList.remove("dark");
+        document.documentElement.dataset.theme = theme;
       }
 
-      window.getComputedStyle(css).opacity;
-      document.head.removeChild(css);
-    }
-
-    function preloadTheme() {
-      const userTheme = localStorage.theme;
-
-      if (userTheme === "light" || userTheme === "dark") {
-        toggleTheme(userTheme === "dark");
-      } else {
-        toggleTheme(window.matchMedia("(prefers-color-scheme: dark)").matches);
-      }
-    }
-
-    document.addEventListener("DOMContentLoaded", () => init());
-    document.addEventListener("astro:after-swap", () => init());
-    preloadTheme();
+      try {
+        const returningFromSearch =
+          sessionStorage.getItem("search-portal-return") === "1";
+        const onSearchPage = /\/tags\/?$/.test(window.location.pathname);
+        if (returningFromSearch && !onSearchPage) {
+          document.documentElement.setAttribute(
+            "data-search-portal-return",
+            "",
+          );
+        }
+      } catch {}
+    })();
   </script>
 </head>

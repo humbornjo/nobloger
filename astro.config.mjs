@@ -1,13 +1,42 @@
-import { defineConfig } from "astro/config";
+import { defineConfig, passthroughImageService } from "astro/config";
+import svelte from "@astrojs/svelte";
+import { satteri } from "@astrojs/markdown-satteri";
+import tailwindcss from "@tailwindcss/vite";
+import Icons from "unplugin-icons/vite";
+import satteriNoblogChildLinks from "./src/lib/satteri-noblog-child-links.js";
+import satteriAboutSocialLinks from "./src/lib/satteri-about-social-links.js";
 
-import tailwind from "@astrojs/tailwind";
+const base = "/";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind()],
+  integrations: [svelte()],
+  vite: {
+    resolve: {
+      alias: {
+        "@icons": "~icons",
+      },
+    },
+    plugins: [tailwindcss(), Icons({ compiler: "svelte" })],
+  },
+  compressHTML: true,
   site: "https://humbornjo.github.io",
-  base: "/",
+  base,
   prefetch: {
     prefetchAll: true,
+  },
+  image: {
+    service: passthroughImageService(),
+  },
+  markdown: {
+    processor: satteri({
+      hastPlugins: [
+        satteriNoblogChildLinks({ base }),
+        satteriAboutSocialLinks(),
+      ],
+    }),
+    shikiConfig: {
+      theme: "css-variables",
+    },
   },
 });

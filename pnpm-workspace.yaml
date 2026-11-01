@@ -1,0 +1,6 @@
+minimumReleaseAgeExclude:
+  - noblog@0.3.0-beta.2 || 0.3.0-beta.3
+overrides:
+  anymatch>picomatch: 2.3.2
+  css-tree>source-map-js: 1.2.2
+  hast-util-to-html>mdast-util-to-hast: 13.2.1

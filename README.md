@@ -16,6 +16,21 @@ nobloger is
 
 # usage
 
+## local development
+
+Local generation uses the sibling [noblog](https://github.com/humbornjo/noblog) checkout at `../noblog` through an optional `file:` dependency. Use Node 24 or newer, then configure `NOTION_API_SECRET` and `NOBLOG_DATABASE_ID` in `.env` or the environment.
+
+```sh
+pnpm install
+pnpm noblog:check
+pnpm noblog:generate
+pnpm dev
+```
+
+`noblog.yaml` contains only content mapping and output settings, never credentials. Generation writes every page to `.noblog/pages/` and creates public symlinks for database posts in `src/pages/posts/`. Both locations are generated and ignored; do not edit their Markdown by hand. Canonical child pages are rendered by `src/pages/posts/nob_children/[id].astro` at the existing `/posts/nob_children/<id>/` URLs.
+
+Generation is explicit and is not part of `dev` or `build`, so frontend work does not require Notion access. GitHub Pages deployment remains unchanged: CI installs the registry CLI and generates legacy nested Markdown routes, which the theme also supports.
+
 ## github page deploy
 
 1. Duplicate [this notion database](https://www.notion.so/humbornjo/fa0faae85c504934a4a86cfa70302850?v=2abd1079ae134fbd8df2604765baa1df) and migrate all your posts into it. If you are not a notion player, just simply put your blog under "./src/pages/posts/"
