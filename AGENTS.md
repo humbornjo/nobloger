@@ -45,6 +45,7 @@ Local generation requires Node 24+, the optional `noblog` CLI from `package.json
 - `src/lib/components/ui/`: locally adapted shadcn-svelte primitives and their barrels.
 - `src/lib/posts.ts`: build-time post/tag discovery and serializable summaries.
 - `src/lib/satteri-noblog-child-links.js`: native Sätteri HAST visitor for canonical child links and marker-aware subpage cards.
+- `src/lib/satteri-noblog-summary.js`: inline Markdown parsing and responsive label wrapping for disclosure summaries.
 - `src/lib/types.ts`: shared frontmatter and serializable data contracts.
 - `src/lib/server-utils.ts`: Node-only filesystem and URL utilities.
 - `src/lib/utils.ts`: browser-safe utilities shared by hydrated components.

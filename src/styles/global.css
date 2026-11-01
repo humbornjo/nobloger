@@ -425,7 +425,7 @@
   .prose summary {
     display: flex;
     min-height: 3rem;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     gap: 1rem;
     padding: 0.75rem 1rem;
@@ -435,6 +435,12 @@
     font-weight: 500;
     line-height: 1.5;
     list-style: none;
+  }
+
+  .prose .details__summary-label {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
 
   .prose summary::-webkit-details-marker {
@@ -448,6 +454,7 @@
   .prose summary::after {
     content: "";
     flex: none;
+    margin-block-start: 0.5rem;
     inline-size: 0.4375rem;
     block-size: 0.4375rem;
     border-block-end: 1.5px solid currentColor;

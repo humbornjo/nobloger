@@ -4,6 +4,7 @@ import { satteri } from "@astrojs/markdown-satteri";
 import tailwindcss from "@tailwindcss/vite";
 import Icons from "unplugin-icons/vite";
 import satteriNoblogChildLinks from "./src/lib/satteri-noblog-child-links.js";
+import satteriNoblogSummary from "./src/lib/satteri-noblog-summary.js";
 import satteriAboutSocialLinks from "./src/lib/satteri-about-social-links.js";
 
 const base = "/";
@@ -30,8 +31,12 @@ export default defineConfig({
   },
   markdown: {
     processor: satteri({
+      features: {
+        rawHtml: true,
+      },
       hastPlugins: [
         satteriNoblogChildLinks({ base }),
+        satteriNoblogSummary(),
         satteriAboutSocialLinks(),
       ],
     }),
