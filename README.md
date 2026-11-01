@@ -89,7 +89,7 @@ Top-level database posts appear in the blog index, Search, and RSS. Recursive ch
    - `NOBLOG_DATABASE_ID`: the Notion database ID.
    - `NOTION_API_SECRET`: the Notion integration token.
 
-4. Under **Settings → Pages**, set the source to **GitHub Actions**.
+4. Under **Settings → Pages**, set the source to **GitHub Actions** and click **Save**.
 
    ![Enable GitHub Pages](./asset/enable_page.png)
 
@@ -97,7 +97,17 @@ Top-level database posts appear in the blog index, Search, and RSS. Recursive ch
 
 The deploy workflow uses Node 24, installs the same pinned `noblog@0.3.0-beta.3` CLI as `package.json`, and builds with pnpm. Keep those versions aligned when upgrading the CLI.
 
-Notion-hosted file and image URLs expire. The workflow includes a scheduled run to keep generated content fresh; adjust the cron in `.github/workflows/deploy.yml` if your assets expire sooner.
+### Scheduled refresh
+
+Notion-hosted files and images use expiring URLs. The workflow refreshes generated content every four hours. If your assets expire sooner, increase the frequency in `.github/workflows/deploy.yml`:
+
+```yaml
+on:
+  schedule:
+    - cron: "0 */4 * * *"
+```
+
+Scheduled rebuilds are the zero-code fallback. A more durable option is to mirror Notion-hosted files during generation or build, store them with the site, and rewrite the Markdown image links to those local assets. The CLI does not expose this through `noblog.yaml`, so it requires a small post-generation download step or a custom renderer. Hosting the images on stable storage instead of Notion achieves the same result.
 
 ## Troubleshooting
 
@@ -108,7 +118,8 @@ Notion-hosted file and image URLs expire. The workflow includes a scheduled run 
   https://www.notion.so/<workspace>/<DATABASE_ID>?v=<view_id>
   ```
 
-- To keep a mathematical space next to `$` or `$$`, use `\ ` rather than `~`.
+- To keep a space inside math delimiters such as `$...$` or `$$...$$`, write `\ `; `~` does not work.
+- For first-time GitHub Pages setup, follow [Enable GitHub Pages](https://tomcam.github.io/least-github-pages/enable-github-pages.html) and click **Save**.
 - RSS output is XML. Open `/rss.xml` in a feed reader rather than expecting a styled HTML page.
 - If generated content looks stale, rerun `pnpm noblog:generate`; do not patch generated Markdown directly.
 

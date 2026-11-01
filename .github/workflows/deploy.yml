@@ -7,7 +7,8 @@ on:
   # Trigger the workflow every time you push to the `main` branch
   # Using a different branch name? Replace `main` with your branch’s name
   schedule:
-    - cron: "0 23 * * *"
+    # Refresh generated Notion content and expiring assets every four hours.
+    - cron: "0 */4 * * *"
 
   workflow_dispatch:
 
