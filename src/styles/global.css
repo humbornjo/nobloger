@@ -577,6 +577,7 @@
 
     .site-header[data-scrolled] {
       background-color: transparent;
+      view-transition-name: site-header;
     }
 
     .site-header[data-scrolled] .site-header__nav {
@@ -677,6 +678,23 @@
 ::view-transition-new(root) {
   z-index: 1;
   animation: theme-circle-reveal 640ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Keep the floating glass header from being flattened by the root snapshot. */
+::view-transition-group(site-header) {
+  animation: none;
+}
+
+::view-transition-old(site-header) {
+  animation: none;
+  opacity: 0;
+}
+
+::view-transition-new(site-header) {
+  z-index: 2;
+  animation: none;
+  background: transparent;
+  backdrop-filter: blur(16px) saturate(1.4);
 }
 
 @keyframes theme-circle-reveal {
