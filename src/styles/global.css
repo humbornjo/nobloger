@@ -563,7 +563,7 @@
     inset: 0;
     border: 1px solid var(--border);
     border-radius: 0;
-    background: transparent;
+    background: light-dark(rgb(247 246 241 / 0.82), rgb(21 24 21 / 0.78));
     box-shadow: 0 8px 32px rgb(0 0 0 / 0.08);
     backdrop-filter: blur(16px) saturate(1.4);
     opacity: 0;
