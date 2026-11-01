@@ -309,7 +309,10 @@
   .prose img.prose-image {
     position: relative;
     display: block;
-    width: 100%;
+    width: auto;
+    min-width: 50%;
+    max-width: 100%;
+    margin-inline: auto;
     min-height: 10rem;
     background: var(--muted);
   }
