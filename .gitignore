@@ -26,4 +26,4 @@ pnpm-debug.log*
 # generated content
 /.noblog/
 /src/pages/posts/*.md
-/src/pages/posts/nob_children/*.md
+/src/pages/posts/subpages/*.md

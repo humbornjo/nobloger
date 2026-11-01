@@ -60,7 +60,7 @@ export default function satteriNoblogChildLinks({ base = "/" } = {}) {
         ctx.setProperty(
           node,
           "href",
-          posix.join(base, "posts/nob_children", match[1]),
+          posix.join(base, "posts/subpages", match[1]),
         );
 
         const parent = ctx.parent(node);
