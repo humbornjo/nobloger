@@ -95,7 +95,7 @@ Top-level database posts appear in the blog index, Search, and RSS. Recursive ch
 
 5. Run **Actions → Deploy to GitHub Pages → Run workflow**.
 
-The deploy workflow uses Node 24 and installs the registry CLI. `package.json` currently pins `noblog@0.3.0-beta.3`; if npm's `latest` tag has not been promoted to 0.3.x yet, change the workflow install step to `npm i -g noblog@beta` before deploying so recursive pages and `childPageMarker` match local output.
+The deploy workflow uses Node 24, installs the same pinned `noblog@0.3.0-beta.3` CLI as `package.json`, and builds with pnpm. Keep those versions aligned when upgrading the CLI.
 
 Notion-hosted file and image URLs expire. The workflow includes a scheduled run to keep generated content fresh; adjust the cron in `.github/workflows/deploy.yml` if your assets expire sooner.
 

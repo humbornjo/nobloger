@@ -65,7 +65,7 @@ Local generation requires Node 24+, the optional `noblog` CLI from `package.json
 - Nested notes remain directly routable but excluded from the blog index, tags, search, and RSS.
 - RSS has its own shallow `./posts/*.{md,mdx}` discovery in `src/pages/rss.xml.js`. Preserve its membership when changing shared post logic.
 - Generate base-aware links with the existing URL helper. Do not hard-code the production origin or assume a root deployment base.
-- Do not change deployment workflows, authored content, or Notion assets as part of frontend work. Deployment installs the registry CLI; keep its version aligned with `package.json` (use `noblog@beta` until 0.3.x reaches `latest`). The local canonical store is a local-development concern.
+- Do not change deployment workflows, authored content, or Notion assets as part of frontend work. Deployment installs the pinned registry CLI and uses pnpm; keep its version aligned with `package.json`. The local canonical store is a local-development concern.
 
 ## Astro and Svelte architecture
 
