@@ -1,0 +1,33 @@
+---
+import type { GetStaticPaths, MarkdownInstance } from "astro";
+import { markdownIdFromGlobKey } from "@/lib/server-utils";
+import type { PostFrontmatter } from "@/lib/types";
+
+interface Props {
+  page: MarkdownInstance<PostFrontmatter>;
+}
+
+export const getStaticPaths: GetStaticPaths = () => {
+  const databaseIds = new Set(
+    Object.keys(import.meta.glob("@/pages/posts/*.md")).map(
+      markdownIdFromGlobKey,
+    ),
+  );
+  const children = Object.entries(
+    import.meta.glob<MarkdownInstance<PostFrontmatter>>(
+      "../../../../.noblog/pages/*.md",
+      { eager: true },
+    ),
+  ).filter(([path]) => !databaseIds.has(markdownIdFromGlobKey(path)));
+
+  return children.map(([path, page]) => ({
+    params: { id: markdownIdFromGlobKey(path) },
+    props: { page },
+  }));
+};
+
+const { page } = Astro.props as Props;
+const { Content } = page;
+---
+
+<Content />

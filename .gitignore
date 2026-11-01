@@ -23,5 +23,10 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
-# personal
-posts/
+# local agent configuration
+/.claude/
+
+# generated content
+/.noblog/
+/src/pages/posts/*.md
+/src/pages/posts/subpages/*.md

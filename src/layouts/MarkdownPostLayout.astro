@@ -1,33 +1,109 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
-import Ztag from "@/components/Blog/Ztag.astro";
-const { frontmatter } = Astro.props;
+import ArticleToc from "$lib/components/site/article-toc.svelte";
+import TagList from "$lib/components/site/tag-list.svelte";
+import type { MarkdownHeading } from "astro";
+import type { PostFrontmatter } from "@/lib/types";
+import { formatDate } from "@/lib/utils";
+import { urlFromBase } from "@/lib/server-utils";
+
+const { frontmatter, headings } = Astro.props as {
+  frontmatter: PostFrontmatter;
+  headings: MarkdownHeading[];
+};
+const base = import.meta.env.BASE_URL;
+const description = frontmatter.description?.trim();
+const pubDate = frontmatter.pubDate.trim();
+const tocHeadings = headings.filter((heading) => heading.depth <= 4);
+const tags = (frontmatter.tags ?? []).map((name) => ({
+  name,
+  url: urlFromBase(base, `tags/${name}`),
+}));
 ---
 
-<BaseLayout pageTitle={frontmatter.title}>
-  <div class="text-stone-800 dark:text-stone-200">
-    <div class="py-2">
-      <div class="font-black text-4xl mb-6">
-        {frontmatter.title}
-      </div>
-      <div class="mb-4 font-thin text-stone-600 dark:text-stone-400">
-        Publish on {(frontmatter.pubDate ?? "").split("T")[0]}
-      </div>
-      <div class="flex gap-2 mb-4">
-        {frontmatter.tags.map((tag: string) => <Ztag tag={tag} />)}
-      </div>
-      <div class="text-lg italic text-stone-600 dark:text-stone-400">
-        {frontmatter.description}
-      </div>
-      <div
-        class="h-4 border-b-4 my-4 border-dashed border-stone-500 dark:border-stone-400"
+<BaseLayout
+  pageTitle={frontmatter.title}
+  description={description}
+  mainClass="pb-12 pt-6 sm:pb-16 sm:pt-8"
+>
+  <article class="relative">
+    <header>
+      <h1
+        class="m-0 text-title font-semibold text-foreground [overflow-wrap:anywhere] [text-wrap:balance]"
       >
-      </div>
-    </div>
-    <article
-      class="prose dark:prose-invert prose-stone md:prose-lg prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl"
+        {frontmatter.title}
+      </h1>
+      {
+        (pubDate || tags.length > 0) && (
+          <div class="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-meta">
+            {pubDate && (
+              <time
+                class="whitespace-nowrap text-muted-foreground"
+                datetime={pubDate}
+              >
+                {formatDate(pubDate)}
+              </time>
+            )}
+            {pubDate && tags.length > 0 && (
+              <span class="text-muted-foreground" aria-hidden="true">
+                ·
+              </span>
+            )}
+            {tags.length > 0 && (
+              <TagList tags={tags} label="Article tags" />
+            )}
+          </div>
+        )
+      }
+      {
+        description && (
+          <p class="mb-0 mt-4 text-lg leading-relaxed text-muted-foreground [text-wrap:pretty]">
+            {description}
+          </p>
+        )
+      }
+    </header>
+
+    {
+      tocHeadings.length > 0 && (
+        <aside class="absolute start-full top-0 hidden h-full w-[calc(50vw-25rem)] ps-6 pe-4 xl:block">
+          <div class="sticky top-8 max-h-[calc(100dvh-4rem)] w-full max-w-80 overflow-y-auto overscroll-contain pb-8">
+            <ArticleToc headings={tocHeadings} client:load />
+          </div>
+        </aside>
+      )
+    }
+
+    <div
+      class="my-6 flex w-[61.8%] items-center gap-2 sm:my-8"
+      aria-hidden="true"
     >
+      <span class="size-1.5 bg-muted-foreground/50"></span>
+      <span class="h-px flex-1 bg-border"></span>
+    </div>
+
+    <div class="prose max-w-none">
       <slot />
-    </article>
-  </div>
+    </div>
+  </article>
+
+  <script is:inline>
+    MathJax = {
+      tex: {
+        inlineMath: [
+          ["$", "$"],
+          ["\\(", "\\)"],
+        ],
+      },
+      svg: {
+        fontCache: "global",
+      },
+    };
+  </script>
+  <script
+    is:inline
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <script src="@/scripts/article.ts"></script>
 </BaseLayout>

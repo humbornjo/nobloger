@@ -1,34 +1,608 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { urlFromBase } from "@/lib/utils";
+import PostList from "@/lib/components/site/post-list.svelte";
+import SearchIcon from "@/lib/components/site/search-icon.svelte";
+import { getTagSummaries, getPostSummaries } from "@/lib/posts";
 
-const posts: any = await Astro.glob("@/pages/posts/*.md");
-const unique = [
-  ...new Set(posts.map((post: any) => post.frontmatter.tags).flat()),
-];
-interface Props {
-  tag: string;
-}
-
-const base = import.meta.env.BASE_URL;
+const tags = getTagSummaries();
+const posts = getPostSummaries();
 ---
 
-<BaseLayout>
-  <div class="text-2xl mb-16 text-stone-700 dark:text-stone-200">
-    ▀█▀ ▅▀▅ ▐▅▚ ▄█▀
+<BaseLayout pageTitle="Search" mainClass="py-0 sm:py-0">
+  <!-- Full-width search bar at page top -->
+  <div class="tags-page-search" id="tags-page-search">
+    <div
+      class="tags-page-search__bar command-palette is-portal-pending"
+      id="tags-page-search-bar"
+    >
+      <span class="tags-page-search__icon" aria-hidden="true">
+        <SearchIcon />
+      </span>
+      <input
+        type="text"
+        class="tags-page-search__input"
+        id="tags-page-search-input"
+        placeholder="Search posts…"
+        autocomplete="off"
+        spellcheck="false"
+        aria-label="Search posts"
+      />
+    </div>
   </div>
-  <div
-    class="flex flex-wrap justify-center w-2/3 mx-auto gap-10 nobloger-animate transition-opacity duration-300 ease-in-out opacity-0"
-  >
+
+  <!-- Tag filters (horizontally scrollable) -->
+  <div class="tags-row" id="tags-row">
     {
-      unique.map((tag: any) => (
-        <a
-          href={urlFromBase(base, "tags/" + tag)}
-          class="text-lg rounded-xl invert bg-white/65 dark:bg-black/60 px-2 hover:text-black dark:hover:text-white transition-colors duration-300 ease-in-out"
+      tags.map((tag) => (
+        <button
+          type="button"
+          class="tags-row__tag"
+          data-tag={tag.name}
+          aria-pressed="false"
         >
-          #{tag}
-        </a>
+          {tag.name}
+        </button>
       ))
     }
   </div>
+
+  <!-- Search results (shown when searching) -->
+  <div class="tags-results" id="tags-results" hidden>
+    <PostList posts={posts} id="tags-results-list" />
+    <div class="tags-results__empty" id="tags-results-empty" hidden>
+      No results found.
+    </div>
+  </div>
+
+  <!-- Pass data to client script -->
+  <script type="application/json" id="tags-search-data" set:html={JSON.stringify({ posts })} />
 </BaseLayout>
+
+<style>
+  /* ── Search bar at page top ── */
+  .tags-page-search {
+    padding-top: 0.5rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .tags-page-search__bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.5rem 0.875rem;
+    border: 0;
+    border-radius: 9999px;
+    background: var(--palette-trigger);
+    transform-origin: right center;
+  }
+
+  .tags-page-search__bar.is-portal-pending {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+
+  .tags-page-search__icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    color: var(--muted-foreground);
+    font-size: 1rem;
+  }
+
+  .tags-page-search__icon :global(svg) {
+    width: 1em;
+    height: 1em;
+  }
+
+  .tags-page-search__input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: var(--font-ui);
+    font-size: 0.875rem;
+    color: var(--foreground);
+  }
+
+  .tags-page-search__input::placeholder {
+    color: var(--muted-foreground);
+  }
+
+  /* ── Tags row ── */
+  .tags-row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding-block: 0.5rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 1rem,
+      black calc(100% - 1rem),
+      transparent
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 1rem,
+      black calc(100% - 1rem),
+      transparent
+    );
+    transition: opacity 250ms ease;
+  }
+
+  .tags-row.is-static {
+    justify-content: center;
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+
+  .tags-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tags-row__tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35em 0.75em;
+    border: 0;
+    border-radius: 9999px;
+    background: var(--secondary);
+    color: var(--foreground);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition:
+      color 150ms ease,
+      background-color 150ms ease;
+  }
+
+  .tags-row__tag:hover,
+  .tags-row__tag.is-active {
+    color: var(--primary);
+    background: var(--accent);
+  }
+
+  /* ── Results ── */
+  .tags-results {
+    padding-top: 0.5rem;
+  }
+
+  .tags-results__empty {
+    padding-block: 2rem;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--muted-foreground);
+  }
+</style>
+
+<script>
+  (() => {
+    const dataEl = document.getElementById("tags-search-data");
+    if (!dataEl) return;
+
+    interface Post {
+      title: string;
+      url: string;
+      description?: string;
+      formattedDate: string;
+      tags: { name: string }[];
+    }
+
+    const { posts }: { posts: Post[] } = JSON.parse(
+      dataEl.textContent || '{"posts":[]}',
+    );
+
+    const bar = document.getElementById("tags-page-search-bar");
+    const input = document.getElementById(
+      "tags-page-search-input",
+    ) as HTMLInputElement | null;
+    const tagsRow = document.getElementById("tags-row");
+    const results = document.getElementById("tags-results");
+    const resultsList = document.getElementById("tags-results-list");
+    const resultsEmpty = document.getElementById("tags-results-empty");
+
+    if (!bar || !input || !tagsRow || !results || !resultsList || !resultsEmpty)
+      return;
+
+    const postItems = Array.from(resultsList.children) as HTMLElement[];
+    const headerSearch = document.getElementById("site-search");
+    const headerSearchMobile = document.getElementById("site-search-mobile");
+    let portalStarted = false;
+
+    function getVisibleHeaderSearch() {
+      return [headerSearch, headerSearchMobile].find((element) => {
+        return (
+          element && !element.hidden && element.getBoundingClientRect().width > 0
+        );
+      });
+    }
+
+    async function waitForHeaderSearch() {
+      for (let attempt = 0; attempt < 120; attempt += 1) {
+        const source = getVisibleHeaderSearch();
+        if (source) return source;
+        await new Promise<void>((resolve) => {
+          requestAnimationFrame(() => resolve());
+        });
+      }
+      return null;
+    }
+
+    function hideHeaderSearch() {
+      for (const element of [headerSearch, headerSearchMobile]) {
+        if (element) element.style.visibility = "hidden";
+      }
+    }
+
+    async function playSearchPortal() {
+      if (portalStarted) return;
+      portalStarted = true;
+
+      const source = await waitForHeaderSearch();
+      if (!source) {
+        bar!.classList.remove("is-portal-pending");
+        return;
+      }
+
+      const reducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+
+      if (!reducedMotion) {
+        await new Promise((resolve) => setTimeout(resolve, 200));
+      }
+
+      source.style.transformOrigin = "right center";
+      const collapse = source.animate(
+        reducedMotion
+          ? [{ opacity: 1 }, { opacity: 0 }]
+          : [
+              { opacity: 1, transform: "scaleX(1)" },
+              { opacity: 0, transform: "scaleX(0)" },
+            ],
+        {
+          duration: reducedMotion ? 150 : 250,
+          easing: reducedMotion ? "ease" : "cubic-bezier(0.4, 0, 1, 1)",
+          fill: "forwards",
+        },
+      );
+      await collapse.finished.catch(() => {});
+      hideHeaderSearch();
+      collapse.cancel();
+
+      bar!.classList.remove("is-portal-pending");
+      const expand = bar!.animate(
+        reducedMotion
+          ? [{ opacity: 0 }, { opacity: 1 }]
+          : [
+              { opacity: 0, transform: "scaleX(0)" },
+              { opacity: 1, transform: "scaleX(1)" },
+            ],
+        {
+          duration: reducedMotion ? 150 : 350,
+          easing: reducedMotion
+            ? "ease"
+            : "cubic-bezier(0.22, 1, 0.36, 1)",
+          fill: "both",
+        },
+      );
+      await expand.finished.catch(() => {});
+      expand.cancel();
+    }
+
+    const interceptHeaderSearch = (event: Event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+      void playSearchPortal();
+    };
+
+    headerSearch?.addEventListener("click", interceptHeaderSearch, true);
+    headerSearchMobile?.addEventListener("click", interceptHeaderSearch, true);
+    void playSearchPortal();
+
+    const tagButtons = Array.from(
+      tagsRow.querySelectorAll<HTMLButtonElement>("[data-tag]"),
+    );
+    const availableTags = new Set(
+      tagButtons.map((button) => button.dataset.tag ?? ""),
+    );
+    const selectedTags = new Set(
+      new URLSearchParams(window.location.search)
+        .getAll("tag")
+        .filter((tag) => availableTags.has(tag)),
+    );
+    let scrollClones: HTMLButtonElement[] = [];
+
+    function syncTagUrl() {
+      const url = new URL(window.location.href);
+      url.searchParams.delete("tag");
+      for (const tag of selectedTags) url.searchParams.append("tag", tag);
+      window.history.replaceState(
+        null,
+        "",
+        `${url.pathname}${url.search}${url.hash}`,
+      );
+    }
+
+    function updateTagButtons() {
+      for (const button of [...tagButtons, ...scrollClones]) {
+        const active = selectedTags.has(button.dataset.tag ?? "");
+        button.classList.toggle("is-active", active);
+        button.setAttribute("aria-pressed", String(active));
+      }
+    }
+
+    function renderResults() {
+      const query = input!.value.trim();
+
+      if (!query && selectedTags.size === 0) {
+        results!.hidden = true;
+        resultsEmpty!.hidden = true;
+        return;
+      }
+
+      results!.hidden = false;
+      const words = query.toLowerCase().split(/\s+/).filter(Boolean);
+      const activeTags = [...selectedTags];
+      let visibleCount = 0;
+
+      posts.forEach((post, index) => {
+        const matchesTag = activeTags.every((selectedTag) =>
+          post.tags.some((tag) => tag.name === selectedTag),
+        );
+        const haystack =
+          `${post.title} ${post.description ?? ""}`.toLowerCase();
+        const visible =
+          matchesTag && words.every((word) => haystack.includes(word));
+        postItems[index].hidden = !visible;
+        if (visible) visibleCount += 1;
+      });
+
+      resultsEmpty!.hidden = visibleCount > 0;
+    }
+
+    function toggleTag(tag: string) {
+      if (selectedTags.has(tag)) {
+        selectedTags.delete(tag);
+      } else {
+        selectedTags.add(tag);
+      }
+      syncTagUrl();
+      updateTagButtons();
+      renderResults();
+    }
+
+    updateTagButtons();
+    renderResults();
+
+    for (const button of tagButtons) {
+      button.addEventListener("click", () => {
+        const tag = button.dataset.tag;
+        if (tag) toggleTag(tag);
+      });
+    }
+
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    );
+    let loopWidth = 0;
+    let autoScrollFrame = 0;
+    let previousScrollTime = 0;
+    let resizeFrame = 0;
+    let interactionTimer = 0;
+    let rowHovered = false;
+    let rowFocused = false;
+    let rowInteracting = false;
+
+    function canAutoScroll() {
+      return (
+        loopWidth > 0 &&
+        !reducedMotion.matches &&
+        !rowHovered &&
+        !rowFocused &&
+        !rowInteracting &&
+        !document.hidden
+      );
+    }
+
+    function stopAutoScroll() {
+      cancelAnimationFrame(autoScrollFrame);
+      autoScrollFrame = 0;
+      previousScrollTime = 0;
+    }
+
+    function rollTags(time: number) {
+      const elapsed = previousScrollTime
+        ? Math.min(time - previousScrollTime, 50)
+        : 0;
+      previousScrollTime = time;
+      tagsRow!.scrollLeft += elapsed * 0.02;
+
+      if (loopWidth > 0 && tagsRow!.scrollLeft >= loopWidth) {
+        tagsRow!.scrollLeft -= loopWidth;
+      }
+
+      if (canAutoScroll()) {
+        autoScrollFrame = requestAnimationFrame(rollTags);
+      } else {
+        stopAutoScroll();
+      }
+    }
+
+    function syncAutoScroll() {
+      stopAutoScroll();
+      if (canAutoScroll()) {
+        autoScrollFrame = requestAnimationFrame(rollTags);
+      }
+    }
+
+    function updateScrollMode() {
+      stopAutoScroll();
+      for (const clone of scrollClones) clone.remove();
+      scrollClones = [];
+      loopWidth = 0;
+      tagsRow!.classList.remove("is-static");
+      tagsRow!.scrollLeft = 0;
+
+      const overflows = tagsRow!.scrollWidth > tagsRow!.clientWidth + 1;
+      if (!overflows) {
+        tagsRow!.classList.add("is-static");
+        return;
+      }
+      if (reducedMotion.matches) return;
+
+      scrollClones = tagButtons.map((button) => {
+        const clone = button.cloneNode(true) as HTMLButtonElement;
+        clone.dataset.scrollClone = "true";
+        clone.tabIndex = -1;
+        clone.setAttribute("aria-hidden", "true");
+        clone.addEventListener("click", () => {
+          const tag = button.dataset.tag;
+          if (tag) toggleTag(tag);
+        });
+        return clone;
+      });
+      tagsRow!.append(...scrollClones);
+      updateTagButtons();
+      loopWidth = scrollClones[0].offsetLeft - tagButtons[0].offsetLeft;
+      syncAutoScroll();
+    }
+
+    function pauseForInteraction() {
+      rowInteracting = true;
+      window.clearTimeout(interactionTimer);
+      syncAutoScroll();
+    }
+
+    function resumeAfterInteraction() {
+      window.clearTimeout(interactionTimer);
+      interactionTimer = window.setTimeout(() => {
+        rowInteracting = false;
+        syncAutoScroll();
+      }, 1200);
+    }
+
+    tagsRow.addEventListener("mouseenter", () => {
+      rowHovered = true;
+      syncAutoScroll();
+    });
+    tagsRow.addEventListener("mouseleave", () => {
+      rowHovered = false;
+      syncAutoScroll();
+    });
+    tagsRow.addEventListener("focusin", () => {
+      rowFocused = true;
+      syncAutoScroll();
+    });
+    tagsRow.addEventListener("focusout", (event) => {
+      const next = event.relatedTarget as Node | null;
+      if (next && tagsRow.contains(next)) return;
+      rowFocused = false;
+      syncAutoScroll();
+    });
+    tagsRow.addEventListener("pointerdown", pauseForInteraction);
+    tagsRow.addEventListener("wheel", pauseForInteraction, { passive: true });
+    tagsRow.addEventListener("wheel", resumeAfterInteraction, {
+      passive: true,
+    });
+    window.addEventListener("pointerup", resumeAfterInteraction);
+    window.addEventListener("pointercancel", resumeAfterInteraction);
+    document.addEventListener("visibilitychange", syncAutoScroll);
+    window.addEventListener("resize", updateScrollMode);
+    reducedMotion.addEventListener("change", updateScrollMode);
+
+    const rowResizeObserver = new ResizeObserver(() => {
+      cancelAnimationFrame(resizeFrame);
+      resizeFrame = requestAnimationFrame(updateScrollMode);
+    });
+    rowResizeObserver.observe(tagsRow);
+    void document.fonts.ready.then(updateScrollMode);
+    updateScrollMode();
+
+    resultsList.addEventListener("click", (event) => {
+      const target = event.target as HTMLElement;
+      const link = target.closest<HTMLAnchorElement>('a[href*="/tags"]');
+      const tag = link?.textContent?.trim();
+      if (!tag || !tagButtons.some((button) => button.dataset.tag === tag))
+        return;
+      event.preventDefault();
+      toggleTag(tag);
+    });
+
+    input.addEventListener("input", renderResults);
+
+    input.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+
+      if (input!.value) {
+        input!.value = "";
+        renderResults();
+      } else if (selectedTags.size > 0) {
+        selectedTags.clear();
+        syncTagUrl();
+        updateTagButtons();
+        renderResults();
+      } else {
+        input!.blur();
+      }
+    });
+
+    document.addEventListener("click", (event) => {
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      )
+        return;
+
+      const target = event.target as HTMLElement;
+      const link = target.closest<HTMLAnchorElement>(
+        '.site-header__nav a[href], nav[aria-label="Menu"] a[href]',
+      );
+      if (!link) return;
+
+      const destination = new URL(link.href);
+      if (destination.origin !== window.location.origin) return;
+      const normalize = (path: string) => path.replace(/\/+$/, "") || "/";
+      if (normalize(destination.pathname) === normalize(location.pathname)) {
+        event.preventDefault();
+        return;
+      }
+
+      try {
+        sessionStorage.setItem("search-portal-return", "1");
+      } catch {}
+    });
+
+    document.addEventListener(
+      "keydown",
+      (event) => {
+        if (
+          (event.metaKey || event.ctrlKey) &&
+          event.key.toLowerCase() === "k"
+        ) {
+          event.preventDefault();
+          event.stopPropagation();
+          event.stopImmediatePropagation();
+          input!.focus();
+          input!.select();
+        }
+      },
+      true,
+    );
+  })();
+</script>
