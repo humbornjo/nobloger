@@ -109,7 +109,7 @@
 <nav aria-label="Table of Contents">
   <a
     href="#page-top"
-    class="block w-fit text-sm font-medium text-foreground no-underline"
+    class="block w-fit text-base font-medium text-foreground no-underline"
   >
     Table of Contents
   </a>
