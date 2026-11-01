@@ -519,6 +519,17 @@
     overscroll-behavior-x: contain;
     padding-block: 0.25rem;
   }
+
+  /* Keep TOC math inline with its heading instead of on its own line. */
+  [aria-label="Table of Contents"] mjx-container[jax="SVG"] {
+    display: inline-block;
+  }
+
+  [aria-label="Table of Contents"]
+    mjx-container[jax="SVG"]:not([display="true"])
+    > svg {
+    display: inline-block;
+  }
 }
 
 @layer utilities {

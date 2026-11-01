@@ -16,12 +16,37 @@
   let progress = $state(0);
   let listElement: HTMLUListElement;
 
+  type MathJaxApi = {
+    typesetPromise?: (elements: HTMLElement[]) => Promise<void>;
+  };
+
   onMount(() => {
     const elements = headings
       .map((heading) => document.getElementById(heading.slug))
       .filter((element): element is HTMLElement => element !== null);
 
     if (elements.length === 0) return;
+
+    let active = true;
+    let mathJaxTimer: number | undefined;
+    let attempts = 0;
+
+    const typesetTocMath = () => {
+      if (!active) return;
+
+      const mathJax = (window as Window & { MathJax?: MathJaxApi }).MathJax;
+      if (mathJax?.typesetPromise) {
+        void mathJax.typesetPromise([listElement]).catch(() => {});
+        return;
+      }
+
+      attempts += 1;
+      if (attempts < 100) {
+        mathJaxTimer = window.setTimeout(typesetTocMath, 50);
+      }
+    };
+
+    typesetTocMath();
 
     const links = Array.from(
       listElement.querySelectorAll<HTMLAnchorElement>("a"),
@@ -70,6 +95,8 @@
     scheduleUpdate();
 
     return () => {
+      active = false;
+      if (mathJaxTimer !== undefined) clearTimeout(mathJaxTimer);
       if (frame !== undefined) cancelAnimationFrame(frame);
       resizeObserver.disconnect();
       window.removeEventListener("scroll", scheduleUpdate);
