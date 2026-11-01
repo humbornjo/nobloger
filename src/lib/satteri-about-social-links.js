@@ -1,5 +1,4 @@
-const linkedInProfile =
-  "https://www.linkedin.com/in/shua-shin-8a1134271";
+const linkedInProfile = "https://www.linkedin.com/in/shua-shin-8a1134271";
 
 export default function satteriAboutSocialLinks() {
   return {
