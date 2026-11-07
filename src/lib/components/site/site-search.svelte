@@ -1,9 +1,6 @@
 <script lang="ts">
   import { onMount, tick } from "svelte";
-  import Description from "@icons/material-symbols/description";
-  import Newspaper from "@icons/material-symbols/newspaper";
   import Search from "@icons/material-symbols/search";
-  import Person from "@icons/material-symbols/person";
   import { Button } from "$lib/components/ui/button";
   import * as Command from "$lib/components/ui/command";
   import type { PostSummary } from "$lib/types";
@@ -18,11 +15,6 @@
     posts: PostSummary[];
   }
 
-  const pageIcons = {
-    about: Person,
-    blog: Newspaper,
-    tags: Search,
-  };
   const pageLabels = {
     about: "About",
     blog: "Blogs",
@@ -180,13 +172,11 @@
     {#if filteredPages.length > 0}
       <Command.Group heading="Go to">
         {#each filteredPages as page (page.url)}
-          {@const Icon = pageIcons[page.name]}
           <Command.LinkItem
             value={`page:${page.url}`}
             href={page.url}
             onSelect={() => (open = false)}
           >
-            <Icon strokeWidth={1.5} class="text-muted-foreground group-data-selected/command-item:text-foreground" aria-hidden="true" />
             <span class="flex min-w-0 flex-1 items-baseline gap-2">
               <span class="shrink-0 truncate py-1 -my-1">{pageLabels[page.name]}</span>
               <span class="min-w-0 truncate py-1 -my-1 text-muted-foreground/70 group-data-selected/command-item:text-muted-foreground">
@@ -205,7 +195,6 @@
             href={post.url}
             onSelect={() => (open = false)}
           >
-            <Description strokeWidth={1.5} class="text-muted-foreground group-data-selected/command-item:text-foreground" aria-hidden="true" />
             <span class="flex min-w-0 flex-1 items-baseline gap-2">
               <span class="min-w-0 flex-1 truncate py-1 -my-1">{post.title}</span>
               <span class="shrink-0 truncate py-1 -my-1 text-right text-muted-foreground/70 group-data-selected/command-item:text-muted-foreground">
