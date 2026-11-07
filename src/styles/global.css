@@ -376,7 +376,7 @@
     font-size: 0.875rem;
     font-weight: 500;
     line-height: 1.4;
-    text-decoration: none;
+    text-decoration: none !important;
     transition-property: color, background-color;
     transition-duration: 150ms;
     transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
@@ -393,6 +393,35 @@
     transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
   }
 
+  .prose a.noblog-subpage__inline {
+    display: inline;
+    padding: 0.125em 0.375em;
+    border-radius: 0.25rem;
+    background: var(--secondary);
+    color: var(--foreground);
+    font-family: var(--font-ui);
+    font-size: 1em;
+    font-weight: 500;
+    line-height: inherit;
+    text-decoration: none !important;
+    text-decoration-line: none !important;
+    transition-property: color, background-color;
+    transition-duration: 150ms;
+    transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  .prose a.noblog-subpage__inline .noblog-subpage__icon {
+    display: inline-block;
+    width: 0.85em;
+    height: 0.85em;
+    margin-inline-end: 0.25rem;
+    vertical-align: -0.125em;
+    color: var(--primary);
+    transition-property: color;
+    transition-duration: 150ms;
+    transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
+  }
+
   @media (hover: hover) {
     .prose .noblog-subpage > a.noblog-subpage__link:hover {
       background: var(--accent);
@@ -403,6 +432,15 @@
       .noblog-subpage
       > a.noblog-subpage__link:hover
       .noblog-subpage__icon {
+      color: var(--primary-hover);
+    }
+
+    .prose a.noblog-subpage__inline:hover {
+      background: var(--accent);
+      color: var(--primary-hover);
+    }
+
+    .prose a.noblog-subpage__inline:hover .noblog-subpage__icon {
       color: var(--primary-hover);
     }
   }

@@ -79,33 +79,37 @@ export default function satteriNoblogChildLinks({ base = "/" } = {}) {
           break;
         }
 
-        if (markerIndex === undefined) return;
+        const markerNode =
+          markerIndex === undefined ? undefined : parent.children[markerIndex];
+        const onlyMarkerAndLink =
+          markerIndex !== undefined &&
+          markerNode?.type === "text" &&
+          isChildPageMarker(markerNode.value) &&
+          parent.children.every(
+            (child, i) =>
+              i === markerIndex ||
+              i === index ||
+              (child.type === "text" && child.value.trim() === ""),
+          );
 
-        const markerNode = parent.children[markerIndex];
-        if (
-          markerNode.type !== "text" ||
-          !isChildPageMarker(markerNode.value)
-        ) {
+        ctx.prependChild(node, createLinkIcon());
+
+        if (onlyMarkerAndLink) {
+          ctx.removeNode(markerNode);
+          ctx.setProperty(parent, "className", [
+            ...classNames(parent.properties),
+            "noblog-subpage",
+          ]);
+          ctx.setProperty(node, "className", [
+            ...classNames(node.properties),
+            "noblog-subpage__link",
+          ]);
           return;
         }
 
-        const onlyMarkerAndLink = parent.children.every(
-          (child, i) =>
-            i === markerIndex ||
-            i === index ||
-            (child.type === "text" && child.value.trim() === ""),
-        );
-        if (!onlyMarkerAndLink) return;
-
-        ctx.removeNode(markerNode);
-        ctx.prependChild(node, createLinkIcon());
-        ctx.setProperty(parent, "className", [
-          ...classNames(parent.properties),
-          "noblog-subpage",
-        ]);
         ctx.setProperty(node, "className", [
           ...classNames(node.properties),
-          "noblog-subpage__link",
+          "noblog-subpage__inline",
         ]);
       },
     },
