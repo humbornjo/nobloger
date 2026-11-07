@@ -5,7 +5,6 @@ import tailwindcss from "@tailwindcss/vite";
 import Icons from "unplugin-icons/vite";
 import satteriNoblogChildLinks from "./src/lib/satteri-noblog-child-links.js";
 import satteriNoblogSummary from "./src/lib/satteri-noblog-summary.js";
-import satteriAboutSocialLinks from "./src/lib/satteri-about-social-links.js";
 
 // Pages project sites live under /<repo>; set BASE_PATH for those builds.
 // A custom domain serves from the root and keeps the default.
@@ -40,11 +39,7 @@ export default defineConfig({
       features: {
         rawHtml: true,
       },
-      hastPlugins: [
-        satteriNoblogChildLinks({ base }),
-        satteriNoblogSummary(),
-        satteriAboutSocialLinks(),
-      ],
+      hastPlugins: [satteriNoblogChildLinks({ base }), satteriNoblogSummary()],
     }),
     shikiConfig: {
       theme: "css-variables",

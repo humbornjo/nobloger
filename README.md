@@ -69,6 +69,19 @@ The `noblog` CLI is pinned in `optionalDependencies` and installed from npm; no 
 
 Top-level database posts appear in the blog index, Search, and RSS. Recursive child pages are directly routable and linked from their parent posts, but are excluded from discovery feeds. Search uses AND semantics when several tags are selected.
 
+## Project structure
+
+- `src/pages/` — routes for the About page, blog index, tags/search, RSS, and generated post Markdown.
+- `src/layouts/` — the document shell, metadata, and article layout.
+- `src/components/` — header, footer, and page chrome.
+- `src/lib/` — post discovery, Markdown transforms, and shared utilities.
+- `src/styles/global.css` — Tailwind entry point and theme tokens.
+- `public/` — fonts, icons, and the authored `selfie.md` fallback.
+- `noblog.yaml` — Notion property mapping and generated-output paths.
+- `.noblog/` — ignored local content store; do not edit by hand.
+- `asset/` — README screenshots.
+- `.github/workflows/deploy.yml` — Pages build and deployment.
+
 ## Deployment
 
 1. Duplicate the [Noblog database](https://www.notion.so/humbornjo/fa0faae85c504934a4a86cfa70302850?v=2abd1079ae134fbd8df2604765baa1df) and move your posts into it. Create a [Notion integration](https://www.notion.so/my-integrations) and copy its internal secret, then connect it in the duplicated database via **⋯ → Connections → Add connections**—the token cannot see the database until then. The database ID is the URL segment after the workspace name; paste it **with dashes** (`fa0faae8-…-…`), because current Notion API versions reject the 32-character undashed form and fail the build with a cryptic `path.database_id should be a valid uuid` error. Plain Markdown posts also work under `src/pages/posts/` when frontmatter matches `MarkdownPostLayout.astro`; that path is gitignored for generated content, so force-add hand-written posts or adjust `.gitignore`.
@@ -104,8 +117,6 @@ Top-level database posts appear in the blog index, Search, and RSS. Recursive ch
 4. Optionally, under **Settings → Secrets and variables → Actions → Variables**, add `SELFIE_PAGE` with the exact title of your bio page to render it into `.noblog/selfie.md` (then `public/selfie.md`) at build time. The bio page must have its `publish` checkbox ON: `noblog generate --selfie` only searches published pages, so an unpublished page silently falls back to the committed `public/selfie.md` with no error.
 
 5. Under **Settings → Pages**, set the source to **GitHub Actions** and click **Save**.
-
-   ![Enable GitHub Pages](./asset/enable_page.png)
 
 6. Run **Actions → Deploy to GitHub Pages → Run workflow**. Once the run finishes green, the site is live at `https://<user>.github.io/<repo>/` (or your custom domain).
 
