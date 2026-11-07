@@ -8,6 +8,7 @@ interface Props {
   description?: string;
   lang?: string;
   mainClass?: string;
+  showFooter?: boolean;
 }
 
 const {
@@ -15,6 +16,7 @@ const {
   description,
   lang = "en",
   mainClass = "py-8 sm:py-10",
+  showFooter = true,
 } = Astro.props;
 ---
 
@@ -31,7 +33,7 @@ const {
       >
         <slot />
       </main>
-      <Footer />
+      {showFooter && <Footer />}
     </div>
   </body>
 </html>
