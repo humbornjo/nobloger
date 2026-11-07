@@ -31,6 +31,9 @@ jobs:
       - name: Generate static pages
         run: |
           npm i -g noblog@0.3.0-beta.5
+          # Secrets may be pasted with stray quotes or whitespace; normalize.
+          export NOTION_API_SECRET="$(printf '%s' "$NOTION_API_SECRET" | tr -d '[:space:]\"')"
+          export NOBLOG_DATABASE_ID="$(printf '%s' "$NOBLOG_DATABASE_ID" | tr -d '[:space:]\"')"
           noblog generate --config ./noblog.yaml --selfie "${{ vars.SELFIE_PAGE }}"
           # noblog writes .noblog/selfie.md only when --selfie matches a page;
           # when it does, it replaces the committed public/selfie.md fallback.
