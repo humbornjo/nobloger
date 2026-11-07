@@ -171,7 +171,7 @@
 
 {#if years.length > 1}
   <aside
-    class="absolute start-full top-0 hidden h-full w-60 ps-10 pe-4 xl:block"
+    class="side-rail absolute start-full top-0 hidden h-full ps-10 pe-4 xl:block"
   >
     <div
       class="sticky top-8 flex max-h-[calc(100dvh-4rem)] w-full max-w-80 flex-col pb-8"

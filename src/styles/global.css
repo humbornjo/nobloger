@@ -212,8 +212,8 @@
     max-width: min(64rem, max(52rem, 62vw));
   }
 
-  /* Follow the site shell so the article TOC can use spare right-gutter space. */
-  .post-toc {
+  /* Shared side-rail geometry for the article TOC and blog archive. */
+  .side-rail {
     width: max(15rem, calc(50vw - min(32rem, max(26rem, 31vw)) + 1rem));
   }
 
