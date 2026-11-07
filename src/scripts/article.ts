@@ -135,6 +135,7 @@ if (prose) {
         <span class="sr-only" aria-live="polite"></span>
       `;
       const status = button.querySelector<HTMLElement>("[aria-live]");
+      const icon = button.querySelector<HTMLElement>(".code-block__icon--copy");
       let resetTimer: ReturnType<typeof setTimeout> | undefined;
 
       button.addEventListener("click", async () => {
@@ -146,6 +147,18 @@ if (prose) {
 
         clearTimeout(resetTimer);
         if (status) status.textContent = "Copied";
+
+        if (!reducedMotion.matches) {
+          icon?.animate(
+            [
+              { transform: "scale(1)" },
+              { transform: "scale(1.15)" },
+              { transform: "scale(1)" },
+            ],
+            { duration: 260, easing: "cubic-bezier(0.2, 0, 0, 1)" },
+          );
+        }
+
         resetTimer = setTimeout(() => {
           if (status) status.textContent = "";
         }, 1500);

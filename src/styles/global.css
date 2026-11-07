@@ -256,10 +256,6 @@
     pointer-events: none;
   }
 
-  .prose .code-block__copy:hover {
-    color: var(--foreground);
-  }
-
   .prose .code-block:hover .code-block__copy,
   .prose .code-block__copy:focus-visible {
     opacity: 1;
