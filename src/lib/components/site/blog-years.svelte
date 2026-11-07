@@ -177,7 +177,7 @@
                     ? "location"
                     : undefined}
                   aria-label={`${item.year}, ${item.count} ${item.count === 1 ? "post" : "posts"}`}
-                  class="flex items-baseline justify-between gap-4 py-1.5 pe-1 ps-4 text-muted-foreground no-underline transition-colors hover:text-foreground data-[active=true]:text-foreground"
+                  class="flex items-baseline gap-2.5 py-1.5 pe-1 ps-4 text-muted-foreground no-underline transition-colors hover:text-foreground data-[active=true]:text-foreground"
                 >
                   <span
                     class="font-sans text-lg font-medium leading-6 tracking-[-0.01em]"
