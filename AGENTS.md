@@ -43,14 +43,17 @@ Local generation requires Node 24+, the optional `noblog` CLI from `package.json
 - `src/components/`: static Astro header, footer, and page-heading components.
 - `src/lib/components/site/`: site-specific Svelte components.
 - `src/lib/components/ui/`: locally adapted shadcn-svelte primitives and their barrels.
+- `src/lib/attachments/`: browser-safe Svelte attachments, including shared TOC scroll-edge fades.
 - `src/lib/posts.ts`: build-time post/tag discovery and serializable summaries.
 - `src/lib/satteri-noblog-child-links.js`: native Sätteri HAST visitor for canonical child links and marker-aware subpage cards.
 - `src/lib/satteri-noblog-summary.js`: inline Markdown parsing and responsive label wrapping for disclosure summaries.
 - `src/lib/types.ts`: shared frontmatter and serializable data contracts.
 - `src/lib/server-utils.ts`: Node-only filesystem and URL utilities.
 - `src/lib/utils.ts`: browser-safe utilities shared by hydrated components.
-- `src/scripts/article.ts`: article-only overflow and keyboard behavior.
-- `src/styles/global.css`: Tailwind entry point, semantic tokens, and global content styles.
+- `src/scripts/article.ts`: article-only overflow, keyboard, copy, and disclosure behavior.
+- `src/scripts/custom-scrollbar.ts`: shared page/code scrollbar geometry and pointer handling.
+- `src/scripts/page-scrollbar.ts`: document scrollbar bootstrap and native-scrollbar fallback.
+- `src/styles/global.css`: Tailwind entry point, semantic tokens, shared layout primitives, and global content styles.
 - `tailwind.config.mjs`: the detailed typography/prose specification retained through `@config`.
 - `public/`: local webfonts, favicons, and the authored `selfie.md` home-page content. The deploy workflow may overwrite `public/selfie.md` with the generated `.noblog/selfie.md` when a `--selfie` page title matches; the committed file is the fallback.
 - `asset/`: README screenshots; refresh only from a visually reviewed final build.
