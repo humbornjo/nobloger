@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount, tick } from "svelte";
-  import Search from "@icons/material-symbols/search";
+  import Search from "@icons/lucide/search";
   import { Button } from "$lib/components/ui/button";
   import * as Command from "$lib/components/ui/command";
   import type { PostSummary } from "$lib/types";
