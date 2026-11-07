@@ -15,7 +15,7 @@ Demo: [humbornjo.github.io/noblog-starter](https://humbornjo.github.io/noblog-st
 Your Notion database is the CMS: there is no server, admin panel, or copy-paste step. If you would rather avoid Notion entirely, write Markdown instead—the lazy path is optional, not mandatory.
 
 ![About page on the left and blog index on the right, each split between light and dark themes](./asset/preview_1.png)
-![Article with Markdown syntax — emphasis, quote, callout, toggle, and lists — split between light and dark themes](./asset/preview_2.png)
+![Article page — top on the left and the rest of the page on the right, each split between light and dark themes](./asset/preview_2.png)
 
 ## Use this template
 
