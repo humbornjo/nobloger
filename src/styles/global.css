@@ -208,6 +208,10 @@
     }
   }
 
+  .site-shell {
+    max-width: max(52rem, 62vw);
+  }
+
   .skip-link {
     @apply fixed z-50 border border-input bg-background px-4 py-3 text-ui text-foreground;
     inset-block-start: 0.75rem;
