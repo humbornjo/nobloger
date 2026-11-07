@@ -31,10 +31,12 @@
       <div
         class="mt-2 flex flex-wrap items-baseline gap-x-2 gap-y-0.5 text-meta text-muted-foreground"
       >
-        <time class="whitespace-nowrap" datetime={post.pubDate}>
-          {post.formattedDate}
-        </time>
-        <span aria-hidden="true">·</span>
+        {#if post.pubDate}
+          <time class="whitespace-nowrap" datetime={post.pubDate}>
+            {post.formattedDate}
+          </time>
+          <span aria-hidden="true">·</span>
+        {/if}
         <span class="whitespace-nowrap">{post.readingTime}</span>
       </div>
       {#if post.description?.trim()}

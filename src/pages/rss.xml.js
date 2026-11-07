@@ -10,8 +10,10 @@ export async function GET(context) {
     Object.entries(import.meta.glob("./posts/*.{md,mdx}")).map(
       async ([path, loadPage]) => {
         const page = await loadPage();
+        const { pubDate, ...frontmatter } = page.frontmatter;
         return {
-          ...page.frontmatter,
+          ...frontmatter,
+          ...(pubDate ? { pubDate } : {}),
           link: urlFromBase(base, `posts/${markdownIdFromGlobKey(path)}`),
         };
       },

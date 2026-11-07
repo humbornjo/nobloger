@@ -35,9 +35,11 @@ jobs:
           export NOTION_API_SECRET="$(printf '%s' "$NOTION_API_SECRET" | tr -d '[:space:]\"')"
           export NOBLOG_DATABASE_ID="$(printf '%s' "$NOBLOG_DATABASE_ID" | tr -d '[:space:]\"')"
           noblog generate --config ./noblog.yaml --selfie "${{ vars.SELFIE_PAGE }}"
-          # noblog writes .noblog/selfie.md only when --selfie matches a page;
-          # when it does, it replaces the committed public/selfie.md fallback.
-          if [ -f .noblog/selfie.md ]; then cp .noblog/selfie.md public/selfie.md; fi
+          # noblog writes .noblog/selfie.md only when --selfie matches a page.
+          # Strip the post-only layout path, which is invalid from public/.
+          if [ -f .noblog/selfie.md ]; then
+            sed '2,/^---$/ { /^layout:/d; }' .noblog/selfie.md > public/selfie.md
+          fi
         env:
           NOTION_API_SECRET: ${{ secrets.NOTION_API_SECRET }}
           NOBLOG_DATABASE_ID: ${{ secrets.NOBLOG_DATABASE_ID }}
