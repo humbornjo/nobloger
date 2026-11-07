@@ -10,11 +10,15 @@ import satteriAboutSocialLinks from "./src/lib/satteri-about-social-links.js";
 // Pages project sites live under /<repo>; set BASE_PATH for those builds.
 // A custom domain serves from the root and keeps the default.
 const base = process.env.BASE_PATH || "/";
+const selfiePage = process.env.SELFIE_PAGE || "";
 
 // https://astro.build/config
 export default defineConfig({
   integrations: [svelte()],
   vite: {
+    define: {
+      __SELFIE_PAGE__: JSON.stringify(selfiePage),
+    },
     resolve: {
       alias: {
         "@icons": "~icons",

@@ -3,7 +3,10 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import PostList from "@/lib/components/site/post-list.svelte";
 import { getPostSummaries } from "@/lib/posts";
 
-const posts = getPostSummaries();
+const selfiePage = __SELFIE_PAGE__;
+const posts = getPostSummaries().filter(
+  (post) => !selfiePage || post.title !== selfiePage,
+);
 const pageTitle = "Blog";
 ---
 
