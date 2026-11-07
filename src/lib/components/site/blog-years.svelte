@@ -153,7 +153,7 @@
 
 {#if years.length > 1}
   <aside
-    class="absolute start-full top-0 hidden h-full w-[calc(50vw-25rem)] ps-6 pe-4 xl:block"
+    class="absolute start-full top-0 hidden h-full w-[calc(50vw-25rem)] ps-10 pe-4 xl:block"
   >
     <div
       class="sticky top-8 max-h-[calc(100dvh-4rem)] w-full max-w-80 overflow-y-auto overscroll-contain pb-8"
