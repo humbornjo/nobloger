@@ -577,6 +577,14 @@
 }
 
 @layer utilities {
+  .toc-scroll {
+    scrollbar-width: none;
+  }
+
+  .toc-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
   :root[data-search-portal-return] #site-search,
   :root[data-search-portal-return] #site-search-mobile {
     opacity: 0;
