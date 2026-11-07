@@ -198,7 +198,7 @@
                     ? "location"
                     : undefined}
                   aria-label={`${item.year}, ${item.count} ${item.count === 1 ? "post" : "posts"}`}
-                  class="flex items-baseline gap-2.5 py-1.5 pe-1 ps-4 text-muted-foreground no-underline transition-colors hover:text-foreground data-[active=true]:text-foreground"
+                  class="flex items-baseline gap-2.5 py-1.5 pe-1 ps-4 text-muted-foreground/75 no-underline transition-colors hover:text-foreground data-[active=true]:text-foreground"
                 >
                   <span
                     class="w-11 shrink-0 font-sans text-lg font-medium leading-6 tracking-[-0.01em] tabular-nums"
@@ -207,7 +207,7 @@
                   </span>
                   <span
                     data-active={currentYear === item.year}
-                    class="w-6 shrink-0 text-end font-mono text-meta leading-none tabular-nums data-[active=true]:text-primary"
+                    class="w-6 shrink-0 text-end font-mono text-meta leading-none tabular-nums text-muted-foreground/60 data-[active=true]:text-primary"
                   >
                     {item.count}
                   </span>
