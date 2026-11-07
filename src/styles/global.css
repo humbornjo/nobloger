@@ -289,6 +289,7 @@
     opacity: 0;
     pointer-events: none;
     touch-action: none;
+    cursor: default;
     transition-property: opacity;
     transition-duration: 150ms;
     transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
@@ -312,11 +313,7 @@
     min-width: 1.5rem;
     border-radius: 9999px;
     background: var(--border);
-    cursor: grab;
-  }
-
-  .prose .code-scrollbar__thumb:active {
-    cursor: grabbing;
+    cursor: default;
   }
 
   .prose .code-block__copy {
