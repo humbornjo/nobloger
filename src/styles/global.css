@@ -138,6 +138,23 @@
   html {
     min-width: 0;
     scroll-padding-block-start: 1rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  html::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    -webkit-appearance: none;
+  }
+
+  html::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  html::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    background: var(--border);
   }
 
   body {
