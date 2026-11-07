@@ -168,8 +168,93 @@ if (prose) {
         if (!button.matches(":focus-visible")) button.blur();
       });
 
+      const scrollbar = document.createElement("div");
+      scrollbar.className = "code-scrollbar";
+      scrollbar.setAttribute("aria-hidden", "true");
+      const scrollbarThumb = document.createElement("div");
+      scrollbarThumb.className = "code-scrollbar__thumb";
+      scrollbar.append(scrollbarThumb);
+
       pre.before(wrapper);
-      wrapper.append(pre, button);
+      wrapper.append(pre, button, scrollbar);
+      wrapper.dataset.scrollbar = "custom";
+
+      const updateScrollbar = () => {
+        const maxScroll = pre.scrollWidth - pre.clientWidth;
+        scrollbar.hidden = maxScroll <= 1;
+        if (scrollbar.hidden) return;
+
+        const trackWidth = scrollbar.clientWidth;
+        if (trackWidth <= 0) return;
+
+        const thumbWidth = Math.max(
+          24,
+          (pre.clientWidth / pre.scrollWidth) * trackWidth,
+        );
+        scrollbarThumb.style.width = `${thumbWidth}px`;
+        const maxThumb = trackWidth - thumbWidth;
+        const left =
+          maxScroll > 0 ? (pre.scrollLeft / maxScroll) * maxThumb : 0;
+        scrollbarThumb.style.transform = `translateX(${left}px)`;
+      };
+
+      let dragging = false;
+      let dragStartX = 0;
+      let dragStartScroll = 0;
+
+      scrollbar.addEventListener("pointerdown", (event) => {
+        if (scrollbar.hidden) return;
+        event.preventDefault();
+        dragging = true;
+        dragStartX = event.clientX;
+        dragStartScroll = pre.scrollLeft;
+        scrollbar.setPointerCapture(event.pointerId);
+
+        const rect = scrollbar.getBoundingClientRect();
+        const thumbWidth = scrollbarThumb.offsetWidth;
+        const maxThumb = rect.width - thumbWidth;
+        const maxScroll = pre.scrollWidth - pre.clientWidth;
+        if (maxThumb <= 0 || maxScroll <= 0) return;
+
+        if (event.target !== scrollbarThumb) {
+          const x = Math.min(
+            Math.max(event.clientX - rect.left - thumbWidth / 2, 0),
+            maxThumb,
+          );
+          pre.scrollLeft = (x / maxThumb) * maxScroll;
+          dragStartX = event.clientX;
+          dragStartScroll = pre.scrollLeft;
+        }
+      });
+
+      scrollbar.addEventListener("pointermove", (event) => {
+        if (!dragging) return;
+        const rect = scrollbar.getBoundingClientRect();
+        const thumbWidth = scrollbarThumb.offsetWidth;
+        const maxThumb = rect.width - thumbWidth;
+        const maxScroll = pre.scrollWidth - pre.clientWidth;
+        if (maxThumb <= 0 || maxScroll <= 0) return;
+
+        const delta = event.clientX - dragStartX;
+        pre.scrollLeft = dragStartScroll + (delta / maxThumb) * maxScroll;
+        updateScrollbar();
+      });
+
+      const finishDrag = (event: PointerEvent) => {
+        if (!dragging) return;
+        dragging = false;
+        if (scrollbar.hasPointerCapture(event.pointerId)) {
+          scrollbar.releasePointerCapture(event.pointerId);
+        }
+      };
+
+      scrollbar.addEventListener("pointerup", finishDrag);
+      scrollbar.addEventListener("pointercancel", finishDrag);
+      pre.addEventListener("scroll", updateScrollbar, { passive: true });
+      const scrollbarObserver = new ResizeObserver(updateScrollbar);
+      scrollbarObserver.observe(pre);
+      requestAnimationFrame(updateScrollbar);
+
       enhancedCodeBlocks.add(pre);
     }
   }

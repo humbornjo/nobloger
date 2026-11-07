@@ -249,7 +249,6 @@
 
   .prose .code-block > pre {
     margin: 0;
-    scrollbar-gutter: stable;
   }
 
   .prose pre {
@@ -272,14 +271,52 @@
     background: var(--border);
   }
 
-  .prose pre::-webkit-scrollbar-thumb:hover {
-    background: var(--muted-foreground);
+  .prose .code-block[data-scrollbar="custom"] > pre {
+    scrollbar-width: none;
   }
 
-  @media (hover: hover) {
-    .prose .code-block:hover > pre[data-scrollable="true"] {
-      overflow-x: scroll !important;
-    }
+  .prose .code-block[data-scrollbar="custom"] > pre::-webkit-scrollbar {
+    display: none;
+  }
+
+  .prose .code-scrollbar {
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 0;
+    z-index: 2;
+    height: 6px;
+    background: transparent;
+    opacity: 0;
+    pointer-events: none;
+    touch-action: none;
+    transition-property: opacity;
+    transition-duration: 150ms;
+    transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
+  }
+
+  .prose .code-scrollbar[hidden] {
+    display: none;
+  }
+
+  .prose .code-block:hover .code-scrollbar,
+  .prose .code-block:focus-within .code-scrollbar,
+  .prose .code-scrollbar[data-dragging="true"] {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .prose .code-scrollbar__thumb {
+    position: absolute;
+    inset-block: 0;
+    left: 0;
+    min-width: 1.5rem;
+    border-radius: 9999px;
+    background: var(--border);
+    cursor: grab;
+  }
+
+  .prose .code-scrollbar__thumb:active {
+    cursor: grabbing;
   }
 
   .prose .code-block__copy {
