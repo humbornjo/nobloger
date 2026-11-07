@@ -1,15 +1,15 @@
 {
-  "name": "nobloger",
+  "name": "noblog-starter",
   "type": "module",
   "version": "0.3.0",
   "description": "An Astro blog starter for the happily lazy: keep writing in Notion and let the build turn it into a fast static site. No Notion? Plain Markdown works too.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/humbornjo/nobloger.git"
+    "url": "git+https://github.com/humbornjo/noblog-starter.git"
   },
-  "homepage": "https://blog.humbornjo.com/",
+  "homepage": "https://humbornjo.github.io/noblog-starter/",
   "bugs": {
-    "url": "https://github.com/humbornjo/nobloger/issues"
+    "url": "https://github.com/humbornjo/noblog-starter/issues"
   },
   "license": "MIT",
   "keywords": [

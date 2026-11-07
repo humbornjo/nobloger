@@ -10,7 +10,7 @@
 </script>
 
 <nav class="footer-nav" aria-label="Footer">
-  <a class="footer-link" href="https://github.com/humbornjo/nobloger">
+  <a class="footer-link" href="https://github.com/humbornjo/noblog-starter">
     <span class="footer-link__icon" aria-hidden="true">
       <CodeRounded />
     </span>

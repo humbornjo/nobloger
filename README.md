@@ -1,8 +1,8 @@
-# nobloger
+# noblog-starter
 
 An Astro blog starter for the happily lazy, powered by [noblog](https://github.com/humbornjo/noblog): keep writing in Notion and let the build turn it into a fast static site. No Notion? Plain Markdown works too.
 
-Demo: [blog.humbornjo.com](https://blog.humbornjo.com)
+Demo: [humbornjo.github.io/noblog-starter](https://humbornjo.github.io/noblog-starter/) — a real-world instance runs at [blog.humbornjo.com](https://blog.humbornjo.com).
 
 - Search and multi-tag filtering at `/tags`
 - Recursive Notion pages rendered as inline subpage links
@@ -20,7 +20,7 @@ Your Notion database is the CMS: there is no server, admin panel, or copy-paste 
 
 ## Use this template
 
-[Create a repository from this template](https://github.com/humbornjo/nobloger/generate), replace the demo `public/selfie.md`, update `site` and `base` in `astro.config.mjs`, then follow [Local development](#local-development) and [Deployment](#deployment).
+[Create a repository from this template](https://github.com/humbornjo/noblog-starter/generate), replace the demo `public/selfie.md`, update `site` and `base` in `astro.config.mjs`, then follow [Local development](#local-development) and [Deployment](#deployment).
 
 ## Requirements
 
@@ -84,7 +84,7 @@ Top-level database posts appear in the blog index, Search, and RSS. Recursive ch
    ---
    ```
 
-2. Fork this project. Edit the authored `public/selfie.md` for the About page and set your deployment URLs in `astro.config.mjs`:
+2. Fork this project. Edit the authored `public/selfie.md` for the About page and set your deployment URLs in `astro.config.mjs` (or export `SITE_URL` and `BASE_PATH` before building):
 
    ```js
    site: "https://<YOUR_USER_NAME>.github.io",

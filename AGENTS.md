@@ -1,10 +1,10 @@
 # AGENTS.md
 
-Guidance for working on nobloger. Keep changes consistent with the existing static architecture, generated-content boundaries, and restrained editorial design.
+Guidance for working on noblog-starter. Keep changes consistent with the existing static architecture, generated-content boundaries, and restrained editorial design.
 
 ## Project overview
 
-nobloger is the static site starter for [noblog](https://github.com/humbornjo/noblog). Astro generates every page at build time; there is no application server or client-side router. Markdown routes, RSS, metadata, and Notion-generated content must keep working without JavaScript.
+noblog-starter is the static site starter for [noblog](https://github.com/humbornjo/noblog). Astro generates every page at build time; there is no application server or client-side router. Markdown routes, RSS, metadata, and Notion-generated content must keep working without JavaScript.
 
 The visual identity is "terminal on paper": local Arimo typography for interface and Markdown text, Hack for terminal accents and metadata, local Iosevka for code, warm neutral colors, a moss accent, `#` tags, `::` punctuation, and mostly square controls. Prefer space and typography over generic cards, heavy shadows, and decorative animation.
 

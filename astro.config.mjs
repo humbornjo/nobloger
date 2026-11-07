@@ -7,7 +7,9 @@ import satteriNoblogChildLinks from "./src/lib/satteri-noblog-child-links.js";
 import satteriNoblogSummary from "./src/lib/satteri-noblog-summary.js";
 import satteriAboutSocialLinks from "./src/lib/satteri-about-social-links.js";
 
-const base = "/";
+// Pages project sites live under /<repo>; set BASE_PATH for those builds.
+// A custom domain serves from the root and keeps the default.
+const base = process.env.BASE_PATH || "/";
 
 // https://astro.build/config
 export default defineConfig({
@@ -21,7 +23,7 @@ export default defineConfig({
     plugins: [tailwindcss(), Icons({ compiler: "svelte" })],
   },
   compressHTML: true,
-  site: "https://humbornjo.github.io",
+  site: process.env.SITE_URL || "https://humbornjo.github.io",
   base,
   prefetch: {
     prefetchAll: true,
