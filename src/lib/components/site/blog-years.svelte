@@ -18,8 +18,7 @@
   const firstYear = $derived(years[0]?.year ?? "");
   let activeYear = $state<string>();
   let currentYear = $derived(activeYear ?? firstYear);
-  let markerOffset = $state(0);
-  let markerHeight = $state(0);
+  let progress = $state(0);
   let lift = $state(0);
   let listElement = $state<HTMLUListElement>();
 
@@ -45,8 +44,7 @@
       const activeLink = links[index];
       if (!activeLink) return;
 
-      markerOffset = activeLink.offsetTop;
-      markerHeight = activeLink.offsetHeight;
+      progress = activeLink.offsetTop + activeLink.offsetHeight;
     };
 
     const updateFooterLift = () => {
@@ -196,8 +194,8 @@
           </ul>
           <span
             aria-hidden="true"
-            class="pointer-events-none absolute start-0 top-0 w-px bg-foreground motion-safe:transition-[transform,height] motion-safe:duration-300 motion-safe:ease-[cubic-bezier(0.2,0,0,1)]"
-            style={`transform: translateY(${markerOffset}px); height: ${markerHeight}px;`}
+            class="pointer-events-none absolute start-0 top-0 w-px bg-foreground motion-safe:transition-[height] motion-safe:duration-300 motion-safe:ease-out"
+            style={`height: ${progress}px;`}
           ></span>
         </div>
       </nav>
