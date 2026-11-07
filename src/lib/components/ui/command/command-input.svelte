@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Command as CommandPrimitive } from "bits-ui";
 	import * as InputGroup from "$lib/components/ui/input-group/index.js";
-	import SearchIcon from "@icons/material-symbols/search";
+	import SearchIcon from "@icons/lucide/search";
 	import { cn } from "$lib/utils.js";
 
 	let {

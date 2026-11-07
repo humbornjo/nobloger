@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { scrollFade } from "$lib/attachments/scroll-fade";
 
   interface Heading {
     depth: number;
@@ -14,7 +15,7 @@
   let { headings }: Props = $props();
   let activeSlug = $state("");
   let progress = $state(0);
-  let listElement: HTMLUListElement;
+  let listElement = $state<HTMLUListElement>();
 
   type MathJaxApi = {
     typesetPromise?: (elements: HTMLElement[]) => Promise<void>;
@@ -25,7 +26,9 @@
       .map((heading) => document.getElementById(heading.slug))
       .filter((element): element is HTMLElement => element !== null);
 
-    if (elements.length === 0) return;
+    const list = listElement;
+
+    if (elements.length === 0 || !list) return;
 
     let active = true;
     let mathJaxTimer: number | undefined;
@@ -36,7 +39,7 @@
 
       const mathJax = (window as Window & { MathJax?: MathJaxApi }).MathJax;
       if (mathJax?.typesetPromise) {
-        void mathJax.typesetPromise([listElement]).catch(() => {});
+        void mathJax.typesetPromise([list]).catch(() => {});
         return;
       }
 
@@ -49,7 +52,7 @@
     typesetTocMath();
 
     const links = Array.from(
-      listElement.querySelectorAll<HTMLAnchorElement>("a"),
+      list.querySelectorAll<HTMLAnchorElement>("a"),
     );
     let frame: number | undefined;
 
@@ -86,7 +89,7 @@
 
     const prose = document.querySelector<HTMLElement>(".prose");
     const resizeObserver = new ResizeObserver(scheduleUpdate);
-    resizeObserver.observe(listElement);
+    resizeObserver.observe(list);
     if (prose) resizeObserver.observe(prose);
 
     window.addEventListener("scroll", scheduleUpdate, { passive: true });
@@ -106,17 +109,23 @@
   });
 </script>
 
-<nav aria-label="Table of Contents">
+<nav
+  aria-label="Table of Contents"
+  class="flex min-h-0 flex-col"
+>
   <a
     href="#page-top"
-    class="block w-fit text-base font-medium text-foreground no-underline"
+    class="block w-fit shrink-0 text-base font-medium text-foreground no-underline"
   >
     Table of Contents
   </a>
-  <div class="relative">
+  <div
+    {@attach scrollFade}
+    class="toc-scroll relative mt-3 min-h-0 flex-1 overflow-y-auto overscroll-contain"
+  >
     <ul
       bind:this={listElement}
-      class="m-0 mt-3 flex list-none flex-col border-s border-border p-0"
+      class="m-0 flex list-none flex-col border-s border-border p-0"
     >
       {#each headings as heading (heading.slug)}
         <li>

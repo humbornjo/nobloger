@@ -24,6 +24,11 @@ export interface PostSummary {
   tags: PostTag[];
 }
 
+export interface YearSummary {
+  year: string;
+  count: number;
+}
+
 export interface TagSummary extends PostTag {
   count: number;
 }

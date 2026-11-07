@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount, tick } from "svelte";
-  import Search from "@icons/material-symbols/search";
+  import Search from "@icons/lucide/search";
   import { Button } from "$lib/components/ui/button";
   import * as Command from "$lib/components/ui/command";
   import type { PostSummary } from "$lib/types";
@@ -141,7 +141,7 @@
   id="site-search-mobile"
   variant="ghost"
   size="icon-lg"
-  class="size-[36px] rounded-full text-muted-foreground md:hidden"
+  class="size-[36px] rounded-full text-muted-foreground hover:bg-transparent md:hidden dark:hover:bg-transparent"
   aria-label="Search pages and posts"
   aria-keyshortcuts="Meta+K Control+K"
   onclick={openSearch}

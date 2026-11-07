@@ -25,6 +25,7 @@ const tags = (frontmatter.tags ?? []).map((name) => ({
   pageTitle={frontmatter.title}
   description={description}
   mainClass="pb-12 pt-6 sm:pb-16 sm:pt-8"
+  showFooter={false}
 >
   <article class="relative">
     <header>
@@ -35,7 +36,7 @@ const tags = (frontmatter.tags ?? []).map((name) => ({
       </h1>
       {
         (pubDate || tags.length > 0) && (
-          <div class="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-meta">
+          <div class="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2 text-meta">
             {pubDate && (
               <time
                 class="whitespace-nowrap text-muted-foreground"
@@ -66,8 +67,8 @@ const tags = (frontmatter.tags ?? []).map((name) => ({
 
     {
       tocHeadings.length > 0 && (
-        <aside class="absolute start-full top-0 hidden h-full w-[calc(50vw-25rem)] ps-6 pe-4 xl:block">
-          <div class="sticky top-8 max-h-[calc(100dvh-4rem)] w-full max-w-80 overflow-y-auto overscroll-contain pb-8">
+        <aside class="side-rail">
+          <div class="side-rail__sticky">
             <ArticleToc headings={tocHeadings} client:load />
           </div>
         </aside>
@@ -75,11 +76,11 @@ const tags = (frontmatter.tags ?? []).map((name) => ({
     }
 
     <div
-      class="my-6 flex w-[61.8%] items-center gap-2 sm:my-8"
+      class="my-6 flex items-center gap-2 sm:my-8"
       aria-hidden="true"
     >
       <span class="size-1.5 bg-muted-foreground/50"></span>
-      <span class="h-px flex-1 bg-border"></span>
+      <span class="article-rule h-px flex-1"></span>
     </div>
 
     <div class="prose max-w-none">

@@ -27,7 +27,7 @@
         variant="ghost"
         size="icon-lg"
         {...props}
-        class="size-[36px] text-muted-foreground hover:bg-transparent hover:text-foreground lg:hidden"
+        class="size-[36px] text-muted-foreground hover:bg-transparent! hover:text-foreground aria-expanded:bg-transparent! dark:hover:bg-transparent! lg:hidden"
         aria-label={open ? "Close menu" : "Open menu"}
         id="site-menu"
       >
@@ -84,7 +84,7 @@
         <Button
           variant="ghost"
           size="icon-sm"
-          class="absolute top-3 right-3 rounded-full text-muted-foreground hover:text-foreground"
+          class="absolute top-3 right-3 rounded-full text-muted-foreground hover:bg-transparent hover:text-foreground dark:hover:bg-transparent"
           {...props}
         >
           <X strokeWidth={1.5} aria-hidden="true" />

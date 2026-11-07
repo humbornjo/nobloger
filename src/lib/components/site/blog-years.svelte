@@ -1,0 +1,284 @@
+<script lang="ts">
+  import { onMount } from "svelte";
+  import { scrollFade } from "$lib/attachments/scroll-fade";
+  import type { YearSummary } from "$lib/types";
+  import { yearSectionId } from "$lib/utils";
+
+  interface Props {
+    years: YearSummary[];
+  }
+
+  let { years }: Props = $props();
+
+  const READ_LINE = 128;
+  const FOOTER_GAP = 24;
+
+  const numberedYears = $derived(
+    years.filter(({ year }) => /^\d{4}$/.test(year)),
+  );
+  const displayYear = (year: string) => (/^\d{4}$/.test(year) ? year : "Ø");
+  const firstYear = $derived(years[0]?.year ?? "");
+  let activeYear = $state<string>();
+  let currentYear = $derived(activeYear ?? firstYear);
+  let progress = $state(0);
+  let footerLift = $state(0);
+  let listElement = $state<HTMLUListElement>();
+
+  onMount(() => {
+    const yearAnchors = years
+      .map(({ year }) => document.getElementById(yearSectionId(year)))
+      .filter((anchor): anchor is HTMLElement => anchor !== null);
+    const footer = document.querySelector<HTMLElement>("footer");
+    const footerPanel = footer?.firstElementChild as HTMLElement | null;
+
+    if (yearAnchors.length === 0 || !listElement) return;
+
+    const links = Array.from(
+      listElement.querySelectorAll<HTMLAnchorElement>("a[data-year]"),
+    );
+    let frame: number | undefined;
+    let currentIndex = 0;
+    let hashLockUntil = 0;
+
+    const activate = (index: number) => {
+      activeYear = years[index]?.year ?? "";
+
+      const activeLink = links[index];
+      if (!activeLink) return;
+
+      progress = activeLink.offsetTop + activeLink.offsetHeight;
+    };
+
+    const updateFooterLift = () => {
+      const number = document.querySelector<HTMLElement>(
+        ".year-watermark__number",
+      );
+      if (!number || !footer) return;
+
+      const fontSize = Number.parseFloat(getComputedStyle(number).fontSize);
+      const baseBottom = window.innerHeight + fontSize * 0.16;
+      const footerTop = (footerPanel ?? footer).getBoundingClientRect().top;
+      const nextFooterLift = Math.max(
+        0,
+        baseBottom - footerTop + FOOTER_GAP,
+      );
+
+      if (Math.abs(footerLift - nextFooterLift) > 0.5) {
+        footerLift = nextFooterLift;
+      }
+    };
+
+    const updateActiveYear = () => {
+      frame = undefined;
+      updateFooterLift();
+
+      let nextIndex = 0;
+
+      for (let index = 0; index < yearAnchors.length; index += 1) {
+        if (yearAnchors[index].getBoundingClientRect().top <= READ_LINE) {
+          nextIndex = index;
+        } else {
+          break;
+        }
+      }
+
+      if (
+        window.scrollY > 0 &&
+        window.scrollY + window.innerHeight >=
+          document.documentElement.scrollHeight - 2
+      ) {
+        nextIndex = yearAnchors.length - 1;
+      }
+
+      if (performance.now() < hashLockUntil) {
+        nextIndex = currentIndex;
+      } else {
+        currentIndex = nextIndex;
+      }
+
+      activate(nextIndex);
+    };
+
+    const scheduleUpdate = () => {
+      if (frame !== undefined) return;
+      frame = requestAnimationFrame(updateActiveYear);
+    };
+
+    const syncToHash = () => {
+      const id = window.location.hash.slice(1);
+      const index = years.findIndex(({ year }) => yearSectionId(year) === id);
+      if (index === -1) return;
+
+      currentIndex = index;
+      activate(index);
+      updateFooterLift();
+      hashLockUntil = performance.now() + 400;
+    };
+
+    const releaseHashLock = () => {
+      hashLockUntil = 0;
+    };
+
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
+    window.addEventListener("hashchange", syncToHash);
+    window.addEventListener("wheel", releaseHashLock, { passive: true });
+    window.addEventListener("touchstart", releaseHashLock, { passive: true });
+    window.addEventListener("keydown", releaseHashLock);
+
+    const resizeObserver = new ResizeObserver(scheduleUpdate);
+    const archive = document.getElementById("blog-archive");
+    if (archive) resizeObserver.observe(archive);
+
+    syncToHash();
+    updateActiveYear();
+
+    return () => {
+      if (frame !== undefined) cancelAnimationFrame(frame);
+      resizeObserver.disconnect();
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+      window.removeEventListener("hashchange", syncToHash);
+      window.removeEventListener("wheel", releaseHashLock);
+      window.removeEventListener("touchstart", releaseHashLock);
+      window.removeEventListener("keydown", releaseHashLock);
+    };
+  });
+</script>
+
+<div
+  class="year-watermark"
+  aria-hidden="true"
+  style={`--year-lift: ${-footerLift}px`}
+>
+  {#each numberedYears as item (item.year)}
+    <span class="year-watermark__number" data-active={currentYear === item.year}>
+      <span class="year-watermark__year year-watermark__year--full">
+        {item.year}
+      </span>
+      <span class="year-watermark__year year-watermark__year--short">
+        {item.year.slice(-2)}
+      </span>
+    </span>
+  {/each}
+</div>
+
+{#if years.length > 1}
+  <aside class="side-rail">
+    <div class="side-rail__sticky">
+      <nav aria-label="Archive years" class="flex min-h-0 flex-col">
+        <p class="m-0 shrink-0 text-base font-medium text-foreground">
+          Archive
+        </p>
+        <div
+          {@attach scrollFade}
+          class="toc-scroll relative mt-3 min-h-0 flex-1 overflow-y-auto overscroll-contain"
+        >
+          <ul
+            bind:this={listElement}
+            class="m-0 flex list-none flex-col border-s border-border p-0"
+          >
+            {#each years as item (item.year)}
+              <li>
+                <a
+                  href={`#${yearSectionId(item.year)}`}
+                  data-year={item.year}
+                  data-active={currentYear === item.year}
+                  aria-current={currentYear === item.year
+                    ? "location"
+                    : undefined}
+                  aria-label={`${item.year}, ${item.count} ${item.count === 1 ? "post" : "posts"}`}
+                  class="flex items-baseline gap-2.5 py-1.5 pe-1 ps-4 text-muted-foreground/75 no-underline transition-colors hover:text-foreground data-[active=true]:text-foreground"
+                >
+                  <span
+                    class="w-11 shrink-0 font-sans text-lg font-medium leading-6 tracking-[-0.01em] tabular-nums"
+                  >
+                    {displayYear(item.year)}
+                  </span>
+                  <span
+                    data-active={currentYear === item.year}
+                    class="w-6 shrink-0 text-end font-mono text-meta leading-none tabular-nums text-muted-foreground/60 data-[active=true]:text-primary"
+                  >
+                    {item.count}
+                  </span>
+                </a>
+              </li>
+            {/each}
+          </ul>
+          <span
+            aria-hidden="true"
+            class="pointer-events-none absolute start-0 top-0 w-px bg-foreground motion-safe:transition-[height] motion-safe:duration-300 motion-safe:ease-out"
+            style={`height: ${progress}px;`}
+          ></span>
+        </div>
+      </nav>
+    </div>
+  </aside>
+{/if}
+
+<style>
+  .year-watermark {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  :global(html:not(.js)) .year-watermark {
+    display: none;
+  }
+
+  .year-watermark__number {
+    position: absolute;
+    inset-inline-end: -0.04em;
+    inset-block-end: -0.16em;
+    color: var(--year-watermark);
+    font-family: var(--font-ui);
+    font-size: clamp(9rem, 27vw, 27rem);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.055em;
+    line-height: 0.72;
+    opacity: 0;
+    transform: translateY(0.05em);
+    translate: 0 var(--year-lift, 0px);
+    transition-property: opacity, transform, translate;
+    transition-duration: 600ms, 800ms, 450ms;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .year-watermark__number[data-active="true"] {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .year-watermark__year {
+    display: block;
+  }
+
+  .year-watermark__year--short {
+    display: none;
+  }
+
+  @media (max-width: 63.999rem) {
+    .year-watermark__number {
+      font-size: clamp(13rem, 42vw, 20rem);
+    }
+
+    .year-watermark__year--full {
+      display: none;
+    }
+
+    .year-watermark__year--short {
+      display: block;
+    }
+  }
+
+  @media print {
+    .year-watermark {
+      display: none;
+    }
+  }
+</style>

@@ -5,8 +5,9 @@ An Astro blog starter for the happily lazy, powered by [noblog](https://github.c
 Demo: [humbornjo.github.io/noblog-starter](https://humbornjo.github.io/noblog-starter/)
 
 - Search and multi-tag filtering at `/tags`
-- Recursive Notion pages rendered as inline subpage links
-- Article table of contents, Shiki highlighting, and MathJax
+- Recursive Notion child pages rendered as inline links or marker-aware subpage cards
+- Year archive rail with an ambient, responsive year watermark
+- Distraction-free article layout with no footer, a sticky table of contents, Shiki highlighting, and MathJax
 - Light/dark theme without a theme flash
 - RSS feed at `/rss.xml` (XML, not an HTML page)
 - Core content readable without JavaScript
@@ -14,8 +15,8 @@ Demo: [humbornjo.github.io/noblog-starter](https://humbornjo.github.io/noblog-st
 
 Your Notion database is the CMS: there is no server, admin panel, or copy-paste step. If you would rather avoid Notion entirely, write Markdown instead—the lazy path is optional, not mandatory.
 
-![About page on the left and blog index on the right, each split between light and dark themes](./asset/preview_1.png)
-![Article page — top on the left and the rest of the page on the right, each split between light and dark themes](./asset/preview_2.png)
+![About page on the left and blog index on the right, each diagonally split between light and dark themes](./asset/preview_1.png)
+![Article page — top on the left and the rest of the page on the right, each diagonally split between light and dark themes](./asset/preview_2.png)
 
 ## Use this template
 
@@ -53,7 +54,7 @@ The `noblog` CLI is pinned in `optionalDependencies` and installed from npm; no 
 
 `noblog.yaml` contains content mapping and output settings only, never credentials. Generation writes to `.noblog/pages/` and exposes database posts through symlinks in `src/pages/posts/`; both are ignored and generated. Do not edit their Markdown by hand.
 
-`output.childPageMarker` controls the marker Noblog emits before recursive child-page links. The marker and link are rendered as a subpage link card. The default is `⸎`; legacy kaomoji markers remain supported.
+`output.childPageMarker` controls the marker Noblog emits before recursive child-page links. A marker-only paragraph renders as a subpage link card; child links inside ordinary paragraphs render inline. The default is `⸎`; legacy kaomoji markers remain supported.
 
 ## Commands
 
@@ -74,8 +75,9 @@ Top-level database posts appear in the blog index, Search, and RSS. Recursive ch
 - `src/pages/` — routes for the About page, blog index, tags/search, RSS, and generated post Markdown.
 - `src/layouts/` — the document shell, metadata, and article layout.
 - `src/components/` — header, footer, and page chrome.
-- `src/lib/` — post discovery, Markdown transforms, and shared utilities.
-- `src/styles/global.css` — Tailwind entry point and theme tokens.
+- `src/lib/` — post discovery, Markdown transforms, shared utilities, and browser-safe attachments.
+- `src/scripts/` — article enhancements, page chrome behavior, and custom scrollbars.
+- `src/styles/global.css` — Tailwind entry point, theme tokens, and shared layout primitives.
 - `public/` — fonts, icons, and the authored `selfie.md` fallback.
 - `noblog.yaml` — Notion property mapping and generated-output paths.
 - `.noblog/` — ignored local content store; do not edit by hand.
