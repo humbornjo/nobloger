@@ -141,7 +141,7 @@
   id="site-search-mobile"
   variant="ghost"
   size="icon-lg"
-  class="size-[36px] rounded-full text-muted-foreground md:hidden"
+  class="size-[36px] rounded-full text-muted-foreground hover:bg-transparent md:hidden dark:hover:bg-transparent"
   aria-label="Search pages and posts"
   aria-keyshortcuts="Meta+K Control+K"
   onclick={openSearch}
