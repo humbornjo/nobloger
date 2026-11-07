@@ -91,18 +91,22 @@ Top-level database posts appear in the blog index, Search, and RSS. Recursive ch
    base: "/<REPO_NAME>",
    ```
 
+   To render a Notion page as your About content instead, keep a database page whose title matches exactly and set the `SELFIE_PAGE` repository variable (step 4): the deploy workflow renders it to `.noblog/selfie.md` and copies it over `public/selfie.md` for the build. When the title matches nothing, the committed `public/selfie.md` remains the fallback. `src/pages/posts/` is never touched by generation output paths beyond generated post symlinks — hand-written Markdown posts live there as usual.
+
 3. Add these repository secrets under **Settings → Secrets and variables → Actions**:
 
    - `NOBLOG_DATABASE_ID`: the Notion database ID.
    - `NOTION_API_SECRET`: the Notion integration token.
 
-4. Under **Settings → Pages**, set the source to **GitHub Actions** and click **Save**.
+4. Optionally, under **Settings → Secrets and variables → Actions → Variables**, add `SELFIE_PAGE` with the exact title of your bio page to render it into `.noblog/selfie.md` (then `public/selfie.md`) at build time.
+
+5. Under **Settings → Pages**, set the source to **GitHub Actions** and click **Save**.
 
    ![Enable GitHub Pages](./asset/enable_page.png)
 
-5. Run **Actions → Deploy to GitHub Pages → Run workflow**.
+6. Run **Actions → Deploy to GitHub Pages → Run workflow**.
 
-The deploy workflow uses Node 24, installs the same pinned `noblog@0.3.0-beta.3` CLI as `package.json`, and builds with pnpm. Keep those versions aligned when upgrading the CLI.
+The deploy workflow uses Node 24, installs the same pinned `noblog@0.3.0-beta.5` CLI as `package.json`, and builds with pnpm. Keep those versions aligned when upgrading the CLI.
 
 ### Scheduled refresh
 

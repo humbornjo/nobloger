@@ -1,5 +1,5 @@
 minimumReleaseAgeExclude:
-  - noblog@0.3.0-beta.2 || 0.3.0-beta.3
+  - noblog@0.3.0-beta.2 || 0.3.0-beta.3 || 0.3.0-beta.5
 overrides:
   anymatch>picomatch: 2.3.2
   css-tree>source-map-js: 1.2.2

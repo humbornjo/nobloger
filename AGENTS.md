@@ -52,7 +52,7 @@ Local generation requires Node 24+, the optional `noblog` CLI from `package.json
 - `src/scripts/article.ts`: article-only overflow and keyboard behavior.
 - `src/styles/global.css`: Tailwind entry point, semantic tokens, and global content styles.
 - `tailwind.config.mjs`: the detailed typography/prose specification retained through `@config`.
-- `public/`: local webfonts, favicons, and the authored `selfie.md` home-page content.
+- `public/`: local webfonts, favicons, and the authored `selfie.md` home-page content. The deploy workflow may overwrite `public/selfie.md` with the generated `.noblog/selfie.md` when a `--selfie` page title matches; the committed file is the fallback.
 - `asset/`: README screenshots; refresh only from a visually reviewed final build.
 
 ## Content and routing invariants

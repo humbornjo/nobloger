@@ -91,8 +91,8 @@ importers:
         version: 24.0.0(rolldown@1.2.15)(svelte@5.57.2)(vite@8.3.5(@types/node@24.19.2)(jiti@1.21.6)(yaml@2.9.1))
     optionalDependencies:
       noblog:
-        specifier: 0.3.0-beta.3
-        version: 0.3.0-beta.3
+        specifier: 0.3.0-beta.5
+        version: 0.3.0-beta.5
 
 packages:
 
@@ -1658,8 +1658,8 @@ packages:
   nlcst-to-string@4.0.0:
     resolution: {integrity: sha512-YKLBCcUYKAg0FNlOBT6aI91qFmSiFKiluk655WzPF+DDMA02qIyy8uiRqI8QXtcFpEvll12LpL5MXqEmAZ+dcA==}
 
-  noblog@0.3.0-beta.3:
-    resolution: {integrity: sha512-cFIWHCrl7ihXID86kDWno4RtF7JYKYpMZd2wr3ckR2mo+JWwa4F5MxTloTi8wDO/J4MDZ8+vSQpnj39mcmNYng==}
+  noblog@0.3.0-beta.5:
+    resolution: {integrity: sha512-/Nr0VDAhfrI8lJxUyS+A/f6/G41mHEPYptrZk0edpZMKk+9QGjlTAG725te0MB6NxWE9It5jFUJlkIezvsgqGg==}
     engines: {node: '>=24'}
     hasBin: true
 
@@ -3856,7 +3856,7 @@ snapshots:
     dependencies:
       '@types/nlcst': 2.0.3
 
-  noblog@0.3.0-beta.3:
+  noblog@0.3.0-beta.5:
     dependencies:
       '@notionhq/client': 5.28.0
       '@stricli/core': 1.3.0
