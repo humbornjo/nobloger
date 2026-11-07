@@ -36,7 +36,7 @@ const tags = (frontmatter.tags ?? []).map((name) => ({
       </h1>
       {
         (pubDate || tags.length > 0) && (
-          <div class="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-meta">
+          <div class="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2 text-meta">
             {pubDate && (
               <time
                 class="whitespace-nowrap text-muted-foreground"
