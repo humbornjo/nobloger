@@ -209,7 +209,7 @@
   }
 
   .site-shell {
-    max-width: max(52rem, 62vw);
+    max-width: min(64rem, max(52rem, 62vw));
   }
 
   .skip-link {
