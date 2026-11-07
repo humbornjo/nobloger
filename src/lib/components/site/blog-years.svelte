@@ -15,7 +15,7 @@
   const numberedYears = $derived(
     years.filter(({ year }) => /^\d{4}$/.test(year)),
   );
-  const displayYear = (year: string) => (/^\d{4}$/.test(year) ? year : "—");
+  const displayYear = (year: string) => (/^\d{4}$/.test(year) ? year : "Ø");
   const firstYear = $derived(years[0]?.year ?? "");
   let activeYear = $state<string>();
   let currentYear = $derived(activeYear ?? firstYear);
