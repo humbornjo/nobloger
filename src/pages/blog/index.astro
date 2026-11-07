@@ -1,15 +1,62 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import BlogYears from "@/lib/components/site/blog-years.svelte";
 import PostList from "@/lib/components/site/post-list.svelte";
 import { getPostSummaries } from "@/lib/posts";
+import type { PostSummary } from "@/lib/types";
+import { yearSectionId } from "@/lib/utils";
 
 const selfiePage = __SELFIE_PAGE__;
 const posts = getPostSummaries().filter(
   (post) => !selfiePage || post.title !== selfiePage,
 );
 const pageTitle = "Blog";
+
+function postYear(pubDate: string) {
+  return /^(\d{4})/.exec(pubDate.trim())?.[1] ?? "Undated";
+}
+
+const yearGroups = posts.reduce<{ year: string; posts: PostSummary[] }[]>(
+  (groups, post) => {
+    const year = postYear(post.pubDate);
+    const group = groups.at(-1);
+
+    if (group?.year === year) {
+      group.posts.push(post);
+    } else {
+      groups.push({ year, posts: [post] });
+    }
+
+    return groups;
+  },
+  [],
+);
+
+const years = yearGroups.map(({ year, posts }) => ({
+  year,
+  count: posts.length,
+}));
+
+const anchorIds: Record<string, string> = {};
+for (const { year, posts: yearPosts } of yearGroups) {
+  const latest = yearPosts[0];
+  if (latest) anchorIds[latest.url] = yearSectionId(year);
+}
 ---
 
 <BaseLayout pageTitle={pageTitle} mainClass="pb-8 pt-4 sm:pb-10 sm:pt-5">
-  <PostList {posts} />
+  <h1 class="sr-only">Blog</h1>
+  <div id="blog-archive" class="relative">
+    <BlogYears {years} client:load />
+
+    {
+      posts.length === 0 ? (
+        <p class="m-0 font-mono text-meta text-muted-foreground">
+          No posts yet.
+        </p>
+      ) : (
+        <PostList {posts} {anchorIds} />
+      )
+    }
+  </div>
 </BaseLayout>

@@ -7,9 +7,15 @@
     posts: PostSummary[];
     id?: string;
     class?: string;
+    anchorIds?: Record<string, string>;
   }
 
-  let { posts, id = "post-list", class: className }: Props = $props();
+  let {
+    posts,
+    id = "post-list",
+    class: className,
+    anchorIds,
+  }: Props = $props();
 </script>
 
 <ul
@@ -17,7 +23,10 @@
   class={cn("m-0 list-none divide-y divide-border p-0", className)}
 >
   {#each posts as post (post.url)}
-    <li class="py-5 first:pt-0 last:pb-0 sm:py-6">
+    <li
+      id={anchorIds?.[post.url]}
+      class="scroll-mt-24 py-5 first:pt-0 last:pb-0 sm:py-6"
+    >
       <h2
         class="m-0 text-xl font-semibold leading-[1.35] tracking-[-0.015em] text-foreground [overflow-wrap:anywhere] [text-wrap:pretty]"
       >

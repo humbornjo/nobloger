@@ -8,6 +8,10 @@ export type WithoutChildren<T> = T extends { children?: unknown }
   ? Omit<T, "children">
   : T;
 
+export function yearSectionId(year: string) {
+  return `year-${year.toLowerCase()}`;
+}
+
 export function formatDate(value: string) {
   const date = new Date(value);
 
