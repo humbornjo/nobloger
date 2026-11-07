@@ -251,6 +251,30 @@
     margin: 0;
   }
 
+  .prose pre {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  .prose pre::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    -webkit-appearance: none;
+  }
+
+  .prose pre::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .prose pre::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    background: var(--border);
+  }
+
+  .prose pre::-webkit-scrollbar-thumb:hover {
+    background: var(--muted-foreground);
+  }
+
   .prose .code-block__copy {
     position: absolute;
     inset-block-start: 0.5rem;
