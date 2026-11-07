@@ -21,6 +21,7 @@
   let progress = $state(0);
   let lift = $state(0);
   let listElement = $state<HTMLUListElement>();
+  let scrollElement = $state<HTMLDivElement>();
 
   onMount(() => {
     const yearAnchors = years
@@ -28,8 +29,9 @@
       .filter((anchor): anchor is HTMLElement => anchor !== null);
     const footer = document.querySelector<HTMLElement>("footer");
     const footerPanel = footer?.firstElementChild as HTMLElement | null;
+    const scroller = scrollElement;
 
-    if (yearAnchors.length === 0 || !listElement) return;
+    if (yearAnchors.length === 0 || !listElement || !scroller) return;
 
     const links = Array.from(
       listElement.querySelectorAll<HTMLAnchorElement>("a[data-year]"),
@@ -61,8 +63,21 @@
       if (Math.abs(lift - nextLift) > 0.5) lift = nextLift;
     };
 
+    const updateFade = () => {
+      const canScroll = scroller.scrollHeight > scroller.clientHeight + 1;
+      scroller.dataset.overflowTop = String(
+        canScroll && scroller.scrollTop > 1,
+      );
+      scroller.dataset.overflowBottom = String(
+        canScroll &&
+          scroller.scrollTop + scroller.clientHeight <
+            scroller.scrollHeight - 1,
+      );
+    };
+
     const updateActiveYear = () => {
       frame = undefined;
+      updateFade();
       updateFooterLift();
 
       let nextIndex = 0;
@@ -112,6 +127,7 @@
       hashLockUntil = 0;
     };
 
+    scroller.addEventListener("scroll", updateFade, { passive: true });
     window.addEventListener("scroll", scheduleUpdate, { passive: true });
     window.addEventListener("resize", scheduleUpdate);
     window.addEventListener("hashchange", syncToHash);
@@ -129,6 +145,7 @@
     return () => {
       if (frame !== undefined) cancelAnimationFrame(frame);
       resizeObserver.disconnect();
+      scroller.removeEventListener("scroll", updateFade);
       window.removeEventListener("scroll", scheduleUpdate);
       window.removeEventListener("resize", scheduleUpdate);
       window.removeEventListener("hashchange", syncToHash);
@@ -156,14 +173,19 @@
     class="absolute start-full top-0 hidden h-full w-[calc(50vw-25rem)] ps-10 pe-4 xl:block"
   >
     <div
-      class="toc-scroll sticky top-8 max-h-[calc(100dvh-4rem)] w-full max-w-80 overflow-y-auto overscroll-contain pb-8"
+      class="sticky top-8 flex max-h-[calc(100dvh-4rem)] w-full max-w-80 flex-col pb-8"
     >
-      <nav aria-label="Archive years">
-        <p class="m-0 text-base font-medium text-foreground">Archive</p>
-        <div class="relative">
+      <nav aria-label="Archive years" class="flex min-h-0 flex-col">
+        <p class="m-0 shrink-0 text-base font-medium text-foreground">
+          Archive
+        </p>
+        <div
+          bind:this={scrollElement}
+          class="toc-scroll relative mt-3 min-h-0 flex-1 overflow-y-auto overscroll-contain"
+        >
           <ul
             bind:this={listElement}
-            class="m-0 mt-3 flex list-none flex-col border-s border-border p-0"
+            class="m-0 flex list-none flex-col border-s border-border p-0"
           >
             {#each years as item (item.year)}
               <li>

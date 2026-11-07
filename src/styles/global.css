@@ -558,11 +558,51 @@
 
 @layer utilities {
   .toc-scroll {
+    --toc-fade: 2rem;
     scrollbar-width: none;
   }
 
   .toc-scroll::-webkit-scrollbar {
     display: none;
+  }
+
+  .toc-scroll[data-overflow-top="true"] {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      black var(--toc-fade)
+    );
+    mask-image: linear-gradient(to bottom, transparent, black var(--toc-fade));
+  }
+
+  .toc-scroll[data-overflow-bottom="true"] {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      black calc(100% - var(--toc-fade)),
+      transparent
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      black calc(100% - var(--toc-fade)),
+      transparent
+    );
+  }
+
+  .toc-scroll[data-overflow-top="true"][data-overflow-bottom="true"] {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      black var(--toc-fade),
+      black calc(100% - var(--toc-fade)),
+      transparent
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      black var(--toc-fade),
+      black calc(100% - var(--toc-fade)),
+      transparent
+    );
   }
 
   :root[data-search-portal-return] #site-search,
