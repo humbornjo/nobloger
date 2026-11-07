@@ -238,6 +238,15 @@
     max-width: min(64rem, max(52rem, 62vw));
   }
 
+  .article-rule {
+    background: linear-gradient(
+      to right,
+      var(--border) 0%,
+      var(--border) 61.8%,
+      transparent 100%
+    );
+  }
+
   .page-scrollbar,
   .prose .code-scrollbar {
     background: transparent;
