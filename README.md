@@ -19,7 +19,7 @@ Your Notion database is the CMS: there is no server, admin panel, or copy-paste 
 
 ## Use this template
 
-[Create a repository from this template](https://github.com/humbornjo/noblog-starter/generate), replace the demo `public/selfie.md`, update `site` and `base` in `astro.config.mjs`, then follow [Local development](#local-development) and [Deployment](#deployment).
+[Create a repository from this template](https://github.com/humbornjo/noblog-starter/generate), replace the demo `public/selfie.md`, set the `BASE_PATH` and `SITE_URL` repository variables described in [Deployment](#deployment), then follow [Local development](#local-development) and [Deployment](#deployment).
 
 ## Requirements
 
@@ -49,7 +49,7 @@ Your Notion database is the CMS: there is no server, admin panel, or copy-paste 
    pnpm dev
    ```
 
-The `noblog` CLI is an optional dependency installed from npm; no sibling checkout is required. Generation is explicit and is not part of `dev` or `build`, so frontend work does not need Notion access once the generated files exist.
+The `noblog` CLI is pinned in `optionalDependencies` and installed from npm; no sibling checkout is required. Generation is explicit and is not part of `dev` or `build`, so frontend work does not need Notion access once the generated files exist.
 
 `noblog.yaml` contains content mapping and output settings only, never credentials. Generation writes to `.noblog/pages/` and exposes database posts through symlinks in `src/pages/posts/`; both are ignored and generated. Do not edit their Markdown by hand.
 
@@ -71,7 +71,7 @@ Top-level database posts appear in the blog index, Search, and RSS. Recursive ch
 
 ## Deployment
 
-1. Duplicate the [Noblog database](https://www.notion.so/humbornjo/fa0faae85c504934a4a86cfa70302850?v=2abd1079ae134fbd8df2604765baa1df) and move your posts into it. Plain Markdown posts also work under `src/pages/posts/` when frontmatter matches `MarkdownPostLayout.astro`; that path is gitignored for generated content, so force-add hand-written posts or adjust `.gitignore`.
+1. Duplicate the [Noblog database](https://www.notion.so/humbornjo/fa0faae85c504934a4a86cfa70302850?v=2abd1079ae134fbd8df2604765baa1df) and move your posts into it. Create a [Notion integration](https://www.notion.so/my-integrations) and copy its internal secret, then connect it in the duplicated database via **⋯ → Connections → Add connections**—the token cannot see the database until then. The database ID is the URL segment after the workspace name; paste it **with dashes** (`fa0faae8-…-…`), because current Notion API versions reject the 32-character undashed form and fail the build with a cryptic `path.database_id should be a valid uuid` error. Plain Markdown posts also work under `src/pages/posts/` when frontmatter matches `MarkdownPostLayout.astro`; that path is gitignored for generated content, so force-add hand-written posts or adjust `.gitignore`.
 
    ```md
    ---
@@ -83,12 +83,16 @@ Top-level database posts appear in the blog index, Search, and RSS. Recursive ch
    ---
    ```
 
-2. Fork this project. Edit the authored `public/selfie.md` for the About page and set your deployment URLs in `astro.config.mjs` (or export `SITE_URL` and `BASE_PATH` before building):
+2. Create your repository from this template. Edit the authored `public/selfie.md` for the About page and set two repository variables under **Settings → Secrets and variables → Actions → Variables**:
 
-   ```js
-   site: "https://<YOUR_USER_NAME>.github.io",
-   base: "/<REPO_NAME>",
-   ```
+   | Variable | Project site (`https://<user>.github.io/<repo>`) | Custom domain (`https://blog.example.com`) |
+   |---|---|---|
+   | `BASE_PATH` | `/<repo>` | `/` |
+   | `SITE_URL` | `https://<user>.github.io` | `https://blog.example.com` |
+
+   The workflow falls back to the demo's own URLs when the variables are unset, so skipping this step builds a site whose assets and links 404.
+
+   For local builds, you can instead export `BASE_PATH`/`SITE_URL` or edit the fallbacks in `astro.config.mjs` (currently `process.env.BASE_PATH || "/"` and `process.env.SITE_URL || "https://humbornjo.github.io"`).
 
    To render a Notion page as your About content instead, keep a database page whose title matches exactly and set the `SELFIE_PAGE` repository variable (step 4): the deploy workflow renders it to `.noblog/selfie.md` and copies it over `public/selfie.md` for the build. When the title matches nothing, the committed `public/selfie.md` remains the fallback. `src/pages/posts/` is never touched by generation output paths beyond generated post symlinks — hand-written Markdown posts live there as usual.
 
@@ -97,15 +101,15 @@ Top-level database posts appear in the blog index, Search, and RSS. Recursive ch
    - `NOBLOG_DATABASE_ID`: the Notion database ID.
    - `NOTION_API_SECRET`: the Notion integration token.
 
-4. Optionally, under **Settings → Secrets and variables → Actions → Variables**, add `SELFIE_PAGE` with the exact title of your bio page to render it into `.noblog/selfie.md` (then `public/selfie.md`) at build time.
+4. Optionally, under **Settings → Secrets and variables → Actions → Variables**, add `SELFIE_PAGE` with the exact title of your bio page to render it into `.noblog/selfie.md` (then `public/selfie.md`) at build time. The bio page must have its `publish` checkbox ON: `noblog generate --selfie` only searches published pages, so an unpublished page silently falls back to the committed `public/selfie.md` with no error.
 
 5. Under **Settings → Pages**, set the source to **GitHub Actions** and click **Save**.
 
    ![Enable GitHub Pages](./asset/enable_page.png)
 
-6. Run **Actions → Deploy to GitHub Pages → Run workflow**.
+6. Run **Actions → Deploy to GitHub Pages → Run workflow**. Once the run finishes green, the site is live at `https://<user>.github.io/<repo>/` (or your custom domain).
 
-The deploy workflow uses Node 24, installs the same pinned `noblog@0.3.0-beta.5` CLI as `package.json`, and builds with pnpm. Keep those versions aligned when upgrading the CLI.
+The deploy workflow uses Node 24, installs the same pinned `noblog@0.3.0-beta.5` CLI as `package.json` via `npm i -g`, and builds with pnpm. Keep those versions aligned when upgrading the CLI.
 
 ### Scheduled refresh
 
