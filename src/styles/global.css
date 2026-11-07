@@ -249,6 +249,7 @@
 
   .prose .code-block > pre {
     margin: 0;
+    scrollbar-gutter: stable;
   }
 
   .prose pre {
@@ -273,6 +274,12 @@
 
   .prose pre::-webkit-scrollbar-thumb:hover {
     background: var(--muted-foreground);
+  }
+
+  @media (hover: hover) {
+    .prose .code-block:hover > pre[data-scrollable="true"] {
+      overflow-x: scroll !important;
+    }
   }
 
   .prose .code-block__copy {
