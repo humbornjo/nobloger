@@ -15,6 +15,7 @@
   const numberedYears = $derived(
     years.filter(({ year }) => /^\d{4}$/.test(year)),
   );
+  const displayYear = (year: string) => (/^\d{4}$/.test(year) ? year : "—");
   const firstYear = $derived(years[0]?.year ?? "");
   let activeYear = $state<string>();
   let currentYear = $derived(activeYear ?? firstYear);
@@ -200,13 +201,13 @@
                   class="flex items-baseline gap-2.5 py-1.5 pe-1 ps-4 text-muted-foreground no-underline transition-colors hover:text-foreground data-[active=true]:text-foreground"
                 >
                   <span
-                    class="font-sans text-lg font-medium leading-6 tracking-[-0.01em]"
+                    class="w-11 shrink-0 font-sans text-lg font-medium leading-6 tracking-[-0.01em] tabular-nums"
                   >
-                    {item.year}
+                    {displayYear(item.year)}
                   </span>
                   <span
                     data-active={currentYear === item.year}
-                    class="font-mono text-meta leading-none tabular-nums data-[active=true]:text-primary"
+                    class="w-6 shrink-0 text-end font-mono text-meta leading-none tabular-nums data-[active=true]:text-primary"
                   >
                     {item.count}
                   </span>
