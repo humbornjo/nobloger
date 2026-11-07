@@ -137,6 +137,7 @@
 
   html {
     min-width: 0;
+    overflow-y: scroll;
     scroll-padding-block-start: 1rem;
     scrollbar-width: thin;
     scrollbar-color: var(--border) transparent;
@@ -155,6 +156,14 @@
   html::-webkit-scrollbar-thumb {
     border-radius: 9999px;
     background: var(--border);
+  }
+
+  html[data-custom-scrollbar] {
+    scrollbar-width: none;
+  }
+
+  html[data-custom-scrollbar]::-webkit-scrollbar {
+    display: none;
   }
 
   body {
@@ -227,6 +236,31 @@
 
   .site-shell {
     max-width: min(64rem, max(52rem, 62vw));
+  }
+
+  .page-scrollbar {
+    position: fixed;
+    inset-block: 0;
+    inset-inline-end: 0;
+    z-index: 40;
+    width: 6px;
+    background: transparent;
+    touch-action: none;
+    cursor: default;
+  }
+
+  .page-scrollbar[hidden] {
+    display: none;
+  }
+
+  .page-scrollbar__thumb {
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    min-height: 1.5rem;
+    border-radius: 9999px;
+    background: var(--border);
+    cursor: default;
   }
 
   /* Shared side-rail geometry for the article TOC and blog archive. */
