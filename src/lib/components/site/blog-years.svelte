@@ -244,7 +244,7 @@
     position: absolute;
     inset-inline-end: -0.04em;
     inset-block-end: -0.16em;
-    color: var(--foreground);
+    color: var(--year-watermark);
     font-family: var(--font-ui);
     font-size: clamp(9rem, 27vw, 27rem);
     font-weight: 700;
@@ -260,7 +260,7 @@
   }
 
   .year-watermark__number[data-active="true"] {
-    opacity: 0.045;
+    opacity: 1;
     transform: translateY(0);
   }
 

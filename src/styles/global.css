@@ -93,6 +93,10 @@
     --primary: light-dark(#356852, #98c3a9);
     --primary-foreground: light-dark(#f7f6f1, #151815);
     --primary-hover: light-dark(#264e3e, #b9d8c4);
+    --year-watermark: light-dark(
+      color-mix(in srgb, var(--primary) 7%, transparent),
+      color-mix(in srgb, var(--primary) 9%, transparent)
+    );
     --secondary: light-dark(#efeee8, #1d211d);
     --secondary-foreground: var(--foreground);
     --muted: light-dark(#efeee8, #1d211d);
