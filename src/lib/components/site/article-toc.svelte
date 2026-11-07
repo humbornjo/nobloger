@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { scrollFade } from "$lib/attachments/scroll-fade";
 
   interface Heading {
     depth: number;
@@ -15,7 +16,6 @@
   let activeSlug = $state("");
   let progress = $state(0);
   let listElement = $state<HTMLUListElement>();
-  let scrollElement = $state<HTMLDivElement>();
 
   type MathJaxApi = {
     typesetPromise?: (elements: HTMLElement[]) => Promise<void>;
@@ -27,9 +27,8 @@
       .filter((element): element is HTMLElement => element !== null);
 
     const list = listElement;
-    const scroller = scrollElement;
 
-    if (elements.length === 0 || !list || !scroller) return;
+    if (elements.length === 0 || !list) return;
 
     let active = true;
     let mathJaxTimer: number | undefined;
@@ -56,18 +55,6 @@
       list.querySelectorAll<HTMLAnchorElement>("a"),
     );
     let frame: number | undefined;
-
-    const updateFade = () => {
-      const canScroll = scroller.scrollHeight > scroller.clientHeight + 1;
-      scroller.dataset.overflowTop = String(
-        canScroll && scroller.scrollTop > 1,
-      );
-      scroller.dataset.overflowBottom = String(
-        canScroll &&
-          scroller.scrollTop + scroller.clientHeight <
-            scroller.scrollHeight - 1,
-      );
-    };
 
     const updateActiveHeading = () => {
       frame = undefined;
@@ -101,19 +88,13 @@
     };
 
     const prose = document.querySelector<HTMLElement>(".prose");
-    const resizeObserver = new ResizeObserver(() => {
-      updateFade();
-      scheduleUpdate();
-    });
+    const resizeObserver = new ResizeObserver(scheduleUpdate);
     resizeObserver.observe(list);
-    resizeObserver.observe(scroller);
     if (prose) resizeObserver.observe(prose);
 
-    scroller.addEventListener("scroll", updateFade, { passive: true });
     window.addEventListener("scroll", scheduleUpdate, { passive: true });
     window.addEventListener("resize", scheduleUpdate);
     window.addEventListener("hashchange", scheduleUpdate);
-    updateFade();
     scheduleUpdate();
 
     return () => {
@@ -121,7 +102,6 @@
       if (mathJaxTimer !== undefined) clearTimeout(mathJaxTimer);
       if (frame !== undefined) cancelAnimationFrame(frame);
       resizeObserver.disconnect();
-      scroller.removeEventListener("scroll", updateFade);
       window.removeEventListener("scroll", scheduleUpdate);
       window.removeEventListener("resize", scheduleUpdate);
       window.removeEventListener("hashchange", scheduleUpdate);
@@ -140,7 +120,7 @@
     Table of Contents
   </a>
   <div
-    bind:this={scrollElement}
+    {@attach scrollFade}
     class="toc-scroll relative mt-3 min-h-0 flex-1 overflow-y-auto overscroll-contain"
   >
     <ul

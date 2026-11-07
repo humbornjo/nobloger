@@ -67,8 +67,8 @@ const tags = (frontmatter.tags ?? []).map((name) => ({
 
     {
       tocHeadings.length > 0 && (
-        <aside class="side-rail absolute start-full top-0 hidden h-full ps-10 pe-4 xl:block">
-          <div class="sticky top-8 flex max-h-[calc(100dvh-4rem)] w-full max-w-80 flex-col pb-8">
+        <aside class="side-rail">
+          <div class="side-rail__sticky">
             <ArticleToc headings={tocHeadings} client:load />
           </div>
         </aside>

@@ -238,34 +238,61 @@
     max-width: min(64rem, max(52rem, 62vw));
   }
 
+  .page-scrollbar,
+  .prose .code-scrollbar {
+    background: transparent;
+    touch-action: none;
+    cursor: default;
+  }
+
   .page-scrollbar {
     position: fixed;
     inset-block: 0;
     inset-inline-end: 0;
     z-index: 40;
     width: 6px;
-    background: transparent;
-    touch-action: none;
-    cursor: default;
   }
 
-  .page-scrollbar[hidden] {
-    display: none;
-  }
-
-  .page-scrollbar__thumb {
+  .page-scrollbar__thumb,
+  .prose .code-scrollbar__thumb {
     position: absolute;
-    inset-inline: 0;
-    top: 0;
-    min-height: 1.5rem;
     border-radius: 9999px;
     background: var(--border);
     cursor: default;
   }
 
+  .page-scrollbar__thumb {
+    inset-inline: 0;
+    top: 0;
+    min-height: 1.5rem;
+  }
+
   /* Shared side-rail geometry for the article TOC and blog archive. */
   .side-rail {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 100%;
+    display: none;
     width: max(15rem, calc(50vw - min(32rem, max(26rem, 31vw)) + 1rem));
+    height: 100%;
+    padding-inline: 2.5rem 1rem;
+  }
+
+  .side-rail__sticky {
+    position: sticky;
+    top: 2rem;
+    display: flex;
+    width: 100%;
+    max-width: 20rem;
+    max-height: calc(100dvh - 4rem);
+    flex-direction: column;
+    padding-block-end: 2rem;
+  }
+
+  @media (min-width: 80rem) {
+    .side-rail {
+      display: block;
+    }
   }
 
   .skip-link {
@@ -336,18 +363,11 @@
     inset-block-end: 0;
     z-index: 2;
     height: 6px;
-    background: transparent;
     opacity: 0;
     pointer-events: none;
-    touch-action: none;
-    cursor: default;
     transition-property: opacity;
     transition-duration: 150ms;
     transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
-  }
-
-  .prose .code-scrollbar[hidden] {
-    display: none;
   }
 
   .prose .code-block:hover .code-scrollbar,
@@ -358,13 +378,9 @@
   }
 
   .prose .code-scrollbar__thumb {
-    position: absolute;
     inset-block: 0;
     left: 0;
     min-width: 1.5rem;
-    border-radius: 9999px;
-    background: var(--border);
-    cursor: default;
   }
 
   .prose .code-block__copy {

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { scrollFade } from "$lib/attachments/scroll-fade";
   import type { YearSummary } from "$lib/types";
   import { yearSectionId } from "$lib/utils";
 
@@ -20,9 +21,8 @@
   let activeYear = $state<string>();
   let currentYear = $derived(activeYear ?? firstYear);
   let progress = $state(0);
-  let lift = $state(0);
+  let footerLift = $state(0);
   let listElement = $state<HTMLUListElement>();
-  let scrollElement = $state<HTMLDivElement>();
 
   onMount(() => {
     const yearAnchors = years
@@ -30,9 +30,8 @@
       .filter((anchor): anchor is HTMLElement => anchor !== null);
     const footer = document.querySelector<HTMLElement>("footer");
     const footerPanel = footer?.firstElementChild as HTMLElement | null;
-    const scroller = scrollElement;
 
-    if (yearAnchors.length === 0 || !listElement || !scroller) return;
+    if (yearAnchors.length === 0 || !listElement) return;
 
     const links = Array.from(
       listElement.querySelectorAll<HTMLAnchorElement>("a[data-year]"),
@@ -59,26 +58,18 @@
       const fontSize = Number.parseFloat(getComputedStyle(number).fontSize);
       const baseBottom = window.innerHeight + fontSize * 0.16;
       const footerTop = (footerPanel ?? footer).getBoundingClientRect().top;
-      const nextLift = Math.max(0, baseBottom - footerTop + FOOTER_GAP);
-
-      if (Math.abs(lift - nextLift) > 0.5) lift = nextLift;
-    };
-
-    const updateFade = () => {
-      const canScroll = scroller.scrollHeight > scroller.clientHeight + 1;
-      scroller.dataset.overflowTop = String(
-        canScroll && scroller.scrollTop > 1,
+      const nextFooterLift = Math.max(
+        0,
+        baseBottom - footerTop + FOOTER_GAP,
       );
-      scroller.dataset.overflowBottom = String(
-        canScroll &&
-          scroller.scrollTop + scroller.clientHeight <
-            scroller.scrollHeight - 1,
-      );
+
+      if (Math.abs(footerLift - nextFooterLift) > 0.5) {
+        footerLift = nextFooterLift;
+      }
     };
 
     const updateActiveYear = () => {
       frame = undefined;
-      updateFade();
       updateFooterLift();
 
       let nextIndex = 0;
@@ -128,7 +119,6 @@
       hashLockUntil = 0;
     };
 
-    scroller.addEventListener("scroll", updateFade, { passive: true });
     window.addEventListener("scroll", scheduleUpdate, { passive: true });
     window.addEventListener("resize", scheduleUpdate);
     window.addEventListener("hashchange", syncToHash);
@@ -146,7 +136,6 @@
     return () => {
       if (frame !== undefined) cancelAnimationFrame(frame);
       resizeObserver.disconnect();
-      scroller.removeEventListener("scroll", updateFade);
       window.removeEventListener("scroll", scheduleUpdate);
       window.removeEventListener("resize", scheduleUpdate);
       window.removeEventListener("hashchange", syncToHash);
@@ -160,28 +149,29 @@
 <div
   class="year-watermark"
   aria-hidden="true"
-  style={`--year-lift: ${-lift}px`}
+  style={`--year-lift: ${-footerLift}px`}
 >
   {#each numberedYears as item (item.year)}
     <span class="year-watermark__number" data-active={currentYear === item.year}>
-      {item.year}
+      <span class="year-watermark__year year-watermark__year--full">
+        {item.year}
+      </span>
+      <span class="year-watermark__year year-watermark__year--short">
+        {item.year.slice(-2)}
+      </span>
     </span>
   {/each}
 </div>
 
 {#if years.length > 1}
-  <aside
-    class="side-rail absolute start-full top-0 hidden h-full ps-10 pe-4 xl:block"
-  >
-    <div
-      class="sticky top-8 flex max-h-[calc(100dvh-4rem)] w-full max-w-80 flex-col pb-8"
-    >
+  <aside class="side-rail">
+    <div class="side-rail__sticky">
       <nav aria-label="Archive years" class="flex min-h-0 flex-col">
         <p class="m-0 shrink-0 text-base font-medium text-foreground">
           Archive
         </p>
         <div
-          bind:this={scrollElement}
+          {@attach scrollFade}
           class="toc-scroll relative mt-3 min-h-0 flex-1 overflow-y-auto overscroll-contain"
         >
           <ul
@@ -262,6 +252,28 @@
   .year-watermark__number[data-active="true"] {
     opacity: 1;
     transform: translateY(0);
+  }
+
+  .year-watermark__year {
+    display: block;
+  }
+
+  .year-watermark__year--short {
+    display: none;
+  }
+
+  @media (max-width: 63.999rem) {
+    .year-watermark__number {
+      font-size: clamp(13rem, 42vw, 20rem);
+    }
+
+    .year-watermark__year--full {
+      display: none;
+    }
+
+    .year-watermark__year--short {
+      display: block;
+    }
   }
 
   @media print {
