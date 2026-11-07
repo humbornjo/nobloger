@@ -2,7 +2,7 @@
 
 An Astro blog starter for the happily lazy, powered by [noblog](https://github.com/humbornjo/noblog): keep writing in Notion and let the build turn it into a fast static site. No Notion? Plain Markdown works too.
 
-Demo: [humbornjo.github.io/noblog-starter](https://humbornjo.github.io/noblog-starter/) — a real-world instance runs at [blog.humbornjo.com](https://blog.humbornjo.com).
+Demo: [humbornjo.github.io/noblog-starter](https://humbornjo.github.io/noblog-starter/)
 
 - Search and multi-tag filtering at `/tags`
 - Recursive Notion pages rendered as inline subpage links
@@ -16,7 +16,7 @@ Your Notion database is the CMS: there is no server, admin panel, or copy-paste 
 
 ![About page with the light theme on the left and dark theme on the right](./asset/preview_1.png)
 ![Blog index with the light theme on the left and dark theme on the right](./asset/preview_2.png)
-![Article with table of contents, math, and code, split between light and dark themes](./asset/preview_3.png)
+![Article with a nested subpage link, split between light and dark themes](./asset/preview_3.png)
 
 ## Use this template
 
