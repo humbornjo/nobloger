@@ -1,0 +1,12 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { Content as Selfie } from "#/selfie.md";
+
+const pageTitle = "About";
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <article class="prose">
+    <Selfie />
+  </article>
+</BaseLayout>

@@ -1,0 +1,26 @@
+---
+import { urlFromBase } from "@/lib/server-utils";
+import { frontmatter as Selfie } from "#/selfie.md";
+import FooterLinks from "./FooterLinks.svelte";
+
+const base = import.meta.env.BASE_URL;
+const year = new Date().getFullYear();
+const rssUrl = urlFromBase(base, "rss.xml");
+---
+
+<footer class="-mx-3 pb-6 pt-8">
+  <div
+    class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 rounded-[0.75rem] bg-secondary p-4 sm:px-5"
+  >
+    <p class="m-0 flex items-baseline gap-2.5">
+      <span class="text-ui font-semibold tracking-[-0.02em] text-foreground">
+        {Selfie.author}
+      </span>
+      <span class="font-mono text-[0.6875rem] text-muted-foreground">
+        © {year}
+      </span>
+    </p>
+
+    <FooterLinks {rssUrl} />
+  </div>
+</footer>

@@ -1,0 +1,92 @@
+---
+import ThemeToggle from "$lib/components/site/theme-toggle.svelte";
+import SiteSearch from "$lib/components/site/site-search.svelte";
+import MobileMenu from "$lib/components/site/mobile-menu.svelte";
+import { getPostSummaries } from "@/lib/posts";
+import { urlFromBase } from "@/lib/server-utils";
+
+interface NavigationItem {
+  name: "about" | "blog" | "tags";
+  label: "About" | "Blogs" | "Search";
+  url: string;
+}
+
+const posts = getPostSummaries();
+const base = import.meta.env.BASE_URL;
+const navigation: NavigationItem[] = [
+  { name: "about", label: "About", url: urlFromBase(base, "/") },
+  { name: "blog", label: "Blogs", url: urlFromBase(base, "blog") },
+  { name: "tags", label: "Search", url: urlFromBase(base, "tags") },
+];
+const normalize = (value: string) => value.replace(/\/+$/, "") || "/";
+const currentPath = normalize(Astro.url.pathname);
+
+function isCurrent(item: NavigationItem) {
+  const destination = normalize(item.url);
+
+  if (item.name === "about") return currentPath === destination;
+  if (item.name === "blog" && /\/posts(?:\/|$)/.test(currentPath)) return true;
+
+  return (
+    currentPath === destination || currentPath.startsWith(`${destination}/`)
+  );
+}
+
+const mobileNavigation = navigation.map((item) => ({
+  ...item,
+  current: isCurrent(item),
+}));
+---
+
+<header
+  class="site-header pt-2 lg:sticky lg:top-0 lg:z-40 lg:grid lg:h-16 lg:bg-background lg:pt-0 lg:pointer-events-none"
+  data-site-header
+>
+  <div
+    class="site-header__shell relative grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 lg:h-10 lg:gap-x-6 lg:self-center lg:pointer-events-auto"
+    data-header-shell
+  >
+    <span class="site-header__background" data-header-background aria-hidden="true"></span>
+
+    <div class="-ml-2.5 col-start-1 row-start-1 flex items-center lg:hidden">
+      <MobileMenu pages={mobileNavigation} client:load />
+    </div>
+
+    <nav
+      class="site-header__nav relative col-span-2 row-start-2 w-full lg:col-span-1 lg:col-start-1 lg:row-start-1 lg:h-10 lg:w-auto"
+      aria-label="Primary"
+      data-header-nav
+    >
+      <ul class="m-0 flex min-h-10 list-none flex-wrap items-center gap-1 p-0 lg:h-full lg:min-h-0 lg:flex-nowrap">
+        {
+          navigation.map((item) => {
+            const current = isCurrent(item);
+            return (
+              <li class="flex h-10 items-center lg:h-full">
+                <a
+                  class={`inline-flex h-full items-center whitespace-nowrap rounded-full px-2.5 py-1 text-sm font-medium no-underline lg:h-auto ${
+                    current ? "text-foreground" : "text-muted-foreground"
+                  }`}
+                  href={item.url}
+                  aria-current={current ? "page" : undefined}
+                >
+                  {item.label}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+
+    <div
+      class="site-header__controls relative col-start-2 row-start-1 ml-auto flex h-10 items-center gap-1 justify-self-end lg:col-start-2 lg:ml-0"
+      data-header-controls
+    >
+      <SiteSearch {posts} pages={navigation} client:load />
+      <ThemeToggle client:load />
+    </div>
+  </div>
+</header>
+
+<script src="@/scripts/header.ts"></script>

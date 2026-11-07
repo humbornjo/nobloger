@@ -1,0 +1,37 @@
+---
+import Head from "./Head.astro";
+import Header from "@/components/Header/Header.astro";
+import Footer from "@/components/Footer/Footer.astro";
+
+interface Props {
+  pageTitle?: string;
+  description?: string;
+  lang?: string;
+  mainClass?: string;
+}
+
+const {
+  pageTitle,
+  description,
+  lang = "en",
+  mainClass = "py-8 sm:py-10",
+} = Astro.props;
+---
+
+<html lang={lang}>
+  <Head pageTitle={pageTitle} description={description} />
+  <body id="page-top" class="bg-background text-foreground">
+    <a class="skip-link" href="#content">skip to content</a>
+    <div class="mx-auto flex min-h-dvh w-full max-w-[52rem] flex-col px-5 sm:px-6">
+      <Header />
+      <main
+        id="content"
+        class={`w-full min-w-0 flex-1 ${mainClass}`}
+        tabindex="-1"
+      >
+        <slot />
+      </main>
+      <Footer />
+    </div>
+  </body>
+</html>

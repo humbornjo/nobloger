@@ -1,0 +1,78 @@
+---
+import globalStylesUrl from "@/styles/global.css?url";
+import { urlFromBase } from "@/lib/server-utils";
+
+interface Props {
+  pageTitle?: string;
+  description?: string;
+}
+
+const { pageTitle, description } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const documentTitle = pageTitle ? `${pageTitle} — noblog` : "noblog";
+const metaDescription = description?.trim();
+---
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <meta name="generator" content={Astro.generator} />
+  <title>{documentTitle}</title>
+  <link rel="stylesheet" href={globalStylesUrl} />
+  {metaDescription && <meta name="description" content={metaDescription} />}
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="32x32"
+    href={urlFromBase(base, "/favicon-32x32.png")}
+  />
+  <link
+    rel="apple-touch-icon"
+    sizes="180x180"
+    href={urlFromBase(base, "/apple-touch-icon.png")}
+  />
+  <link
+    rel="preload"
+    href={urlFromBase(base, "/fonts/arimo-latin.woff2")}
+    as="font"
+    type="font/woff2"
+    crossorigin
+  />
+  <link
+    rel="alternate"
+    type="application/rss+xml"
+    title="noblog"
+    href={urlFromBase(base, "/rss.xml")}
+  />
+  <script is:inline>
+    (() => {
+      document.documentElement.classList.add("js");
+      let theme = "system";
+
+      try {
+        const stored = localStorage.getItem("theme");
+        if (stored === "light" || stored === "dark" || stored === "system") {
+          theme = stored;
+        }
+      } catch {}
+
+      if (theme === "system") {
+        document.documentElement.removeAttribute("data-theme");
+      } else {
+        document.documentElement.dataset.theme = theme;
+      }
+
+      try {
+        const returningFromSearch =
+          sessionStorage.getItem("search-portal-return") === "1";
+        const onSearchPage = /\/tags\/?$/.test(window.location.pathname);
+        if (returningFromSearch && !onSearchPage) {
+          document.documentElement.setAttribute(
+            "data-search-portal-return",
+            "",
+          );
+        }
+      } catch {}
+    })();
+  </script>
+</head>

@@ -1,0 +1,91 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - "main"
+  # Trigger the workflow every time you push to the `main` branch
+  # Using a different branch name? Replace `main` with your branch’s name
+  schedule:
+    # Refresh generated Notion content and expiring assets every four hours.
+    - cron: "0 */4 * * *"
+
+  workflow_dispatch:
+
+# Allow this job to clone the repo, create a page deployment, and prune old ones
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  deployments: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout your repository using git
+        uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Generate static pages
+        run: npm i -g noblog@0.3.0-beta.3 && noblog generate --config ./noblog.yaml
+        env:
+          NOTION_API_SECRET: ${{ secrets.NOTION_API_SECRET }}
+          NOBLOG_DATABASE_ID: ${{ secrets.NOBLOG_DATABASE_ID }}
+      - name: Install, build, and upload your site
+        uses: withastro/action@v3
+        with:
+          path: . # The root location of your Astro project inside the repository. (optional)
+          node-version: 24 # The specific version of Node that should be used to build your site. Defaults to 24. (optional)
+          package-manager: pnpm@12 # Match the lockfile and workspace configuration.
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+      - name: Clean up old GitHub Pages deployments
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const keep = 5;
+            // Two API calls per deletion; stay below the Actions rate limit
+            // while draining a large backlog over successive scheduled runs.
+            const maxDeletionsPerRun = 400;
+            const { owner, repo } = context.repo;
+            const deployments = await github.paginate(
+              github.rest.repos.listDeployments,
+              { owner, repo, environment: "github-pages", per_page: 100 },
+            );
+            const candidates = deployments
+              .sort((a, b) => Date.parse(b.created_at) - Date.parse(a.created_at))
+              .slice(keep, keep + maxDeletionsPerRun);
+
+            core.info(`Found ${deployments.length} deployments; selected ${candidates.length} for cleanup.`);
+            let deleted = 0;
+            for (const deployment of candidates) {
+              try {
+                await github.rest.repos.createDeploymentStatus({
+                  owner,
+                  repo,
+                  deployment_id: deployment.id,
+                  state: "inactive",
+                  description: "Pruning old GitHub Pages deployment history",
+                });
+                await github.rest.repos.deleteDeployment({
+                  owner,
+                  repo,
+                  deployment_id: deployment.id,
+                });
+                deleted += 1;
+              } catch (error) {
+                core.warning(`Could not delete deployment ${deployment.id}: ${error.message}`);
+              }
+            }
+            core.info(`Deleted ${deleted} of ${candidates.length} selected deployments; the newest ${keep} are always retained.`);

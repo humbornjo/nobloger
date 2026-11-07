@@ -1,0 +1,12 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PostList from "@/lib/components/site/post-list.svelte";
+import { getPostSummaries } from "@/lib/posts";
+
+const posts = getPostSummaries();
+const pageTitle = "Blog";
+---
+
+<BaseLayout pageTitle={pageTitle} mainClass="pb-8 pt-4 sm:pb-10 sm:pt-5">
+  <PostList {posts} />
+</BaseLayout>
